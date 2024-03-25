@@ -3,13 +3,16 @@ package com.example.newstoday
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -81,48 +84,48 @@ fun Booksmarks() {
 fun CardNews(newsArticle: NewsArticle, onArticlePage: () -> Unit) {
     Card(
         colors = CardDefaults.cardColors(Color.White),
-        onClick = { onArticlePage }) {
+        onClick = { onArticlePage }
+    ) {
         Row(
             modifier = Modifier
                 .padding(16.dp)
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            CoilImage(url = newsArticle.urlToImage.toString(), contentDescription = "")
 
-            Box {
+            CoilImage(
+                url = newsArticle.urlToImage ?: "",
+                contentDescription = ""
+            )
 
+            Column(
+                modifier = Modifier
+                    .padding(start = 16.dp)
+                    .width(336.dp)
+                    .height(96.dp)
+                    .clip(RoundedCornerShape(12.dp, 0.dp, 0.dp, 0.dp))
+                    .align(Alignment.Top)
 
+            ) {
                 Text(
                     text = newsArticle.author ?: "",
                     style = TextStyle(
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Normal,
                         lineHeight = 20.sp,
-                        color = Color.Black
-                    ),
-                    color = Color.Gray,
-                    modifier = Modifier
-                        .align(alignment = Alignment.TopStart)
-                        .padding(bottom = 70.dp),
-
+                        color = Color.LightGray
                     )
+                )
                 Text(
                     text = newsArticle.title,
                     style = TextStyle(
                         fontSize = 16.sp,
                         fontWeight = FontWeight.W600,
                         lineHeight = 24.sp,
-                        textAlign = TextAlign.Left,
                         color = Color.Black
-                    ),
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-//                        .padding(bottom = 30.dp)
+                    )
                 )
-
             }
-
         }
     }
 }
@@ -141,9 +144,10 @@ fun CoilImage(
 
     Box(
         modifier = Modifier
-            .size(90.dp)
-            .padding(end = 16.dp)
-            .clip(RoundedCornerShape(15)),
+            .size(96.dp)
+            .padding(top = 10.dp, start = 20.dp)
+            .clip(RoundedCornerShape(15.dp))
+            .border(width = 0.1.dp, color = Color.Black, shape = RoundedCornerShape(15.dp)),
         contentAlignment = Alignment.Center
     ) {
         when (painter.state) {
