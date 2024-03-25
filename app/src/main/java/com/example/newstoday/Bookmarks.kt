@@ -36,6 +36,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.annotation.ExperimentalCoilApi
 import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
 
@@ -126,6 +127,7 @@ fun CardNews(newsArticle: NewsArticle, onArticlePage: () -> Unit) {
     }
 }
 
+@OptIn(ExperimentalCoilApi::class)
 @Composable
 fun CoilImage(
     url: String,
