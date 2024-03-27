@@ -1,13 +1,10 @@
-package com.example.newstoday
+package com.example.newstoday.Booksmark
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -42,40 +39,55 @@ import androidx.compose.ui.unit.sp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
+import com.example.newstoday.R
 
 
 @Composable
 fun Booksmarks() {
     var listNews by remember { mutableStateOf<List<NewsArticle>>(emptyList()) }
     listNews = createSampleNewsArticles()
-    Box(contentAlignment = Alignment.Center) {
         if (listNews.isEmpty()) {
-            Column {
-                Image(
-                    painter = painterResource(id = R.drawable.vector),
-                    contentDescription = null,
-                    contentScale = ContentScale.Fit,
-                    modifier = Modifier
-                        .size(50.dp)
-                        .background(Color.LightGray, RoundedCornerShape(100))
-                        .padding(15.dp)
-                        .align(Alignment.CenterHorizontally)
-                )
-                Spacer(modifier = Modifier.padding(4.dp))
-                Text(
-                    text = "You haven't saved any articles yet. \n Start reading and bookmarking them now",
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.labelMedium
-                )
-            }
+                Column(modifier = Modifier
+                    .padding(vertical = 322.dp, horizontal = 60.dp)
+                    .width(256.dp)
+                    .height(168.dp)) {
+                    Box(
+                        modifier = Modifier
+                            .width(72.dp)
+                            .height(72.dp)
+                            .background(color = Color(0xFFEEF0FB), shape = RoundedCornerShape(100))
+                            .align(Alignment.CenterHorizontally)
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.vector),
+                            contentDescription = null,
+                            contentScale = ContentScale.Fit,
+                            modifier = Modifier
+                                .width(16.dp)
+                                .height(20.dp)
+                                .align(Alignment.Center)
+                        )
+                    }
+
+                        Text(
+                            text = "You haven't saved any articles yet.  Start reading and bookmarking them now",
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.labelMedium,
+
+                            )
+
+                }
+
         } else {
-            LazyColumn {
+            LazyColumn(modifier = Modifier
+                .padding(top = 168.dp, start = 20.dp)
+                .width(336.dp)
+                .height(96.dp)) {
                 items(listNews) { it ->
                     CardNews(newsArticle = it, onArticlePage = {})
                 }
             }
         }
-    }
 }
 
 
@@ -145,9 +157,7 @@ fun CoilImage(
     Box(
         modifier = Modifier
             .size(96.dp)
-            .padding(top = 10.dp, start = 20.dp)
-            .clip(RoundedCornerShape(15.dp))
-            .border(width = 0.1.dp, color = Color.Black, shape = RoundedCornerShape(15.dp)),
+            .clip(RoundedCornerShape(12.dp)),
         contentAlignment = Alignment.Center
     ) {
         when (painter.state) {
@@ -170,17 +180,14 @@ fun CoilImage(
                     contentDescription = contentDescription,
                     contentScale = ContentScale.None,
                 )
-                Log.e(
-                    "CoilImage",
-                    "Failed to load image: ${(painter.state as ImagePainter.State.Error).throwable}"
-                )
             }
 
             else -> {
                 Image(
                     painter = painter,
                     contentDescription = contentDescription,
-                    contentScale = ContentScale.Crop
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.size(96.dp)
                 )
             }
         }
