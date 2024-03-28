@@ -1,5 +1,6 @@
-package com.example.newstoday.Booksmark
+package com.example.newstoday.booksmark
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -42,6 +43,7 @@ import coil.compose.rememberImagePainter
 import com.example.newstoday.R
 
 
+@SuppressLint("SuspiciousIndentation")
 @Composable
 fun Booksmarks() {
     var listNews by remember { mutableStateOf<List<NewsArticle>>(emptyList()) }
