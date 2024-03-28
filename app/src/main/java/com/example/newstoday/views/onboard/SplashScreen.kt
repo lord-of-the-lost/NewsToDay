@@ -1,4 +1,4 @@
-package com.example.newstoday
+package com.example.newstoday.views.onboard
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

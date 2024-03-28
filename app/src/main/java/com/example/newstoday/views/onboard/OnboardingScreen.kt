@@ -1,4 +1,4 @@
-package com.example.newstoday
+package com.example.newstoday.views.onboard
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -43,6 +43,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.newstoday.R
 import com.example.newstoday.ui.theme.NewsToDayTheme
 import com.example.newstoday.ui.theme.inter
 import kotlinx.coroutines.launch
@@ -52,9 +53,9 @@ import kotlinx.coroutines.launch
 @Composable
 fun OnboardingScreen() {
 	val listOfImages = listOf(
-		R.drawable._01,
-		R.drawable._02,
-		R.drawable._03
+        R.drawable._01,
+        R.drawable._02,
+        R.drawable._03
 	)
 	
 	val pagerState = rememberPagerState(pageCount = { listOfImages.size })
