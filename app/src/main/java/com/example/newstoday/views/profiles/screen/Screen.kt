@@ -1,4 +1,4 @@
-package com.example.newstoday.screen
+package com.example.newstoday.views.profiles.screen
 
 sealed class Screen(val route: String) {
     object ProfileScreen : Screen("profile_screen")

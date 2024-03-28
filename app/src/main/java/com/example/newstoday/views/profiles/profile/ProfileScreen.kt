@@ -1,4 +1,4 @@
-package com.example.newstoday.profile
+package com.example.newstoday.views.profiles.profile
 
 
 import androidx.compose.foundation.Image

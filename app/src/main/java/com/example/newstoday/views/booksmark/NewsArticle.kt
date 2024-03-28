@@ -1,4 +1,4 @@
-package com.example.newstoday.booksmark
+package com.example.newstoday.views.booksmark
 
 data class NewsArticle(
     val source: NewsSource,

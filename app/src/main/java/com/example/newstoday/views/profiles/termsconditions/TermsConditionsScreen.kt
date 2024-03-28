@@ -1,4 +1,4 @@
-package com.example.newstoday.termsconditions
+package com.example.newstoday.views.profiles.termsconditions
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
@@ -19,8 +19,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.example.newstoday.profile.TopBar
-import com.example.newstoday.screen.Screen
+import com.example.newstoday.views.profiles.profile.TopBar
+import com.example.newstoday.views.profiles.screen.Screen
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")

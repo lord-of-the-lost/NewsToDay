@@ -1,13 +1,13 @@
-package com.example.newstoday.navigate
+package com.example.newstoday.views.profiles.navigate
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.newstoday.languagescreen.LanguageScreen
-import com.example.newstoday.profile.ProfileScreen
-import com.example.newstoday.termsconditions.TermsConditionsScreen
-import com.example.newstoday.screen.Screen
+import com.example.newstoday.views.profiles.languagescreen.LanguageScreen
+import com.example.newstoday.views.profiles.profile.ProfileScreen
+import com.example.newstoday.views.profiles.termsconditions.TermsConditionsScreen
+import com.example.newstoday.views.profiles.screen.Screen
 
 
 @Composable

@@ -1,4 +1,4 @@
-package com.example.newstoday.booksmark
+package com.example.newstoday.views.booksmark
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image

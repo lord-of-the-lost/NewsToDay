@@ -1,4 +1,4 @@
-package com.example.newstoday.languagescreen
+package com.example.newstoday.views.profiles.languagescreen
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
@@ -31,8 +31,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.newstoday.R
-import com.example.newstoday.profile.TopBar
-import com.example.newstoday.screen.Screen
+import com.example.newstoday.views.profiles.profile.TopBar
+import com.example.newstoday.views.profiles.screen.Screen
 
 enum class Language {
     ENGLISH, RUSSIAN
