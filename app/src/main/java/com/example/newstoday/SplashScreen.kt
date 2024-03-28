@@ -31,7 +31,9 @@ fun SplashScreen() {
 			modifier = Modifier
 				.padding(
 					start = paddingHoriz,
-					top = 303.dp
+					//top = 303.dp //при непрозрачном статус баре
+					top = 303.dp  //при прозрачном статус баре
+				
 				),
 			text = "News",
 			fontFamily = adamina,
@@ -40,12 +42,12 @@ fun SplashScreen() {
 			color = Color(0xFFEEF0FB),
 			style = TextStyle(shadow = Shadow(Color(0x40000000), Offset(0f, 4f), 4.0f))
 		)
-		
 		Text(
 			modifier = Modifier
 				.padding(
 					end = paddingHoriz,
-					top = 370.dp
+					//top = 370.dp //при непрозрачном статус баре
+					top = 398.dp  //при прозрачном статус баре
 				)
 				.align(Alignment.TopEnd),
 			text = "ToDay",

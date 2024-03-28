@@ -1,11 +1,14 @@
 package com.example.newstoday
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -32,6 +35,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -46,12 +51,12 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun OnboardingScreen() {
-	
 	val listOfImages = listOf(
 		R.drawable._01,
 		R.drawable._02,
 		R.drawable._03
 	)
+	
 	val pagerState = rememberPagerState(pageCount = { listOfImages.size })
 	val pagerScope = rememberCoroutineScope()
 	
@@ -60,6 +65,14 @@ fun OnboardingScreen() {
 		"First to know",
 		"",
 		""
+	)
+	
+	var descriptionAppIndex by remember { mutableIntStateOf(0) }
+	val descriptionApp = listOf(
+		"All news in one place, be\n" +
+				"the first to know last news",
+		"Our sources are the most reliable",
+		"We wish you good news every day! Let's get started!"
 	)
 	
 	var buttonTextIndex by remember { mutableIntStateOf(0) }
@@ -73,38 +86,45 @@ fun OnboardingScreen() {
 		modifier = Modifier
 			.fillMaxSize(),
 		horizontalAlignment = Alignment.CenterHorizontally,
-		//verticalArrangement = Arrangement.Center
 	) {
-		
-		Box(
+		//Spacer для корректировки смещения при прозрачном статус баре
+		Spacer(
 			modifier = Modifier
-				.padding(top = 120.dp)
-				.size(288.dp, 336.dp)
-				.clip(shape = RoundedCornerShape(12.dp))
-		) {
+				.height(25.dp)
+		)
+		HorizontalPager(
+			modifier = Modifier
+				.padding(top = 120.dp),
+			state = pagerState,
+			contentPadding = PaddingValues(horizontal = 55.dp),
+			//pageSize = PageSize.Fixed(288.dp),
+		
+		) { index ->
 			
-			HorizontalPager(
-				state = pagerState,
+			val pageOffSet =
+				(pagerState.currentPage - index) + pagerState.currentPageOffsetFraction
+			val imageSize by animateFloatAsState(
+				targetValue = if (pageOffSet != 0.0f) 0.85714f else 1f,
+				animationSpec = tween(durationMillis = 300), label = ""
+			)
+			Image(
 				modifier = Modifier
-					.fillMaxWidth()
-			) { index ->
-				Box(
-					modifier = Modifier
-						.size(288.dp, 336.dp)
-						.clip(shape = RoundedCornerShape(12.dp))
-				) {
-					Image(
-						painter = painterResource(id = listOfImages[index]),
-						contentDescription = null
-					)
-				}
-				if (pagerState.currentPage == index) {
-					buttonTextIndex = index
-					firstKnowTextIndex = index
-				}
+					.size(288.dp, 336.dp)
+					.graphicsLayer {
+						scaleX = imageSize
+						scaleY = imageSize
+					}
+					.clip(RoundedCornerShape(12.dp)),
+				painter = painterResource(id = listOfImages[index]),
+				contentDescription = null,
+				contentScale = ContentScale.Crop,
+			)
+			if (pagerState.currentPage == index) {
+				buttonTextIndex = index
+				firstKnowTextIndex = index
+				descriptionAppIndex = index
 			}
 		}
-		
 		//Отображает точки страниц внизу
 		Row(
 			Modifier
@@ -147,7 +167,7 @@ fun OnboardingScreen() {
 				.size(216.dp, 48.dp)
 		) {
 			Text(
-				text = "All news in one place, be\r\nthe first to know last news",
+				text = descriptionApp[descriptionAppIndex],
 				fontFamily = inter,
 				fontWeight = FontWeight.Normal,
 				textAlign = TextAlign.Center,
@@ -167,9 +187,11 @@ fun OnboardingScreen() {
 					containerColor = Color(0xFF475AD7),
 					contentColor = Color.White
 				),
-			
 			onClick = {
 				pagerScope.launch { pagerState.scrollToPage(pagerState.currentPage + 1) }
+				if (buttonTexts[buttonTextIndex] == "Get Started") {
+					//переходим на следующий экран
+				}
 			}) {
 			Text(
 				text = buttonTexts[buttonTextIndex],
