@@ -3,6 +3,7 @@ package com.example.newstoday.views
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 //import androidx.compose.foundation.layout.FlowColumnScopeInstance.align
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,14 +16,20 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -39,6 +46,7 @@ val cardList = listOf(
     CardInfo("News #4", R.drawable.test_news_img4),
 )
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen() {
 
@@ -47,6 +55,45 @@ fun MainScreen() {
             .fillMaxSize()
             .padding(start = 20.dp, top = 200.dp)
     ) {
+
+        val searchText = remember {
+            mutableStateOf("")
+        }
+
+        SearchBar(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp),
+            query = searchText.value,
+            onQueryChange = {text ->
+                searchText.value = text
+            },
+            onSearch = {
+            },
+            placeholder = {
+                Row(
+                ) {
+                    Icon(
+                        modifier = Modifier
+                            .padding(end = 20.dp),
+                        imageVector = Icons.Filled.Search,
+                        contentDescription = "SearchIcon",
+                        tint = Color.Gray
+                    )
+                    Text(
+                        text = "Search",
+                        color = Color.Gray
+                    )
+                }
+            },
+            active = false,
+            onActiveChange ={
+            }
+        ) {
+        }
+
+
+
         LazyRow(    //categories
             modifier = Modifier
                 .fillMaxWidth()
@@ -70,7 +117,7 @@ fun MainScreen() {
             }
         }
 
-        LazyRow(
+        LazyRow(    //news cards
             modifier = Modifier
                 .fillMaxWidth()
         ) {
@@ -125,7 +172,7 @@ fun CardItem(card: CardInfo) {
     }
 }
 
-@Preview
+@Preview (showBackground = true)
 @Composable
 fun MainScreenPreview(){
     MainScreen()
