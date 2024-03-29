@@ -1,4 +1,4 @@
-package com.example.newstoday
+package com.example.newstoday.views.profiles
 
 
 data class UserData(

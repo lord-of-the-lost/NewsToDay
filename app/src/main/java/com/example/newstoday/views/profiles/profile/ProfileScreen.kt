@@ -28,9 +28,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.rememberImagePainter
 import com.example.newstoday.R
-import com.example.newstoday.UserData
+import com.example.newstoday.views.profiles.UserData
 
 @Composable
 fun ProfileScreen(
@@ -56,10 +55,9 @@ fun ProfileScreen(
                 textAlign = TextAlign.Start
             )
             Row {
-                ProfileImage(url = "https://us.123rf.com/450wm/happyvector071/happyvector0711904/happyvector071190414500/120957417-creative-illustration-of-default-avatar-profile-placeholder-isolated-on-background-art-design-grey.jpg")
+                ProfileImage()
                 val s = UserData("Test", "Test@email.ru")
                 ProfileInfo(userData = s)
-
             }
         }
     }
@@ -163,8 +161,7 @@ fun TermsConditionsButton(toTermsConditionsScreen: () -> Unit) {
 }
 
 @Composable
-fun ProfileImage(url: String) {
-    val painter = rememberImagePainter(data = url)
+fun ProfileImage() {
     Box(
         modifier = Modifier
             .size(72.dp)
@@ -173,7 +170,7 @@ fun ProfileImage(url: String) {
         contentAlignment = Alignment.BottomStart
     ) {
         Image(
-            painter = painter,
+            painter = painterResource(id = R.drawable._01),
             contentDescription = "profile picture",
             Modifier
                 .width(72.dp)
