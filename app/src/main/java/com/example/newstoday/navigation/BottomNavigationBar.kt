@@ -1,22 +1,51 @@
 package com.example.newstoday.navigation
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.currentBackStackEntryAsState
 
-
 @Composable
-fun BottomNavigationBar(items: List<Screen>, navController: NavController) {
-    BottomNavigation {
+fun BottomNavigationBar(navController: NavController) {
+    BottomNavigation(
+        backgroundColor = MaterialTheme.colorScheme.background,
+        modifier = Modifier
+            .bottomBorder(BorderStroke(
+                width = 1.dp,
+                color = Color(0xFFACAFC3)
+            ))
+    ) {
         val currentRoute = currentRoute(navController)
-        items.forEach { screen ->
+        listOf(
+            Screen.Home,
+            Screen.Categories,
+            Screen.Bookmarks,
+            Screen.Profile
+        ).forEach { screen ->
+            val isSelected = currentRoute == screen.route
             BottomNavigationItem(
-                icon = { Icon(screen.icon, contentDescription = null) },
-                selected = currentRoute == screen.route,
+                icon = {
+                    Icon(
+                        painter = painterResource(id = screen.iconResourceId),
+                        contentDescription = null,
+                        tint = if (isSelected) screen.activeColor else Color(0xFFACAFC3),
+                        modifier = Modifier.size(24.dp)
+                    )
+                },
+                selected = isSelected,
                 onClick = {
                     navController.navigate(screen.route) {
                         popUpTo(navController.graph.startDestinationId) {
@@ -35,4 +64,13 @@ fun BottomNavigationBar(items: List<Screen>, navController: NavController) {
 fun currentRoute(navController: NavController): String? {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     return navBackStackEntry?.destination?.route
+}
+
+fun Modifier.bottomBorder(border: BorderStroke): Modifier = composed {
+    this.then(
+        Modifier.border(
+            border = border,
+            shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp, bottomStart = 0.dp, bottomEnd = 0.dp)
+        )
+    )
 }
