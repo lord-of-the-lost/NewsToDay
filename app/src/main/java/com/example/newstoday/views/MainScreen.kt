@@ -166,7 +166,6 @@ fun CardItem(card: CardInfo) {
                 imageVector = Icons.Default.FavoriteBorder,
                 contentDescription = null,
                 modifier = Modifier
-//                    .align(Alignment.End)
 //                    .align(Alignment.TopEnd)
                     .padding(8.dp)
             )
