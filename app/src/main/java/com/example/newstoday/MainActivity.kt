@@ -15,6 +15,7 @@ import com.example.newstoday.ui.theme.NewsToDayTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //enableEdgeToEdge()
         setContent {
             NewsToDayTheme {
                 // A surface container using the 'background' color from the theme
