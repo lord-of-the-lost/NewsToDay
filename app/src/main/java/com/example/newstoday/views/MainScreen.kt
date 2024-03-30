@@ -1,7 +1,7 @@
 package com.example.newstoday.views
 
-//import androidx.compose.foundation.layout.FlowColumnScopeInstance.align
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -52,7 +52,7 @@ fun MainScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(start = 20.dp, top = 200.dp)
+            .padding(top = 168.dp)
     ) {
 
         val searchText = remember {
@@ -62,7 +62,9 @@ fun MainScreen() {
         SearchBar(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(10.dp),
+                .padding(20.dp),
+//            shape = SearchBarDefaults.,
+//            colors = SearchBarColors.,
             query = searchText.value,
             onQueryChange = {text ->
                 searchText.value = text
@@ -106,7 +108,9 @@ fun MainScreen() {
             ){_, item ->
                 Button(
                     modifier = Modifier
-                        .padding(end = 16.dp),
+                        .padding(end = 16.dp)
+                        .background(Color.Red),
+//                    colors = ButtonDefaults.buttonColors(color = Color.Red),
                     onClick = { /*TODO*/ }
                 ) {
                     Text(
