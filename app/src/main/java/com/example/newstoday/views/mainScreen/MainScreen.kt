@@ -2,6 +2,7 @@ package com.example.newstoday.views.mainScreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,6 +27,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -87,16 +89,8 @@ fun MainScreen() {
         SearchBar(
             modifier = Modifier
                 .fillMaxWidth()
-//                .height(56.dp)
                 .padding(start = 20.dp, end = 20.dp, bottom = 24.dp),
             shape = RoundedCornerShape(12.dp),
-//            colors = MaterialTheme.color.copy {
-//                primary = Color.Red
-//            }/*Color(0xFFF3F4F6)*/,
-//            colors = SearchBarDefaults.colors(SearchBarTokens.ContainerColor.toColor()),
-//            colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.White),
-//            colors = SearchBarDefaults.colors(SearchBarTokens.ContainerColor.toColor()),
-//            colors = ,
             query = searchText.value,
             onQueryChange = {text ->
                 searchText.value = text
@@ -105,8 +99,6 @@ fun MainScreen() {
             },
             leadingIcon = {
                 Icon(
-//                    modifier = Modifier
-//                        .padding(end = 20.dp),
                     modifier = Modifier
                         .size(30.dp)
                         .padding(2.dp),
@@ -118,7 +110,6 @@ fun MainScreen() {
             placeholder = {
                 Row(
                 ) {
-
                     Text(
                         text = "Search",
                         color = Color(0xFF7C82A1),
@@ -135,49 +126,23 @@ fun MainScreen() {
         ) {
         }
 
-
         val activeCategoryIndex = remember {
-            mutableStateOf(1)                         /*TODO*/
+            mutableIntStateOf(1)                         /*TODO*/
         }
 
         LazyRow(    //categories
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 24.dp, start = 20.dp)     /*TODO*/
-//                .offset(20.dp)
-            ,
+                .padding(bottom = 24.dp, start = 20.dp),     /*TODO*/
             horizontalArrangement = Arrangement.Absolute.spacedBy(16.dp)
         ) {
             itemsIndexed(
                 listOf("Random", "Sportssdfgsdfdfgdf", "Li", "Gaming", "Politics", "Animals")
             ){index, item ->
-/*
-                Button(
-                    modifier = Modifier
-                        .padding(end = 16.dp)
-                        .background(Color.Red),
-//                    colors = ButtonDefaults.buttonColors(color = Color.Red),
-                    onClick = { */
-/*TODO*//*
- }
-                ) {
-                    Text(
-                        text = item,
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight(600)
-                    )
-                }
-*/
                 Box(
                     modifier = Modifier
-//                        .offset(20.dp, 0.dp)
                         .clip(CircleShape)
                         .height(32.dp)
-//                        .wrapContentSize()
-//                        .size(75.dp, 32.dp)
-//                        .padding(8.dp, 16.dp, 8.dp, 16.dp)
-//                        .padding(start = 16.dp)
-//                        .padding(horizontal = 10.dp)
                         .background(
                             Color(
                                 if (index == activeCategoryIndex.value)
@@ -185,16 +150,15 @@ fun MainScreen() {
                                 else
                                     0xFFF3F4F6
                             )
-                        ),
+                        )
+                        .clickable {  },
                     contentAlignment = Alignment.Center,
                 ) {
                     Text(
                         modifier = Modifier
-//                            .padding(8.dp, 10.dp, 8.dp, 10.dp),
-                            .padding(start = 16.dp, end = 16.dp), /*TODO*/
+                            .padding(start = 16.dp, end = 16.dp),
                         text = item,
                         fontFamily = inter,
-//                        fontWeight = FontWeight.Normal,
                         fontWeight = FontWeight(600),
                         fontSize = 12.sp,
                         color = Color(
@@ -212,9 +176,7 @@ fun MainScreen() {
         LazyRow(    //news cards
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(/*bottom = 16.dp, */start = 20.dp)     /*TODO*/
-//                .offset(20.dp)
-            ,
+                .padding(start = 20.dp),     /*TODO*/
             horizontalArrangement = Arrangement.Absolute.spacedBy(16.dp)
         ) {
             items(cardList) { card ->
@@ -233,7 +195,6 @@ fun CardItem(card: CardInfo) {
     )
 
     Card(
-//        modifier = Modifier.padding(8.dp)
     ) {
         Box(
             modifier = Modifier
@@ -265,11 +226,7 @@ fun CardItem(card: CardInfo) {
                     .fillMaxSize()
                     .padding(
                         24.dp
-//                        start = 20.dp,
-//                        top = 72.dp,
-//                        end = 20.dp
                     ),
-//                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Row(
                     modifier = Modifier
@@ -278,14 +235,7 @@ fun CardItem(card: CardInfo) {
                 ) {
                     IconButton(
                         modifier = Modifier
-                            .size(24.dp)
-//                        .offset((-12).dp)
-                            .padding(
-                                //                        start = 20.dp,
-                                //                        top = 72.dp,
-//                                                    end = 10.dp
-                            ),
-
+                            .size(24.dp),
                         onClick = { /*TODO*/ }) {
                         Icon(
                             modifier = Modifier
@@ -322,27 +272,7 @@ fun CardItem(card: CardInfo) {
                         color = Color.White
                     )
                 }
-
-
-
             }
-
-/*
-            Text(
-                text = card.title,
-                modifier = Modifier.padding(8.dp),
-                fontSize = 16.sp,
-                fontWeight = FontWeight(700)
-
-            )
-
-            Icon(
-                imageVector = Icons.Default.FavoriteBorder,
-                contentDescription = null,
-                modifier = Modifier
-//                    .align(Alignment.TopEnd)
-                    .padding(8.dp)
-            )*/
         }
     }
 }
