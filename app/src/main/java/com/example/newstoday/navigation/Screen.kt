@@ -1,16 +1,12 @@
 package com.example.newstoday.navigation
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.ui.graphics.vector.ImageVector
 
-sealed class Screen(val route: String, val icon: ImageVector, val title: String) {
-    object Home : Screen("home", Icons.Filled.Home, "Home")
-    object Categories : Screen("categories", Icons.Filled.Menu, "Categories")
-    object Bookmarks : Screen("bookmarks", Icons.Filled.Favorite, "Bookmarks")
-    object Profile : Screen("profile", Icons.Filled.AccountCircle, "Profile")
+import androidx.compose.ui.graphics.Color
+import com.example.newstoday.R
 
+sealed class Screen(val route: String, val iconResourceId: Int, val title: String, val activeColor: Color) {
+    object Home : Screen("home", R.drawable.home_botton_navigation, "Home", Color(0xFF475AD7))
+    object Categories : Screen("categories", R.drawable.categories_botton_navigation, "Categories", Color(0xFF475AD7))
+    object Bookmarks : Screen("bookmarks", R.drawable.bookmarks_botton_navigation, "Bookmarks", Color(0xFF475AD7))
+    object Profile : Screen("profile", R.drawable.progile_botton_navigation, "Profile", Color(0xFF475AD7))
 }

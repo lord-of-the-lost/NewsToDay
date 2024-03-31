@@ -17,15 +17,9 @@ import com.example.newstoday.views.SampleView4
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MainScreen() {
-    val items = listOf(
-        Screen.Home,
-        Screen.Categories,
-        Screen.Bookmarks,
-        Screen.Profile,
-    )
     val navController = rememberNavController()
     Scaffold(
-        bottomBar = { BottomNavigationBar(items, navController) }
+        bottomBar = { BottomNavigationBar(navController) }
     ) {
         NavHost(navController, startDestination = Screen.Home.route) {
             composable(Screen.Home.route) {
