@@ -1,6 +1,5 @@
 package com.example.newstoday.views.topappbar
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,7 +17,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -31,7 +29,7 @@ import com.example.newstoday.ui.theme.NewsToDayTheme
 import com.example.newstoday.ui.theme.inter
 
 @Composable
-fun TopAppBar2(
+fun TopAppBar(
 	screen: String, backToProfile: () -> Unit
 ) {
 	val navigationIcon: (@Composable () -> Unit)? =
@@ -125,8 +123,8 @@ fun TopAppBar2(
 
 @Preview(showBackground = true)
 @Composable
-fun TopAppBar2Preview() {
+fun TopAppBarPreview() {
 	NewsToDayTheme {
-		TopAppBar2(screen = "Language") {}
+		TopAppBar(screen = "Language") {}
 	}
 }
