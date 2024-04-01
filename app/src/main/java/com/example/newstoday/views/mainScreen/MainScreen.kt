@@ -18,13 +18,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.SearchBar
+import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableIntStateOf
@@ -58,17 +57,17 @@ val cardList = listOf(
     CardInfo(
         "An updated daily front page",
         "art",
-        R.drawable.test_news_img1
+        R.drawable.test_news_img5
     ),
     CardInfo(
         "Text of News #3",
         "sport",
-        R.drawable.not_loaded
+        R.drawable.test_news_img6
     ),
     CardInfo(
         "News #4",
         "life",
-        R.drawable.test_news_img4
+        R.drawable.test_news_img1
     ),
 )
 
@@ -91,6 +90,7 @@ fun MainScreen() {
                 .fillMaxWidth()
                 .padding(start = 20.dp, end = 20.dp, bottom = 24.dp),
             shape = RoundedCornerShape(12.dp),
+            colors = SearchBarDefaults.colors(containerColor = Color(0xFFF3F4F6)),
             query = searchText.value,
             onQueryChange = {text ->
                 searchText.value = text
@@ -100,9 +100,9 @@ fun MainScreen() {
             leadingIcon = {
                 Icon(
                     modifier = Modifier
-                        .size(30.dp)
+                        .size(24.dp)
                         .padding(2.dp),
-                    imageVector = Icons.Filled.Search,
+                    imageVector = ImageVector.vectorResource(R.drawable.search_magnifier),
                     contentDescription = "SearchIcon",
                     tint = Color(0xFF7C82A1)
                 )
@@ -126,23 +126,23 @@ fun MainScreen() {
         ) {
         }
 
-        val activeCategoryIndex = remember {
-            mutableIntStateOf(1)                         /*TODO*/
-        }
+        val categoriesList = listOf("Random", "Sportssdfgsdfdfgdf", "Li", "Gaming", "Politics", "Animals")
+        val activeCategoryIndex = remember {mutableIntStateOf(0)}
 
-        LazyRow(    //categories
+        LazyRow(    //category buttons
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 24.dp, start = 20.dp),     /*TODO*/
             horizontalArrangement = Arrangement.Absolute.spacedBy(16.dp)
         ) {
             itemsIndexed(
-                listOf("Random", "Sportssdfgsdfdfgdf", "Li", "Gaming", "Politics", "Animals")
+                categoriesList
             ){index, item ->
                 Box(
                     modifier = Modifier
                         .clip(CircleShape)
                         .height(32.dp)
+                        .clickable { activeCategoryIndex.value = index }
                         .background(
                             Color(
                                 if (index == activeCategoryIndex.value)
@@ -150,13 +150,12 @@ fun MainScreen() {
                                 else
                                     0xFFF3F4F6
                             )
-                        )
-                        .clickable {  },
+                        ),
                     contentAlignment = Alignment.Center,
                 ) {
                     Text(
                         modifier = Modifier
-                            .padding(start = 16.dp, end = 16.dp),
+                            .padding(start = 16.dp, end = 16.dp, bottom = 2.dp),
                         text = item,
                         fontFamily = inter,
                         fontWeight = FontWeight(600),
@@ -201,6 +200,7 @@ fun CardItem(card: CardInfo) {
                 .height(256.dp)
                 .width(256.dp)
                 .fillMaxWidth()
+                .clickable {  }
         ) {
             Image(
                 painter = painterResource(id = card.imageId),
