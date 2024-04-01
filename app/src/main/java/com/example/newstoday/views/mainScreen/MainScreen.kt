@@ -7,12 +7,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -182,7 +184,10 @@ fun MainScreen() {
                 CardItem(card)
             }
         }
+
+        Recommended()
     }
+
 }
 
 
@@ -200,7 +205,7 @@ fun CardItem(card: CardInfo) {
                 .height(256.dp)
                 .width(256.dp)
                 .fillMaxWidth()
-                .clickable {  }
+                .clickable { }
         ) {
             Image(
                 painter = painterResource(id = card.imageId),
@@ -273,6 +278,52 @@ fun CardItem(card: CardInfo) {
                     )
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun Recommended(){
+
+    Spacer(modifier = Modifier.height(48.dp))
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(start = 20.dp, end = 20.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Recommended for you",
+                fontFamily = inter,
+                fontWeight = FontWeight(600),
+                fontSize = 20.sp,
+                color = Color(0xFF333647),
+                lineHeight = 24.sp,
+            )
+            Text(
+                modifier = Modifier
+                    .clickable {  },
+                text = "See All",
+                fontFamily = inter,
+                fontWeight = FontWeight(500),
+                fontSize = 14.sp,
+                color = Color(0xFF7C82A1),
+                lineHeight = 24.sp,
+            )
+        }
+
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 24.dp)
+        ) {
+
         }
     }
 }
