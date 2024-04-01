@@ -126,7 +126,7 @@ fun MainScreen() {
         ) {
         }
 
-        val categoriesList = listOf("Random", "Sportssdfgsdfdfgdf", "Li", "Gaming", "Politics", "Animals")
+        val categoriesList = listOf("Random", "Sportscghfdg", "Li", "Gaming", "Politics", "Animals")
         val activeCategoryIndex = remember {mutableIntStateOf(0)}
 
         LazyRow(    //category buttons
