@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -28,9 +27,11 @@ import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -48,6 +49,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.newstoday.R
 import com.example.newstoday.ui.theme.inter
+import com.example.newstoday.views.mainScreen.recommended.CardNews
+import com.example.newstoday.views.mainScreen.recommended.RecommendedHeader
+import com.example.newstoday.views.mainScreen.recommended.RecommendedNewsArticle
+import com.example.newstoday.views.mainScreen.recommended.createSampleNewsArticles
 
 data class CardInfo(val title: String, val category: String, val imageId: Int)
 val cardList = listOf(
@@ -77,115 +82,124 @@ val cardList = listOf(
 @Composable
 fun MainScreen() {
 
-    Column(
+    var recommendedNewsList by remember { mutableStateOf<List<RecommendedNewsArticle>>(emptyList()) }
+    recommendedNewsList = createSampleNewsArticles()
+
+    LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .padding(top = 168.dp)
+            .background(Color.White),
     ) {
-
-        val searchText = remember {
-            mutableStateOf("")
-        }
-
-        SearchBar(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 20.dp, end = 20.dp, bottom = 24.dp),
-            shape = RoundedCornerShape(12.dp),
-            colors = SearchBarDefaults.colors(containerColor = Color(0xFFF3F4F6)),
-            query = searchText.value,
-            onQueryChange = {text ->
-                searchText.value = text
-            },
-            onSearch = {
-            },
-            leadingIcon = {
-                Icon(
-                    modifier = Modifier
-                        .size(24.dp)
-                        .padding(2.dp),
-                    imageVector = ImageVector.vectorResource(R.drawable.search_magnifier),
-                    contentDescription = "SearchIcon",
-                    tint = Color(0xFF7C82A1)
-                )
-            },
-            placeholder = {
-                Row(
-                ) {
-                    Text(
-                        text = "Search",
-                        color = Color(0xFF7C82A1),
-                        fontFamily = inter,
-                        lineHeight = 24.sp,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight(500),
-                    )
-                }
-            },
-            active = false,
-            onActiveChange ={
+        item {
+            val searchText = remember {
+                mutableStateOf("")
             }
-        ) {
-        }
 
-        val categoriesList = listOf("Random", "Sportscghfdg", "Li", "Gaming", "Politics", "Animals")
-        val activeCategoryIndex = remember {mutableIntStateOf(0)}
-
-        LazyRow(    //category buttons
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 24.dp, start = 20.dp),     /*TODO*/
-            horizontalArrangement = Arrangement.Absolute.spacedBy(16.dp)
-        ) {
-            itemsIndexed(
-                categoriesList
-            ){index, item ->
-                Box(
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .height(32.dp)
-                        .clickable { activeCategoryIndex.value = index }
-                        .background(
-                            Color(
-                                if (index == activeCategoryIndex.value)
-                                    0xFF475AD7
-                                else
-                                    0xFFF3F4F6
-                            )
-                        ),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    Text(
+            SearchBar(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 20.dp, end = 20.dp, bottom = 24.dp),
+                shape = RoundedCornerShape(12.dp),
+                colors = SearchBarDefaults.colors(containerColor = Color(0xFFF3F4F6)),
+                query = searchText.value,
+                onQueryChange = {text ->
+                    searchText.value = text
+                },
+                onSearch = {
+                },
+                leadingIcon = {
+                    Icon(
                         modifier = Modifier
-                            .padding(start = 16.dp, end = 16.dp, bottom = 2.dp),
-                        text = item,
-                        fontFamily = inter,
-                        fontWeight = FontWeight(600),
-                        fontSize = 12.sp,
-                        color = Color(
-                            if (index == activeCategoryIndex.value)
-                                0xFFFFFFFF
-                            else
-                                0xFF7C82A1
-                        ),
+                            .size(24.dp)
+                            .padding(2.dp),
+                        imageVector = ImageVector.vectorResource(R.drawable.search_magnifier),
+                        contentDescription = "SearchIcon",
+                        tint = Color(0xFF7C82A1)
                     )
+                },
+                placeholder = {
+                    Row(
+                    ) {
+                        Text(
+                            text = "Search",
+                            color = Color(0xFF7C82A1),
+                            fontFamily = inter,
+                            lineHeight = 24.sp,
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight(500),
+                        )
+                    }
+                },
+                active = false,
+                onActiveChange ={
                 }
-
+            ) {
             }
-        }
 
-        LazyRow(    //news cards
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 20.dp),     /*TODO*/
-            horizontalArrangement = Arrangement.Absolute.spacedBy(16.dp)
-        ) {
-            items(cardList) { card ->
-                CardItem(card)
+            val categoriesList = listOf("Random", "Sportscghfdg", "Li", "Gaming", "Politics", "Animals")
+            val activeCategoryIndex = remember {mutableIntStateOf(0)}
+
+            LazyRow(    //category buttons
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 24.dp, start = 20.dp),     /*TODO*/
+                horizontalArrangement = Arrangement.Absolute.spacedBy(16.dp)
+            ) {
+                itemsIndexed(
+                    categoriesList
+                ){index, item ->
+                    Box(
+                        modifier = Modifier
+                            .clip(CircleShape)
+                            .height(32.dp)
+                            .clickable { activeCategoryIndex.value = index }
+                            .background(
+                                Color(
+                                    if (index == activeCategoryIndex.value)
+                                        0xFF475AD7
+                                    else
+                                        0xFFF3F4F6
+                                )
+                            ),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Text(
+                            modifier = Modifier
+                                .padding(start = 16.dp, end = 16.dp, bottom = 2.dp),
+                            text = item,
+                            fontFamily = inter,
+                            fontWeight = FontWeight(600),
+                            fontSize = 12.sp,
+                            color = Color(
+                                if (index == activeCategoryIndex.value)
+                                    0xFFFFFFFF
+                                else
+                                    0xFF7C82A1
+                            ),
+                        )
+                    }
+
+                }
             }
-        }
 
-        Recommended()
+            LazyRow(    //news cards
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 20.dp),     /*TODO*/
+                horizontalArrangement = Arrangement.Absolute.spacedBy(16.dp)
+            ) {
+                items(cardList) { card ->
+                    CardItem(card)
+                }
+            }
+            RecommendedHeader()
+        }
+        
+//      Recommended items
+        items(recommendedNewsList) { it ->
+            CardNews(newsArticle = it, onArticlePage = {})
+        }
     }
 
 }
@@ -278,52 +292,6 @@ fun CardItem(card: CardInfo) {
                     )
                 }
             }
-        }
-    }
-}
-
-@Composable
-fun Recommended(){
-
-    Spacer(modifier = Modifier.height(48.dp))
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(start = 20.dp, end = 20.dp)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "Recommended for you",
-                fontFamily = inter,
-                fontWeight = FontWeight(600),
-                fontSize = 20.sp,
-                color = Color(0xFF333647),
-                lineHeight = 24.sp,
-            )
-            Text(
-                modifier = Modifier
-                    .clickable {  },
-                text = "See All",
-                fontFamily = inter,
-                fontWeight = FontWeight(500),
-                fontSize = 14.sp,
-                color = Color(0xFF7C82A1),
-                lineHeight = 24.sp,
-            )
-        }
-
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(top = 24.dp)
-        ) {
-
         }
     }
 }
