@@ -111,7 +111,6 @@ fun Categories(){
     }
 }
 
-
 @Preview (showBackground = true)
 @Composable
 fun CategoriesPreview(){
