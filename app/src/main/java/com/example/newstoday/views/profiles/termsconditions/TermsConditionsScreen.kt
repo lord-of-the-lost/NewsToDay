@@ -61,19 +61,6 @@ fun ScrollableText() {
 			color = Color(0xFF7C82A1)
 		),
 	)
-	
-	/*Text(
-		text = stringResource(id = R.string.terms_conditions_text),
-		style = TextStyle(
-			fontFamily = MaterialTheme.typography.bodySmall.fontFamily,
-			fontSize = 16.sp,
-			fontWeight = FontWeight.Normal,
-			lineHeight = 24.sp,
-			color = Color(0xFF7C82A1)
-		),
-		modifier = Modifier.fillMaxWidth(),
-		textAlign = TextAlign.Left
-	)*/
 }
 
 

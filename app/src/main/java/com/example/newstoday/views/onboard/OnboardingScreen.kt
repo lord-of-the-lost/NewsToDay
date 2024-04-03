@@ -53,163 +53,161 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun OnboardingScreen() {
-	val listOfImages = listOf(
-		R.drawable._01,
-		R.drawable._02,
-		R.drawable._03
-	)
-	
-	val pagerState = rememberPagerState(pageCount = { listOfImages.size })
-	val pagerScope = rememberCoroutineScope()
-	
-	var firstKnowTextIndex by remember { mutableIntStateOf(0) }
-	val firstKnowTexts = listOf(
-		stringResource(id = R.string.first_to_know),
-		"",
-		""
-	)
-	
-	var descriptionAppIndex by remember { mutableIntStateOf(0) }
-	val descriptionApp = listOf(
-		stringResource(id = R.string.descriptionApp_1),
-		stringResource(id = R.string.description_App_2),
-		stringResource(id = R.string.description_App_3)
-	)
-	
-	var buttonTextIndex by remember { mutableIntStateOf(0) }
-	val buttonTexts = listOf(
-		stringResource(id = R.string.buttonTexts_next),
-		stringResource(id = R.string.buttonTexts_next),
-		stringResource(id = R.string.buttonTexts_GetStarted)
-	)
-	
-	Column(
-		modifier = Modifier
-			.fillMaxSize(),
-		horizontalAlignment = Alignment.CenterHorizontally,
-	) {
-		HorizontalPager(
-			modifier = Modifier
-				.padding(top = 96.dp),
-			state = pagerState,
-			contentPadding = PaddingValues(horizontal = 55.dp),
-			//pageSize = PageSize.Fixed(288.dp),
-		
-		) { index ->
-			
-			val pageOffSet =
-				(pagerState.currentPage - index) + pagerState.currentPageOffsetFraction
-			val imageSize by animateFloatAsState(
-				targetValue = if (pageOffSet != 0.0f) 0.85714f else 1f,
-				animationSpec = tween(durationMillis = 300), label = ""
-			)
-			Image(
-				modifier = Modifier
-					.size(288.dp, 336.dp)
-					.graphicsLayer {
-						scaleX = imageSize
-						scaleY = imageSize
-					}
-					.clip(RoundedCornerShape(12.dp)),
-				painter = painterResource(id = listOfImages[index]),
-				contentDescription = null,
-				contentScale = ContentScale.Crop,
-			)
-			if (pagerState.currentPage == index) {
-				buttonTextIndex = index
-				firstKnowTextIndex = index
-				descriptionAppIndex = index
-			}
-		}
-		//Отображает точки страниц внизу
-		Row(
-			Modifier
-				.wrapContentHeight()
-				.fillMaxWidth()
-				.align(Alignment.CenterHorizontally)
-				.padding(top = 40.dp),
-			horizontalArrangement = Arrangement.Center
-		) {
-			repeat(pagerState.pageCount) { iteration ->
-				val color =
-					if (pagerState.currentPage == iteration) Color(0xFF475AD7) else Color(0xFFF3F4F6)
-				val x =
-					if (pagerState.currentPage == iteration) 24.dp else 8.dp
-				Spacer(modifier = Modifier.width(4.dp))
-				Box(
-					modifier = Modifier
-						.clip(CircleShape)
-						.background(color)
-						.size(x, 8.dp)
-				)
-				Spacer(modifier = Modifier.width(4.dp))
-			}
-		}
-		
-		Text(
-			modifier = Modifier
-				.padding(top = 34.dp),
-			text = firstKnowTexts[firstKnowTextIndex],
-			fontFamily = inter,
-			fontWeight = FontWeight.Bold,
-			fontSize = 24.sp,
-			color = Color(0xFF333647),
-		)
-		
-		Box(
-			contentAlignment = Alignment.TopCenter,
-			modifier = Modifier
-				.padding(top = 24.dp)
-				.size(216.dp, 72.dp)
-		) {
-			Text(
-				text = descriptionApp[descriptionAppIndex],
-				fontFamily = inter,
-				fontWeight = FontWeight.Normal,
-				textAlign = TextAlign.Center,
-				fontSize = 16.sp,
-				color = Color(0xFF7C82A1),
-			)
-		}
-		
-		Button(
-			modifier = Modifier
-				.padding(
-					start = 20.dp,
-					top = 40.dp,
-					end = 20.dp
-				)
-				.height(56.dp)
-				.fillMaxWidth(),
-			shape = RoundedCornerShape(12.dp),
-			colors = ButtonDefaults
-				.buttonColors(
-					containerColor = Color(0xFF475AD7),
-					contentColor = Color.White
-				),
-			onClick = {
-				pagerScope.launch { pagerState.scrollToPage(pagerState.currentPage + 1) }
-				if (buttonTexts[buttonTextIndex] == "Get Started" || buttonTexts[buttonTextIndex] == "Начать") {
-					//переходим на следующий экран
-				}
-			}) {
-			Text(
-				text = buttonTexts[buttonTextIndex],
-				fontFamily = inter,
-				fontWeight = FontWeight.Normal,
-				textAlign = TextAlign.Center,
-				fontSize = 16.sp,
-				color = Color.White
-			)
-		}
-	}
+    val listOfImages = listOf(
+        R.drawable._01,
+        R.drawable._02,
+        R.drawable._03
+    )
+
+    val pagerState = rememberPagerState(pageCount = { listOfImages.size })
+    val pagerScope = rememberCoroutineScope()
+
+    var firstKnowTextIndex by remember { mutableIntStateOf(0) }
+    val firstKnowTexts = listOf(
+        stringResource(id = R.string.first_to_know),
+        "",
+        ""
+    )
+
+    var descriptionAppIndex by remember { mutableIntStateOf(0) }
+    val descriptionApp = listOf(
+        stringResource(id = R.string.descriptionApp_1),
+        stringResource(id = R.string.description_App_2),
+        stringResource(id = R.string.description_App_3)
+    )
+
+    var buttonTextIndex by remember { mutableIntStateOf(0) }
+    val buttonTexts = listOf(
+        stringResource(id = R.string.buttonTexts_next),
+        stringResource(id = R.string.buttonTexts_next),
+        stringResource(id = R.string.buttonTexts_GetStarted)
+    )
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        HorizontalPager(
+            modifier = Modifier
+                .padding(top = 96.dp),
+            state = pagerState,
+            contentPadding = PaddingValues(horizontal = 55.dp),
+        ) { index ->
+
+            val pageOffSet =
+                (pagerState.currentPage - index) + pagerState.currentPageOffsetFraction
+            val imageSize by animateFloatAsState(
+                targetValue = if (pageOffSet != 0.0f) 0.85714f else 1f,
+                animationSpec = tween(durationMillis = 300), label = ""
+            )
+            Image(
+                modifier = Modifier
+                    .size(288.dp, 336.dp)
+                    .graphicsLayer {
+                        scaleX = imageSize
+                        scaleY = imageSize
+                    }
+                    .clip(RoundedCornerShape(12.dp)),
+                painter = painterResource(id = listOfImages[index]),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+            )
+            if (pagerState.currentPage == index) {
+                buttonTextIndex = index
+                firstKnowTextIndex = index
+                descriptionAppIndex = index
+            }
+        }
+        //Отображает точки страниц внизу
+        Row(
+            Modifier
+                .wrapContentHeight()
+                .fillMaxWidth()
+                .align(Alignment.CenterHorizontally)
+                .padding(top = 40.dp),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            repeat(pagerState.pageCount) { iteration ->
+                val color =
+                    if (pagerState.currentPage == iteration) Color(0xFF475AD7) else Color(0xFFF3F4F6)
+                val x =
+                    if (pagerState.currentPage == iteration) 24.dp else 8.dp
+                Spacer(modifier = Modifier.width(4.dp))
+                Box(
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .background(color)
+                        .size(x, 8.dp)
+                )
+                Spacer(modifier = Modifier.width(4.dp))
+            }
+        }
+
+        Text(
+            modifier = Modifier
+                .padding(top = 34.dp),
+            text = firstKnowTexts[firstKnowTextIndex],
+            fontFamily = inter,
+            fontWeight = FontWeight.Bold,
+            fontSize = 24.sp,
+            color = Color(0xFF333647),
+        )
+
+        Box(
+            contentAlignment = Alignment.TopCenter,
+            modifier = Modifier
+                .padding(top = 24.dp)
+                .size(216.dp, 72.dp)
+        ) {
+            Text(
+                text = descriptionApp[descriptionAppIndex],
+                fontFamily = inter,
+                fontWeight = FontWeight.Normal,
+                textAlign = TextAlign.Center,
+                fontSize = 16.sp,
+                color = Color(0xFF7C82A1),
+            )
+        }
+
+        Button(
+            modifier = Modifier
+                .padding(
+                    start = 20.dp,
+                    top = 40.dp,
+                    end = 20.dp
+                )
+                .height(56.dp)
+                .fillMaxWidth(),
+            shape = RoundedCornerShape(12.dp),
+            colors = ButtonDefaults
+                .buttonColors(
+                    containerColor = Color(0xFF475AD7),
+                    contentColor = Color.White
+                ),
+            onClick = {
+                pagerScope.launch { pagerState.scrollToPage(pagerState.currentPage + 1) }
+                if (buttonTexts[buttonTextIndex] == "Get Started" || buttonTexts[buttonTextIndex] == "Начать") {
+                    //переходим на следующий экран
+                }
+            }) {
+            Text(
+                text = buttonTexts[buttonTextIndex],
+                fontFamily = inter,
+                fontWeight = FontWeight.Normal,
+                textAlign = TextAlign.Center,
+                fontSize = 16.sp,
+                color = Color.White
+            )
+        }
+    }
 }
 
 
 @Preview(showBackground = true)
 @Composable
 fun OnboardingScreenPreview() {
-	NewsToDayTheme {
-		OnboardingScreen()
-	}
+    NewsToDayTheme {
+        OnboardingScreen()
+    }
 }
