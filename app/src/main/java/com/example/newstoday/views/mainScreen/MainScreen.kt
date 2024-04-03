@@ -54,30 +54,6 @@ import com.example.newstoday.views.mainScreen.recommended.RecommendedHeader
 import com.example.newstoday.views.mainScreen.recommended.RecommendedNewsArticle
 import com.example.newstoday.views.mainScreen.recommended.createSampleNewsArticles
 
-data class CardInfo(val title: String, val category: String, val imageId: Int)
-val cardList = listOf(
-    CardInfo(
-        "The latest situation in the presidential election",
-        "politics",
-        R.drawable._04
-    ),
-    CardInfo(
-        "An updated daily front page",
-        "art",
-        R.drawable.test_news_img5
-    ),
-    CardInfo(
-        "Text of News #3",
-        "sport",
-        R.drawable.test_news_img6
-    ),
-    CardInfo(
-        "News #4",
-        "life",
-        R.drawable.test_news_img1
-    ),
-)
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen() {
@@ -103,7 +79,7 @@ fun MainScreen() {
                 shape = RoundedCornerShape(12.dp),
                 colors = SearchBarDefaults.colors(containerColor = Color(0xFFF3F4F6)),
                 query = searchText.value,
-                onQueryChange = {text ->
+                onQueryChange = { text ->
                     searchText.value = text
                 },
                 onSearch = {
@@ -132,13 +108,14 @@ fun MainScreen() {
                     }
                 },
                 active = false,
-                onActiveChange ={
+                onActiveChange = {
                 }
             ) {
             }
 
-            val categoriesList = listOf("Random", "Sportscghfdg", "Li", "Gaming", "Politics", "Animals")
-            val activeCategoryIndex = remember {mutableIntStateOf(0)}
+            val categoriesList =
+                listOf("Random", "Sportscghfdg", "Li", "Gaming", "Politics", "Animals")
+            val activeCategoryIndex = remember { mutableIntStateOf(0) }
 
             LazyRow(    //category buttons
                 modifier = Modifier
@@ -148,7 +125,7 @@ fun MainScreen() {
             ) {
                 itemsIndexed(
                     categoriesList
-                ){index, item ->
+                ) { index, item ->
                     Box(
                         modifier = Modifier
                             .clip(CircleShape)
@@ -195,7 +172,7 @@ fun MainScreen() {
             }
             RecommendedHeader()
         }
-        
+
 //      Recommended items
         items(recommendedNewsList) { it ->
             CardNews(newsArticle = it, onArticlePage = {})
@@ -203,7 +180,6 @@ fun MainScreen() {
     }
 
 }
-
 
 
 @Composable
@@ -296,8 +272,8 @@ fun CardItem(card: CardInfo) {
     }
 }
 
-@Preview (showBackground = true)
+@Preview(showBackground = true)
 @Composable
-fun MainScreenPreview(){
+fun MainScreenPreview() {
     MainScreen()
 }
