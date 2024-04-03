@@ -38,6 +38,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -53,9 +54,9 @@ import kotlinx.coroutines.launch
 @Composable
 fun OnboardingScreen() {
 	val listOfImages = listOf(
-        R.drawable._01,
-        R.drawable._02,
-        R.drawable._03
+		R.drawable._01,
+		R.drawable._02,
+		R.drawable._03
 	)
 	
 	val pagerState = rememberPagerState(pageCount = { listOfImages.size })
@@ -63,24 +64,23 @@ fun OnboardingScreen() {
 	
 	var firstKnowTextIndex by remember { mutableIntStateOf(0) }
 	val firstKnowTexts = listOf(
-		"First to know",
+		stringResource(id = R.string.first_to_know),
 		"",
 		""
 	)
 	
 	var descriptionAppIndex by remember { mutableIntStateOf(0) }
 	val descriptionApp = listOf(
-		"All news in one place, be\n" +
-				"the first to know last news",
-		"Our sources are the most reliable",
-		"We wish you good news every day! Let's get started!"
+		stringResource(id = R.string.descriptionApp_1),
+		stringResource(id = R.string.description_App_2),
+		stringResource(id = R.string.description_App_3)
 	)
 	
 	var buttonTextIndex by remember { mutableIntStateOf(0) }
 	val buttonTexts = listOf(
-		"Next",
-		"Next",
-		"Get Started"
+		stringResource(id = R.string.buttonTexts_next),
+		stringResource(id = R.string.buttonTexts_next),
+		stringResource(id = R.string.buttonTexts_GetStarted)
 	)
 	
 	Column(
@@ -88,14 +88,9 @@ fun OnboardingScreen() {
 			.fillMaxSize(),
 		horizontalAlignment = Alignment.CenterHorizontally,
 	) {
-		//Spacer для корректировки смещения при прозрачном статус баре
-		Spacer(
-			modifier = Modifier
-				.height(25.dp)
-		)
 		HorizontalPager(
 			modifier = Modifier
-				.padding(top = 120.dp),
+				.padding(top = 96.dp),
 			state = pagerState,
 			contentPadding = PaddingValues(horizontal = 55.dp),
 			//pageSize = PageSize.Fixed(288.dp),
@@ -162,10 +157,10 @@ fun OnboardingScreen() {
 		)
 		
 		Box(
-			contentAlignment = Alignment.Center,
+			contentAlignment = Alignment.TopCenter,
 			modifier = Modifier
 				.padding(top = 24.dp)
-				.size(216.dp, 48.dp)
+				.size(216.dp, 72.dp)
 		) {
 			Text(
 				text = descriptionApp[descriptionAppIndex],
@@ -179,9 +174,13 @@ fun OnboardingScreen() {
 		
 		Button(
 			modifier = Modifier
-				.padding(top = 64.dp)
+				.padding(
+					start = 20.dp,
+					top = 40.dp,
+					end = 20.dp
+				)
 				.height(56.dp)
-				.width(336.dp),
+				.fillMaxWidth(),
 			shape = RoundedCornerShape(12.dp),
 			colors = ButtonDefaults
 				.buttonColors(
@@ -190,7 +189,7 @@ fun OnboardingScreen() {
 				),
 			onClick = {
 				pagerScope.launch { pagerState.scrollToPage(pagerState.currentPage + 1) }
-				if (buttonTexts[buttonTextIndex] == "Get Started") {
+				if (buttonTexts[buttonTextIndex] == "Get Started" || buttonTexts[buttonTextIndex] == "Начать") {
 					//переходим на следующий экран
 				}
 			}) {
