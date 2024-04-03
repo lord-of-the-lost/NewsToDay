@@ -2,47 +2,62 @@ package com.example.newstoday.core
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.example.newstoday.core.network.NewsResponse
+import androidx.lifecycle.viewModelScope
+import com.example.newstoday.core.network.Article
 import com.example.newstoday.core.network.RetrofitClient
-import retrofit2.Call
-import retrofit2.Response
-import retrofit2.Callback
+import kotlinx.coroutines.launch
 
 
 class NewsViewModel : ViewModel() {
     private val apiService = RetrofitClient.create()
     private val repository = NewsRepository(apiService)
-    var newsResponse = mutableStateOf<NewsResponse?>(null)
+    private val apiKey = "9eb135314d134f44b60d88e096de26f6"
+    var newsResponse = mutableStateOf<List<Article>?>(null)
     var errorMessage = mutableStateOf<String?>(null)
 
     init {
-        getTopHeadlines()
+        loadTopHeadlines()
     }
 
-    private fun makeApiCall(call: Call<NewsResponse>) {
-        call.enqueue(object : Callback<NewsResponse> {
-            override fun onResponse(call: Call<NewsResponse>, response: Response<NewsResponse>) {
-                if (response.isSuccessful) {
-                    newsResponse.value = response.body()
+    private fun loadTopHeadlines(country: String = "us") {
+        viewModelScope.launch {
+            try {
+                val response = repository.getTopHeadlines(country, apiKey)
+                if (response != null) {
+                    newsResponse.value = response
                 } else {
-                    errorMessage.value = "Произошла ошибка: ${response.code()}"
+                    errorMessage.value = "Не удалось загрузить заголовки новостей."
+                }
+            } catch (e: Exception) {
+                errorMessage.value = "Ошибка сети: ${e.message}"
+            }
+        }
+    }
+
+    fun loadEverything(query: String) {
+        viewModelScope.launch {
+            try {
+                val response = repository.getEverything(query, apiKey)
+                if (response != null) {
+                    newsResponse.value = response
+                } else {
+                    errorMessage.value = "Не удалось загрузить все новости."
+                }
+            } catch (e: Exception) {
+                errorMessage.value = "Ошибка сети: ${e.message}"
+            }
+        }
+    }
+
+    fun loadArticlesByCategories(categories: List<String>) {
+        viewModelScope.launch {
+            val results = mutableListOf<Article>()
+            categories.forEach { category ->
+                repository.getEverything(category, apiKey)?.let {
+                    results.addAll(it)
                 }
             }
-
-            override fun onFailure(call: Call<NewsResponse>, t: Throwable) {
-                errorMessage.value = "Ошибка сети: ${t.message}"
-            }
-        })
-    }
-
-    fun getEverything(query: String) {
-        val apiCall = repository.getEverything(query)
-        makeApiCall(apiCall)
-    }
-
-    fun getTopHeadlines(country: String = "us") {
-        val apiKey = "9eb135314d134f44b60d88e096de26f6"
-        val apiCall = repository.getTopHeadlines(country, apiKey)
-        makeApiCall(apiCall)
+            newsResponse.value = results.shuffled()
+        }
     }
 }

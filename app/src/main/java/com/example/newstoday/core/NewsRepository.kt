@@ -1,17 +1,21 @@
 package com.example.newstoday.core
 
+import com.example.newstoday.core.network.Article
 import com.example.newstoday.core.network.NewsApiService
-import com.example.newstoday.core.network.NewsResponse
-import retrofit2.Call
 
 
 class NewsRepository(private val apiService: NewsApiService) {
-
-    fun getEverything(query: String): Call<NewsResponse> {
-        return apiService.getEverything(query)
+    suspend fun getEverything(query: String, apiKey: String): List<Article>? {
+        val response = apiService.getEverything(query = query, apiKey = apiKey)
+        return if (response.isSuccessful) response.body()?.articles else null
     }
 
-    fun getTopHeadlines(country: String, apiKey: String): Call<NewsResponse> {
-        return apiService.getTopHeadlines(country, apiKey)
+    suspend fun getArticlesForCategory(category: String, apiKey: String): List<Article>? {
+        return getEverything(category, apiKey)
+    }
+
+    suspend fun getTopHeadlines(country: String, apiKey: String): List<Article>? {
+        val response = apiService.getTopHeadlines(country = country, apiKey = apiKey)
+        return if (response.isSuccessful) response.body()?.articles else null
     }
 }
