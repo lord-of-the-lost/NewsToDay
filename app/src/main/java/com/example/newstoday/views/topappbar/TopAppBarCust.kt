@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -29,14 +30,17 @@ import com.example.newstoday.ui.theme.NewsToDayTheme
 import com.example.newstoday.ui.theme.inter
 
 @Composable
-fun TopAppBar(
+fun TopAppBarCust(
 	screen: String, backToProfile: () -> Unit
 ) {
 	val navigationIcon: (@Composable () -> Unit)? =
-		if (screen.contains("Terms & Conditions") || screen.contains("Language")) {
+		if (screen.contains(stringResource(id = R.string.terms_conditions)) || screen.contains(
+				stringResource(id = R.string.language_language)
+			)
+		) {
 			{
 				IconButton(
-					onClick = ({ /*onBackNavClicked()*/ }),
+					onClick = { backToProfile() },
 					modifier = Modifier
 						.size(24.dp),
 				) {
@@ -53,19 +57,20 @@ fun TopAppBar(
 			null
 		}
 	val titleAdd: (@Composable () -> Unit)? = when (screen) {
-		"Select your favorite topics",
-		"Welcome Back \uD83D\uDC4B",
-		"Welcome to NewsToDay",
-		"Browse", "Categories",
-		"Bookmarks" -> {
+		stringResource(id = R.string.select_favorite),
+		stringResource(id = R.string.welcome_back),
+		stringResource(id = R.string.welcome_to_news),
+		stringResource(id = R.string.browse),
+		stringResource(id = R.string.categories),
+		stringResource(id = R.string.bookmarks) -> {
 			{
 				val categoryText = when (screen) {
-					"Select your favorite topics" -> "Select some of your favorite topics to let us suggest better news for you."
-					"Welcome Back \uD83D\uDC4B" -> "I am happy to see you again. You can continue where you left off by logging in"
-					"Welcome to NewsToDay" -> "Hello, I guess you are new around here. You can start using the application after sign up."
-					"Browse" -> "Discover things of this world"
-					"Categories" -> "Thousands of articles in each category"
-					"Bookmarks" -> "Saved articles to the library"
+					stringResource(id = R.string.select_favorite) -> stringResource(id = R.string.select_favorite_description)
+					stringResource(id = R.string.welcome_back) -> stringResource(id = R.string.welcome_back_description)
+					stringResource(id = R.string.welcome_to_news) -> stringResource(id = R.string.welcome_to_news_description)
+					stringResource(id = R.string.browse) -> stringResource(id = R.string.browse_description)
+					stringResource(id = R.string.categories) -> stringResource(id = R.string.categories_description)
+					stringResource(id = R.string.bookmarks) -> stringResource(id = R.string.bookmarks_description)
 					else -> ""
 				}
 				Text(
@@ -108,10 +113,18 @@ fun TopAppBar(
 						lineHeight = 32.sp,
 						color = Color(0xFF333647)
 					),
-					textAlign = if (screen.contains("Terms & Conditions") || screen.contains("Language")) TextAlign.Center else TextAlign.Start,
+					textAlign = if (screen.contains(stringResource(id = R.string.terms_conditions)) || screen.contains(
+							stringResource(id = R.string.language_language)
+						)
+					) TextAlign.Center else TextAlign.Start,
 					modifier = Modifier
 						.fillMaxWidth()
-						.offset(x = if (screen.contains("Terms & Conditions") || screen.contains("Language")) (-20).dp else 0.dp)
+						.offset(
+							x = if (screen.contains(stringResource(id = R.string.terms_conditions)) || screen.contains(
+									stringResource(id = R.string.language_language)
+								)
+							) (-20).dp else 0.dp
+						)
 				)
 				if (titleAdd != null) {
 					titleAdd()
@@ -125,6 +138,6 @@ fun TopAppBar(
 @Composable
 fun TopAppBarPreview() {
 	NewsToDayTheme {
-		TopAppBar(screen = "Language") {}
+		TopAppBarCust(screen = "Язык") {}
 	}
 }

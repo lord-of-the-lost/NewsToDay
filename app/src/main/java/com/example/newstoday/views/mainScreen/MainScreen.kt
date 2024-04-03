@@ -79,7 +79,7 @@ fun MainScreen() {
                 shape = RoundedCornerShape(12.dp),
                 colors = SearchBarDefaults.colors(containerColor = Color(0xFFF3F4F6)),
                 query = searchText.value,
-                onQueryChange = {text ->
+                onQueryChange = { text ->
                     searchText.value = text
                 },
                 onSearch = {
@@ -108,35 +108,24 @@ fun MainScreen() {
                     }
                 },
                 active = false,
-                onActiveChange ={
+                onActiveChange = {
                 }
             ) {
             }
 
-            val categoriesList = listOf(
-                "Random",
-                "Sports",
-                "Politics",
-                "Life",
-                "Gaming",
-                "Animals",
-                "Nature",
-                "Food",
-                "Art",
-                "History",
-                "Fashion"
-            )
-            val activeCategoryIndex = remember {mutableIntStateOf(0)}
+            val categoriesList =
+                listOf("Random", "Sportscghfdg", "Li", "Gaming", "Politics", "Animals")
+            val activeCategoryIndex = remember { mutableIntStateOf(0) }
 
             LazyRow(    //category buttons
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 24.dp, start = 20.dp),
+                    .padding(bottom = 24.dp, start = 20.dp),     /*TODO*/
                 horizontalArrangement = Arrangement.Absolute.spacedBy(16.dp)
             ) {
                 itemsIndexed(
                     categoriesList
-                ){index, item ->
+                ) { index, item ->
                     Box(
                         modifier = Modifier
                             .clip(CircleShape)
@@ -174,7 +163,7 @@ fun MainScreen() {
             LazyRow(    //news cards
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 20.dp),
+                    .padding(start = 20.dp),     /*TODO*/
                 horizontalArrangement = Arrangement.Absolute.spacedBy(16.dp)
             ) {
                 items(cardList) { card ->
@@ -183,7 +172,7 @@ fun MainScreen() {
             }
             RecommendedHeader()
         }
-        
+
 //      Recommended items
         items(recommendedNewsList) { it ->
             CardNews(newsArticle = it, onArticlePage = {})
@@ -191,7 +180,6 @@ fun MainScreen() {
     }
 
 }
-
 
 
 @Composable
@@ -284,8 +272,8 @@ fun CardItem(card: CardInfo) {
     }
 }
 
-@Preview (showBackground = true)
+@Preview(showBackground = true)
 @Composable
-fun MainScreenPreview(){
+fun MainScreenPreview() {
     MainScreen()
 }

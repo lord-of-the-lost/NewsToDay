@@ -67,7 +67,7 @@ fun RecommendedHeader() {
             )
             Text(
                 modifier = Modifier
-                    .clickable {  },
+                    .clickable { },
                 text = "See All",
                 fontFamily = inter,
                 fontWeight = FontWeight(500),
@@ -86,7 +86,7 @@ fun RecommendedHeader() {
 fun CardNews(newsArticle: RecommendedNewsArticle, onArticlePage: () -> Unit) {
     Card(
         colors = CardDefaults.cardColors(Color.White),
-        onClick = { onArticlePage }
+        onClick = { onArticlePage() }
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -110,7 +110,7 @@ fun CardNews(newsArticle: RecommendedNewsArticle, onArticlePage: () -> Unit) {
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = newsArticle.category ?: "",
+                    text = newsArticle.category,
                     style = TextStyle(
                         fontFamily = inter,
                         fontSize = 14.sp,
