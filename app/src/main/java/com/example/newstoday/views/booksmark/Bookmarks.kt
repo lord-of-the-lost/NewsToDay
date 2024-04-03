@@ -37,59 +37,63 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
 import com.example.newstoday.R
+import com.example.newstoday.core.NewsViewModel
 
 
 @SuppressLint("SuspiciousIndentation")
 @Composable
-fun Booksmarks() {
+fun Bookmarks(
+    modifier: Modifier,
+    navController: NavController,
+    viewModel: NewsViewModel
+) {
     var listNews by remember { mutableStateOf<List<NewsArticle>>(emptyList()) }
     listNews = createSampleNewsArticles()
-        if (listNews.isEmpty()) {
-                Column(modifier = Modifier
-                    .padding(vertical = 322.dp, horizontal = 60.dp)
-                    .width(256.dp)
-                    .height(168.dp)) {
-                    Box(
-                        modifier = Modifier
-                            .width(72.dp)
-                            .height(72.dp)
-                            .background(color = Color(0xFFEEF0FB), shape = RoundedCornerShape(100))
-                            .align(Alignment.CenterHorizontally)
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.vector),
-                            contentDescription = null,
-                            contentScale = ContentScale.Fit,
-                            modifier = Modifier
-                                .width(16.dp)
-                                .height(20.dp)
-                                .align(Alignment.Center)
-                        )
-                    }
+    if (listNews.isEmpty()) {
+        Column(
+            modifier = modifier
+        ) {
+            Box(
+                modifier = Modifier
+                    .width(72.dp)
+                    .height(72.dp)
+                    .background(color = Color(0xFFEEF0FB), shape = RoundedCornerShape(100))
+                    .align(Alignment.CenterHorizontally)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.vector),
+                    contentDescription = null,
+                    contentScale = ContentScale.Fit,
+                    modifier = Modifier
+                        .width(16.dp)
+                        .height(20.dp)
+                        .align(Alignment.Center)
+                )
+            }
 
-                        Text(
-                            text = "You haven't saved any articles yet.  Start reading and bookmarking them now",
-                            textAlign = TextAlign.Center,
-                            style = MaterialTheme.typography.labelMedium,
+            Text(
+                text = "You haven't saved any articles yet.  Start reading and bookmarking them now",
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.labelMedium,
 
-                            )
+                )
 
-                }
+        }
 
-        } else {
-            LazyColumn(modifier = Modifier
-                .padding(top = 168.dp, start = 20.dp)
-                .width(336.dp)
-                .height(96.dp)) {
-                items(listNews) { it ->
-                    CardNews(newsArticle = it, onArticlePage = {})
-                }
+    } else {
+        LazyColumn(
+            modifier = modifier
+        ) {
+            items(listNews) { it ->
+                CardNews(newsArticle = it, onArticlePage = {})
             }
         }
+    }
 }
 
 
@@ -98,7 +102,7 @@ fun Booksmarks() {
 fun CardNews(newsArticle: NewsArticle, onArticlePage: () -> Unit) {
     Card(
         colors = CardDefaults.cardColors(Color.White),
-        onClick = { onArticlePage }
+        onClick = { onArticlePage() }
     ) {
         Row(
             modifier = Modifier
@@ -259,8 +263,8 @@ fun createSampleNewsArticles(): List<NewsArticle> {
     return articles
 }
 
-@Preview(showBackground = true)
-@Composable
-fun BooksmarksPreview() {
-    Booksmarks()
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun BooksmarksPreview() {
+//    Booksmarks()
+//}

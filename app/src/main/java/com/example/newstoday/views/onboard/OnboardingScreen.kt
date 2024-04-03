@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -44,7 +43,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.newstoday.R
+import com.example.newstoday.navigation.Screen
 import com.example.newstoday.ui.theme.NewsToDayTheme
 import com.example.newstoday.ui.theme.inter
 import kotlinx.coroutines.launch
@@ -52,7 +53,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun OnboardingScreen() {
+fun OnboardingScreen(modifier: Modifier, navController: NavController) {
     val listOfImages = listOf(
         R.drawable._01,
         R.drawable._02,
@@ -84,9 +85,8 @@ fun OnboardingScreen() {
     )
 
     Column(
-        modifier = Modifier
-            .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         HorizontalPager(
             modifier = Modifier
@@ -188,7 +188,7 @@ fun OnboardingScreen() {
             onClick = {
                 pagerScope.launch { pagerState.scrollToPage(pagerState.currentPage + 1) }
                 if (buttonTexts[buttonTextIndex] == "Get Started" || buttonTexts[buttonTextIndex] == "Начать") {
-                    //переходим на следующий экран
+                    navController.navigate(Screen.CategoriesScreen.route)
                 }
             }) {
             Text(
@@ -204,10 +204,10 @@ fun OnboardingScreen() {
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun OnboardingScreenPreview() {
-    NewsToDayTheme {
-        OnboardingScreen()
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun OnboardingScreenPreview() {
+//    NewsToDayTheme {
+//        OnboardingScreen()
+//    }
+//}

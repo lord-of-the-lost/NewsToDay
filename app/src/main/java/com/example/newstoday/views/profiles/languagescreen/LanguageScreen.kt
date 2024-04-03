@@ -41,11 +41,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.os.LocaleListCompat
-import androidx.navigation.NavHostController
+import androidx.navigation.NavController
 import com.example.newstoday.R
+import com.example.newstoday.core.NewsViewModel
+import com.example.newstoday.navigation.Screen
 import com.example.newstoday.ui.theme.NewsToDayTheme
 import com.example.newstoday.ui.theme.inter
-import com.example.newstoday.views.profiles.screen.Screen
 import com.example.newstoday.views.topappbar.TopAppBarCust
 
 enum class Language {
@@ -54,13 +55,17 @@ enum class Language {
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun LanguageScreen(navController: NavHostController) {
+fun LanguageScreen(
+	modifier: Modifier,
+	navController: NavController,
+	viewModel: NewsViewModel
+) {
 	
 	Scaffold(
 		topBar = {
 			TopAppBarCust(
 				screen = stringResource(id = R.string.language_language),
-				backToProfile = { navController.navigate(Screen.ProfileScreen.route) }
+				backToProfile = { navController.popBackStack() }
 			)
 		}
 	) { innerPadding ->
