@@ -54,29 +54,6 @@ import com.example.newstoday.views.mainScreen.recommended.RecommendedHeader
 import com.example.newstoday.views.mainScreen.recommended.RecommendedNewsArticle
 import com.example.newstoday.views.mainScreen.recommended.createSampleNewsArticles
 
-val cardList = listOf(
-    CardInfo(
-        "The latest situation in the presidential election",
-        "politics",
-        R.drawable._04
-    ),
-    CardInfo(
-        "An updated daily front page",
-        "art",
-        R.drawable.test_news_img5
-    ),
-    CardInfo(
-        "Text of News #3",
-        "sport",
-        R.drawable.test_news_img6
-    ),
-    CardInfo(
-        "News #4",
-        "life",
-        R.drawable.test_news_img1
-    ),
-)
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen() {
