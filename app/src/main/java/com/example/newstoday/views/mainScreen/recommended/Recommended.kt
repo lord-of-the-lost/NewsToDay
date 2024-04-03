@@ -76,16 +76,6 @@ fun RecommendedHeader() {
                 lineHeight = 24.sp,
             )
         }
-
-//        LazyColumn(
-//            modifier = Modifier
-//                .fillMaxSize()
-//                .padding(top = 24.dp)
-//        ) {
-//
-//        }
-
-
     }
 
     Spacer(modifier = Modifier.height(24.dp))

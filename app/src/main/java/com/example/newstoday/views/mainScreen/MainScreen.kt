@@ -54,7 +54,6 @@ import com.example.newstoday.views.mainScreen.recommended.RecommendedHeader
 import com.example.newstoday.views.mainScreen.recommended.RecommendedNewsArticle
 import com.example.newstoday.views.mainScreen.recommended.createSampleNewsArticles
 
-data class CardInfo(val title: String, val category: String, val imageId: Int)
 val cardList = listOf(
     CardInfo(
         "The latest situation in the presidential election",
@@ -137,13 +136,25 @@ fun MainScreen() {
             ) {
             }
 
-            val categoriesList = listOf("Random", "Sportscghfdg", "Li", "Gaming", "Politics", "Animals")
+            val categoriesList = listOf(
+                "Random",
+                "Sports",
+                "Politics",
+                "Life",
+                "Gaming",
+                "Animals",
+                "Nature",
+                "Food",
+                "Art",
+                "History",
+                "Fashion"
+            )
             val activeCategoryIndex = remember {mutableIntStateOf(0)}
 
             LazyRow(    //category buttons
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 24.dp, start = 20.dp),     /*TODO*/
+                    .padding(bottom = 24.dp, start = 20.dp),
                 horizontalArrangement = Arrangement.Absolute.spacedBy(16.dp)
             ) {
                 itemsIndexed(
@@ -186,7 +197,7 @@ fun MainScreen() {
             LazyRow(    //news cards
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 20.dp),     /*TODO*/
+                    .padding(start = 20.dp),
                 horizontalArrangement = Arrangement.Absolute.spacedBy(16.dp)
             ) {
                 items(cardList) { card ->
