@@ -47,7 +47,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.newstoday.R
+import com.example.newstoday.core.NewsViewModel
+import com.example.newstoday.navigation.Screen
 import com.example.newstoday.ui.theme.inter
 import com.example.newstoday.views.mainScreen.recommended.CardNews
 import com.example.newstoday.views.mainScreen.recommended.RecommendedHeader
@@ -56,16 +59,17 @@ import com.example.newstoday.views.mainScreen.recommended.createSampleNewsArticl
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen() {
+fun MainScreen(
+    modifier: Modifier,
+    navController: NavController,
+    viewModel: NewsViewModel
+) {
 
     var recommendedNewsList by remember { mutableStateOf<List<RecommendedNewsArticle>>(emptyList()) }
     recommendedNewsList = createSampleNewsArticles()
 
     LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 168.dp)
-            .background(Color.White),
+        modifier = modifier
     ) {
         item {
             val searchText = remember {
@@ -163,7 +167,7 @@ fun MainScreen() {
             LazyRow(    //news cards
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 20.dp),     /*TODO*/
+                    .padding(start = 20.dp),
                 horizontalArrangement = Arrangement.Absolute.spacedBy(16.dp)
             ) {
                 items(cardList) { card ->
@@ -175,7 +179,7 @@ fun MainScreen() {
 
 //      Recommended items
         items(recommendedNewsList) { it ->
-            CardNews(newsArticle = it, onArticlePage = {})
+            CardNews(newsArticle = it, navController)
         }
     }
 
@@ -187,7 +191,6 @@ fun CardItem(card: CardInfo) {
     val gradient = Brush.verticalGradient(
         colors = listOf(Color(0x0022242F), Color(0x7A22242F))
     )
-
     Card(
     ) {
         Box(
@@ -231,7 +234,7 @@ fun CardItem(card: CardInfo) {
                     IconButton(
                         modifier = Modifier
                             .size(24.dp),
-                        onClick = { /*TODO*/ }) {
+                        onClick = { }) {
                         Icon(
                             modifier = Modifier
                                 .size(14.dp, 20.dp),
@@ -272,8 +275,8 @@ fun CardItem(card: CardInfo) {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun MainScreenPreview() {
-    MainScreen()
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun MainScreenPreview() {
+//    MainScreen()
+//}

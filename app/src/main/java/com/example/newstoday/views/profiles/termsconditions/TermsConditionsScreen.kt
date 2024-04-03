@@ -17,57 +17,61 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
+import androidx.navigation.NavController
 import com.example.newstoday.R
+import com.example.newstoday.core.NewsViewModel
+import com.example.newstoday.navigation.Screen
 import com.example.newstoday.ui.theme.NewsToDayTheme
 import com.example.newstoday.ui.theme.inter
-import com.example.newstoday.views.profiles.screen.Screen
 import com.example.newstoday.views.topappbar.TopAppBarCust
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun TermsConditionsScreen(navController: NavHostController) {
-	Scaffold(topBar = {
-		TopAppBarCust(
-			screen = stringResource(id = R.string.terms_conditions),
-			backToProfile = { navController.navigate(Screen.ProfileScreen.route) })
-	})
-	
-	{ innerPadding ->
-		Column(
-			modifier = Modifier
-				.padding(innerPadding)
-				.fillMaxSize()
-		) {
-			ScrollableText()
-		}
-	}
+fun TermsConditionsScreen(
+    modifier: Modifier,
+    navController: NavController,
+    viewModel: NewsViewModel
+) {
+    Scaffold(topBar = {
+        TopAppBarCust(
+            screen = stringResource(id = R.string.terms_conditions),
+            backToProfile = { navController.popBackStack() })
+    })
+
+    { innerPadding ->
+        Column(
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize()
+        ) {
+            ScrollableText()
+        }
+    }
 }
 
 @Composable
 fun ScrollableText() {
-	
-	Text(
-		modifier = Modifier
-			.padding(20.dp)
-			.verticalScroll(rememberScrollState()),
-		text = stringResource(id = R.string.terms_conditions_text),
-		style = TextStyle(
-			fontFamily = inter,
-			fontSize = 16.sp,
-			fontWeight = FontWeight.Normal,
-			lineHeight = 24.sp,
-			color = Color(0xFF7C82A1)
-		),
-	)
+    Text(
+        modifier = Modifier
+            .padding(20.dp)
+            .verticalScroll(rememberScrollState()),
+        text = stringResource(id = R.string.terms_conditions_text),
+        style = TextStyle(
+            fontFamily = inter,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Normal,
+            lineHeight = 24.sp,
+            color = Color(0xFF7C82A1)
+        ),
+    )
 }
 
 
 @Preview(showBackground = true)
 @Composable
 fun TermsConditionsScreenPreview() {
-	NewsToDayTheme {
-		ScrollableText()
-	}
+    NewsToDayTheme {
+        ScrollableText()
+    }
 }

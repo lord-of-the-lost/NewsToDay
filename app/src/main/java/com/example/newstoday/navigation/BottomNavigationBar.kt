@@ -31,19 +31,23 @@ fun BottomNavigationBar(navController: NavController) {
         val currentRoute = currentRoute(navController)
         listOf(
             Screen.Home,
-            Screen.Categories,
+            Screen.CategoriesScreen,
             Screen.Bookmarks,
             Screen.Profile
         ).forEach { screen ->
             val isSelected = currentRoute == screen.route
             BottomNavigationItem(
                 icon = {
-                    Icon(
-                        painter = painterResource(id = screen.iconResourceId),
-                        contentDescription = null,
-                        tint = if (isSelected) screen.activeColor else Color(0xFFACAFC3),
-                        modifier = Modifier.size(24.dp)
-                    )
+                    screen.iconResourceId?.let { painterResource(id = it) }?.let {
+                        (if (isSelected) screen.activeColor else Color(0xFFACAFC3))?.let { it1 ->
+                            Icon(
+                                painter = it,
+                                contentDescription = null,
+                                tint = it1,
+                                modifier = Modifier.size(24.dp)
+                            )
+                        }
+                    }
                 },
                 selected = isSelected,
                 onClick = {

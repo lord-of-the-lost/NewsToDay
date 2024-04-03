@@ -33,10 +33,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
 import com.example.newstoday.R
+import com.example.newstoday.navigation.Screen
 import com.example.newstoday.ui.theme.inter
 
 
@@ -83,10 +85,10 @@ fun RecommendedHeader() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CardNews(newsArticle: RecommendedNewsArticle, onArticlePage: () -> Unit) {
+fun CardNews(newsArticle: RecommendedNewsArticle, navController: NavController) {
     Card(
         colors = CardDefaults.cardColors(Color.White),
-        onClick = { onArticlePage() }
+        onClick = { navController.navigate(Screen.NewsScreen.route) }
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,

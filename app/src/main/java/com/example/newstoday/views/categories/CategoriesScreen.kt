@@ -29,15 +29,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.example.newstoday.core.NewsViewModel
 import com.example.newstoday.ui.theme.inter
 
 @Composable
-fun Categories(){
+fun CategoriesScreen(
+    modifier: Modifier,
+    navController: NavController,
+    viewModel: NewsViewModel
+) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 192.dp)
-            .background(Color.White),
+        modifier = modifier
     ) {
 
         LazyVerticalGrid(
@@ -111,8 +114,8 @@ fun Categories(){
     }
 }
 
-@Preview (showBackground = true)
-@Composable
-fun CategoriesPreview(){
-    Categories()
-}
+//@Preview (showBackground = true)
+//@Composable
+//fun CategoriesPreview(){
+//    Categories()
+//}

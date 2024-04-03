@@ -34,12 +34,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.newstoday.R
+import com.example.newstoday.core.NewsViewModel
 import com.example.newstoday.ui.theme.NewsToDayTheme
 import com.example.newstoday.ui.theme.inter
 
 @Composable
-fun ArticlePageScreen(label: String, heading: String, writer: String, article: String) {
+fun ArticlePageScreen(
+    modifier: Modifier,
+    navController: NavController,
+    viewModel: NewsViewModel
+) {
     val gradient = Brush.verticalGradient(
         colors = listOf(Color(0x0022242F), Color(0x7A22242F))
     )
@@ -86,7 +92,7 @@ fun ArticlePageScreen(label: String, heading: String, writer: String, article: S
                     IconButton(
                         modifier = Modifier
                             .size(24.dp),
-                        onClick = { /*TODO*/ }) {
+                        onClick = { navController.popBackStack() }) {
                         Icon(
                             modifier = Modifier
                                 .size(12.dp),
@@ -141,7 +147,7 @@ fun ArticlePageScreen(label: String, heading: String, writer: String, article: S
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = label,
+                    text = "label",
                     fontFamily = inter,
                     fontWeight = FontWeight.Normal,
                     fontSize = 12.sp,
@@ -149,7 +155,7 @@ fun ArticlePageScreen(label: String, heading: String, writer: String, article: S
                 )
             }
             Text(
-                text = heading,
+                text = "heading",
                 lineHeight = 28.sp,
                 fontFamily = inter,
                 fontWeight = FontWeight.Bold,
@@ -159,7 +165,7 @@ fun ArticlePageScreen(label: String, heading: String, writer: String, article: S
                     .padding(start = 20.dp, top = 216.dp, end = 20.dp)
             )
             Text(
-                text = writer,
+                text = "writer",
                 fontFamily = inter,
                 fontWeight = FontWeight.W600,
                 fontSize = 16.sp,
@@ -178,7 +184,7 @@ fun ArticlePageScreen(label: String, heading: String, writer: String, article: S
             )
         }
         Text(
-            text = article,
+            text = "article",
             lineHeight = 24.sp,
             fontFamily = inter,
             fontWeight = FontWeight.Normal,
@@ -191,22 +197,22 @@ fun ArticlePageScreen(label: String, heading: String, writer: String, article: S
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun ArticlePageScreenPreview() {
-    NewsToDayTheme {
-        ArticlePageScreen(
-            stringResource(id = R.string.politics),
-            "The latest situation in the presidential election",
-            "John Doe",
-            "Leads in individual states may change from one party to another as all the votes are counted. Select a state for detailed results, and select the Senate, House or Governor tabs to view those races.\n" +
-                    "\n" +
-                    "For more detailed state results click on the States A-Z links at the bottom of this page. Results source: NEP/Edison via Reuters.\n" +
-                    "\n" +
-                    "Leads in individual states may change from one party to another as all the votes are counted. Select a state for detailed results, and select the Senate, House or Governor tabs to view those races.\n" +
-                    "\n" +
-                    "For more detailed state results click on the States A-Z links at the bottom of this page. Results source: NEP/Edison via Reuters." +
-                    ""
-        )
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun ArticlePageScreenPreview() {
+//    NewsToDayTheme {
+//        ArticlePageScreen(
+//            stringResource(id = R.string.politics),
+//            "The latest situation in the presidential election",
+//            "John Doe",
+//            "Leads in individual states may change from one party to another as all the votes are counted. Select a state for detailed results, and select the Senate, House or Governor tabs to view those races.\n" +
+//                    "\n" +
+//                    "For more detailed state results click on the States A-Z links at the bottom of this page. Results source: NEP/Edison via Reuters.\n" +
+//                    "\n" +
+//                    "Leads in individual states may change from one party to another as all the votes are counted. Select a state for detailed results, and select the Senate, House or Governor tabs to view those races.\n" +
+//                    "\n" +
+//                    "For more detailed state results click on the States A-Z links at the bottom of this page. Results source: NEP/Edison via Reuters." +
+//                    ""
+//        )
+//    }
+//}
