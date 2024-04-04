@@ -8,11 +8,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.newstoday.core.NewsViewModel
 import com.example.newstoday.navigation.MainNavigationScreen
 import com.example.newstoday.ui.theme.NewsToDayTheme
-import com.example.newstoday.views.authorizationScreen.LoginScreen
-import com.example.newstoday.views.authorizationScreen.RegistrationScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
