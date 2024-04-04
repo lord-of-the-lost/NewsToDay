@@ -192,53 +192,6 @@ fun CoilImage(
     }
 }
 
-
-fun createSampleNewsArticles(): List<RecommendedNewsArticle> {
-    val articles = mutableListOf<RecommendedNewsArticle>()
-
-    // News article 1
-    val article1 = RecommendedNewsArticle(
-        title = "Solana Leads Way As Most Big Cryptocurrencies Post Gains",
-        category = "Politics",
-        urlToImage = "https://www.marketscreener.com/images/twitter_MS_fdblanc.png",
-    )
-    articles.add(article1)
-
-    // News article 2
-    val article2 = RecommendedNewsArticle(
-        title = "Tesla's Tactical Change May Deliver Fewer Vehicles But Could Raise Profitability: Analyst",
-        category = "Art",
-        urlToImage = "https://c.biztoc.com/p/575a8ed47d52d396/s.webp",
-    )
-    articles.add(article2)
-
-    // News article 3
-    val article3 = RecommendedNewsArticle(
-        title = "Tesla offers a CyberHammer to people who help sell its cars",
-        category = "Life",
-        urlToImage = "https://c.biztoc.com/p/145525bf59633574/s.webp",
-    )
-    articles.add(article3)
-
-    // News article 4
-    val article4 = RecommendedNewsArticle(
-        title = "US DOJ Gives Us Another Reason Automakers Might Be Ditching Apple CarPlay",
-        category = "Sports",
-        urlToImage = "https://cleantechnica.com/wp-content/uploads/2024/03/Apple-Vision-Pro-Press-Photo.png",
-    )
-    articles.add(article4)
-
-    // News article 5
-    val article5 = RecommendedNewsArticle(
-        title = "Solana Leads Way As Most Big Cryptocurrencies Post Gains",
-        category = "Politics",
-        urlToImage = "https://www.marketscreener.com/images/twitter_MS_fdblanc.png",
-    )
-    articles.add(article5)
-
-    return articles
-}
-
 @Preview(showBackground = true)
 @Composable
 fun RecommendedPreview() {
