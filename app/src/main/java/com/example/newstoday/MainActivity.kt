@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.newstoday.core.NewsViewModel
 import com.example.newstoday.navigation.MainNavigationScreen
@@ -20,6 +21,9 @@ import com.example.newstoday.views.authorizationScreen.RegistrationScreen
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen().setKeepOnScreenCondition{
+            false
+        }
         //enableEdgeToEdge()
         setContent {
             val viewModel: NewsViewModel = viewModel()

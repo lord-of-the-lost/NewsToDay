@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.NewsToDay.MySplash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/purple_darker</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/avd_newstoday</item>
+        <item name="windowSplashScreenAnimationDuration">1000</item>
+        <item name="postSplashScreenTheme">@style/Theme.NewsToDay</item>
+    </style>
+</resources>
