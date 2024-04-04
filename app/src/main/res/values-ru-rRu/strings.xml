@@ -54,4 +54,5 @@
     <string name="already_have_an_account">У Вас уже есть учетная запись?</string>
     <string name="language">Russian</string>
     <string name="browse">Выбрать</string>
+    <string name="username">Никнейм</string>
 </resources>

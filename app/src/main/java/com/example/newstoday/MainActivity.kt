@@ -11,10 +11,15 @@ import androidx.compose.ui.Modifier
 import com.example.newstoday.core.NewsViewModel
 import com.example.newstoday.navigation.MainNavigationScreen
 import com.example.newstoday.ui.theme.NewsToDayTheme
+import com.example.newstoday.views.authorizationScreen.LoginScreen
+import com.example.newstoday.views.authorizationScreen.RegistrationScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen().setKeepOnScreenCondition{
+            false
+        }
         //enableEdgeToEdge()
         val viewModel: NewsViewModel by viewModels()
         setContent {
