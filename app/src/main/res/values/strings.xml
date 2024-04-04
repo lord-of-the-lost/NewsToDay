@@ -55,4 +55,5 @@
     <string name="ru" translatable="false">Русский</string>
     <string name="language">English</string>
     <string name="browse">Browse</string>
+    <string name="username">Username</string>
 </resources>
