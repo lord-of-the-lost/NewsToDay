@@ -48,13 +48,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.rememberImagePainter
 import com.example.newstoday.R
+import com.example.newstoday.core.ArticleModel
 import com.example.newstoday.core.NewsViewModel
 import com.example.newstoday.ui.theme.inter
 import com.example.newstoday.views.mainScreen.recommended.CardNews
 import com.example.newstoday.views.mainScreen.recommended.RecommendedHeader
-import com.example.newstoday.views.mainScreen.recommended.RecommendedNewsArticle
-import com.example.newstoday.views.mainScreen.recommended.createSampleNewsArticles
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -64,8 +64,8 @@ fun MainScreen(
     viewModel: NewsViewModel
 ) {
 
-    var recommendedNewsList by remember { mutableStateOf<List<RecommendedNewsArticle>>(emptyList()) }
-    recommendedNewsList = createSampleNewsArticles
+    var recommendedNewsList by remember { mutableStateOf<List<ArticleModel>>(emptyList()) }
+    recommendedNewsList = viewModel.recomendedNewsResponse.value ?: emptyList()
 
     LazyColumn(
         modifier = modifier
@@ -87,6 +87,7 @@ fun MainScreen(
                     searchText.value = text
                 },
                 onSearch = {
+                    viewModel.loadEverything(it)
                 },
                 leadingIcon = {
                     Icon(
@@ -182,7 +183,7 @@ fun MainScreen(
                     .padding(start = 20.dp),
                 horizontalArrangement = Arrangement.Absolute.spacedBy(16.dp)
             ) {
-                items(cardList) { card ->
+                items(viewModel.bigItemsResponse.value ?: emptyList()) { card ->
                     CardItem(card)
                 }
             }
@@ -204,18 +205,16 @@ fun MainScreen(
                     fontWeight = FontWeight(500),
                 )
             }
-        }
-        else {
+        } else {
             items(recommendedNewsList) { it ->
-                CardNews(newsArticle = it, navController)
-        }}
+                CardNews(article = it, navController)
+            }
+        }
     }
-
 }
 
-
 @Composable
-fun CardItem(card: CardInfo) {
+fun CardItem(article: ArticleModel) {
     val gradient = Brush.verticalGradient(
         colors = listOf(Color(0x0022242F), Color(0x7A22242F))
     )
@@ -223,7 +222,7 @@ fun CardItem(card: CardInfo) {
     ) {
 
         var isBookmarkedArticle by remember {
-            mutableStateOf(card.bookmarked)
+            mutableStateOf(article.isBookmarked)
         }
 
         Box(
@@ -234,7 +233,7 @@ fun CardItem(card: CardInfo) {
                 .clickable { }
         ) {
             Image(
-                painter = painterResource(id = card.imageId),
+                painter = rememberImagePainter(article.urlToImage),
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxSize()
@@ -269,7 +268,7 @@ fun CardItem(card: CardInfo) {
                             .size(24.dp),
                         onClick = {
                             isBookmarkedArticle = !isBookmarkedArticle
-                            card.bookmarked = isBookmarkedArticle
+                            article.isBookmarked = isBookmarkedArticle
                         }) {
                         Icon(
                             modifier = Modifier
@@ -292,7 +291,7 @@ fun CardItem(card: CardInfo) {
                     verticalArrangement = Arrangement.Bottom
                 ) {
                     Text(
-                        text = card.category.uppercase(),
+                        text = article.tag.uppercase(),
                         fontFamily = inter,
                         lineHeight = 16.sp,
                         fontSize = 12.sp,
@@ -303,7 +302,7 @@ fun CardItem(card: CardInfo) {
                     )
 
                     Text(
-                        text = card.title,
+                        text = article.title,
                         fontFamily = inter,
                         lineHeight = 24.sp,
                         fontSize = 16.sp,

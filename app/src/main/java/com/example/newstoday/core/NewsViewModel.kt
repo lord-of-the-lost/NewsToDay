@@ -36,7 +36,8 @@ class NewsViewModel(application: Application) : AndroidViewModel(application) {
         NewsRepository(apiService, articleDao)
     }
     var initialCategorySetupCompleted = mutableStateOf(false)
-    var newsResponse: MutableState<List<Article>?> = mutableStateOf(null)
+    var recomendedNewsResponse: MutableState<List<ArticleModel>?> = mutableStateOf(null)
+    var bigItemsResponse: MutableState<List<ArticleModel>?> = mutableStateOf(null)
     var errorMessage: MutableState<String?> = mutableStateOf(null)
 
     init {
@@ -47,13 +48,12 @@ class NewsViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             try {
                 val response = repository.getTopHeadlines(country, apiKey)
-                if (response != null) {
-                    newsResponse.value = response
-                } else {
-                    errorMessage.value = "Не удалось загрузить заголовки новостей."
+                response?.let {
+                    val filteredArticles = ArticleUseCases.filterRemovedArticles(it)
+                    bigItemsResponse.value = filteredArticles.map(ArticleUseCases::mapArticleToArticleModel)
                 }
             } catch (e: Exception) {
-                errorMessage.value = "Ошибка сети: ${e.message}"
+                errorMessage.value = "Не удалось загрузить заголовки новостей: ${e.message}"
             }
         }
     }
@@ -62,40 +62,39 @@ class NewsViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             try {
                 val response = repository.getEverything(query, apiKey)
-                if (response != null) {
-                    newsResponse.value = response
-                } else {
-                    errorMessage.value = "Не удалось загрузить все новости."
+                response?.let {
+                    val filteredArticles = ArticleUseCases.filterRemovedArticles(it)
+                    bigItemsResponse.value = filteredArticles.map(ArticleUseCases::mapArticleToArticleModel)
                 }
             } catch (e: Exception) {
-                errorMessage.value = "Ошибка сети: ${e.message}"
+                errorMessage.value = "Не удалось загрузить все новости: ${e.message}"
             }
         }
     }
 
     fun loadArticlesByCategories(categories: List<String>) {
         viewModelScope.launch {
-            val results = mutableListOf<Article>()
+            val results = mutableListOf<ArticleModel>()
             categories.forEach { category ->
-                repository.getEverything(category, apiKey)?.let {
-                    results.addAll(it)
+                try {
+                    val articles = repository.getEverything(category, apiKey)
+                    articles?.let {
+                        val filteredArticles = ArticleUseCases.filterRemovedArticles(it)
+                        results.addAll(filteredArticles.map(ArticleUseCases::mapArticleToArticleModel))
+                    }
+                } catch (e: Exception) {
+                    errorMessage.value = "Ошибка при загрузке статей по категориям: ${e.message}"
                 }
             }
-            newsResponse.value = results.shuffled()
+            recomendedNewsResponse.value = results.shuffled()
         }
     }
 
-    fun saveArticle(article: Article) {
+    fun saveArticle(articleModel: ArticleModel) {
         viewModelScope.launch {
             try {
-                val imageData = downloadImage(article.urlToImage)
-                val articleEntity = ArticleEntity(
-                    id = article.url,
-                    author = article.author,
-                    title = article.title,
-                    content = article.content,
-                    imageData = imageData
-                )
+                val imageData = downloadImage(articleModel.urlToImage)
+                val articleEntity = ArticleUseCases.mapArticleModelToArticleEntity(articleModel).copy(imageData = imageData)
                 repository.saveArticle(articleEntity)
             } catch (e: Exception) {
                 errorMessage.value = "Не удалось сохранить статью: ${e.message}"
