@@ -118,13 +118,25 @@ fun MainScreen(
             }
             //endregion
 
-            val categoriesList = listOf(stringResource(id = R.string.random_Main), stringResource(id = R.string.sports_Main), stringResource(id = R.string.life_Main), stringResource(id = R.string.gaming_Main), stringResource(id = R.string.politics_Main), stringResource(id = R.string.animals_Main))
+            val  categoriesList = listOf(
+                stringResource(id = R.string.random_Main),
+                stringResource(id = R.string.sports_Main),
+                stringResource(id = R.string.politics_Main),
+                stringResource(id = R.string.life_Main),
+                stringResource(id = R.string.gaming_Main),
+                stringResource(id = R.string.animals_Main),
+                stringResource(id = R.string.nature_Main),
+                stringResource(id = R.string.food_Main),
+                stringResource(id = R.string.art_Main),
+                stringResource(id = R.string.history_Main),
+                stringResource(id = R.string.fashion_Main)
+            )
             val activeCategoryIndex = remember { mutableIntStateOf(0) }
 
             LazyRow(    //category tags-buttons
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 24.dp, start = 20.dp),     /*TODO*/
+                    .padding(bottom = 24.dp, start = 20.dp),
                 horizontalArrangement = Arrangement.Absolute.spacedBy(16.dp)
             ) {
                 itemsIndexed(
