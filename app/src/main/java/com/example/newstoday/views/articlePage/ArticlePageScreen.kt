@@ -53,7 +53,6 @@ fun ArticlePageScreen(
 	)
 	var isBookmarked by remember { mutableStateOf(false) }
 	
-	val bookmarkColor = if (isBookmarked) Color.Yellow else Color.White
 	Column(
 		modifier = Modifier
 			.fillMaxSize()
@@ -115,8 +114,13 @@ fun ArticlePageScreen(
 						Icon(
 							modifier = Modifier
 								.size(14.dp, 20.dp),
-							imageVector = ImageVector.vectorResource(R.drawable.bookmark),
-							tint = bookmarkColor,
+							imageVector = ImageVector.vectorResource(
+								if (isBookmarked)
+									R.drawable.selected_bookmark
+								else
+									R.drawable.bookmark
+							),
+							tint = Color.White,
 							contentDescription = null
 						)
 					}
