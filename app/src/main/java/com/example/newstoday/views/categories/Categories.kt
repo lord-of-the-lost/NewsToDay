@@ -1,47 +1,53 @@
 package com.example.newstoday.views.categories
 
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import com.example.newstoday.R
+
 data class Categories(val name: String, var selected: Boolean)
 
-
-val categoriesList = listOf(
-    Categories(
-        "\uD83C\uDFC8   Sports",
-        false,
-    ),
-    Categories(
-        "⚖\uFE0F   Politics",
-        false,
-    ),
-    Categories(
-        "\uD83C\uDF1E   Life",
-        false,
-    ),
-    Categories(
-        "\uD83C\uDFAE   Gaming",
-        false,
-    ),
-    Categories(
-        "\uD83D\uDC3B   Animals",
-        false,
-    ),
-    Categories(
-        "\uD83C\uDF34   Nature",
-        false,
-    ),
-    Categories(
-        "\uD83C\uDF54   Food",
-        false,
-    ),
-    Categories(
-        "\uD83C\uDFA8   Art",
-        false,
-    ),
-    Categories(
-        "\uD83D\uDCDC   History",
-        false,
-    ),
-    Categories(
-        "\uD83D\uDC57   Fashion",
-        false,
-    ),
-)
+@Composable
+fun categoriesList(): List<Categories> {
+	return listOf(
+		Categories(
+			stringResource(id = R.string.sports),
+			false,
+		),
+		Categories(
+			stringResource(id = R.string.politics),
+			false,
+		),
+		Categories(
+			stringResource(id = R.string.life),
+			false,
+		),
+		Categories(
+			stringResource(id = R.string.gaming),
+			false,
+		),
+		Categories(
+			stringResource(id = R.string.animals),
+			false,
+		),
+		Categories(
+			stringResource(id = R.string.nature),
+			false,
+		),
+		Categories(
+			stringResource(id = R.string.food),
+			false,
+		),
+		Categories(
+			stringResource(id = R.string.art),
+			false,
+		),
+		Categories(
+			stringResource(id = R.string.history),
+			false,
+		),
+		Categories(
+			stringResource(id = R.string.fashion),
+			false,
+		),
+	)
+}

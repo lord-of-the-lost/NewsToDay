@@ -35,6 +35,7 @@ class NewsViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: NewsRepository by lazy {
         NewsRepository(apiService, articleDao)
     }
+    var initialCategorySetupCompleted = mutableStateOf(false)
     var newsResponse: MutableState<List<Article>?> = mutableStateOf(null)
     var errorMessage: MutableState<String?> = mutableStateOf(null)
 
