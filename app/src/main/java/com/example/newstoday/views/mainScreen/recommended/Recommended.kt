@@ -27,6 +27,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -60,7 +61,7 @@ fun RecommendedHeader() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Recommended for you",
+                text = stringResource(id = R.string.recommended_for_you),
                 fontFamily = inter,
                 fontWeight = FontWeight(600),
                 fontSize = 20.sp,
@@ -70,7 +71,7 @@ fun RecommendedHeader() {
             Text(
                 modifier = Modifier
                     .clickable { },
-                text = "See All",
+                text = stringResource(id = R.string.see_All),
                 fontFamily = inter,
                 fontWeight = FontWeight(500),
                 fontSize = 14.sp,
@@ -193,13 +194,14 @@ fun CoilImage(
 }
 
 
+@Composable
 fun createSampleNewsArticles(): List<RecommendedNewsArticle> {
     val articles = mutableListOf<RecommendedNewsArticle>()
 
     // News article 1
     val article1 = RecommendedNewsArticle(
         title = "Solana Leads Way As Most Big Cryptocurrencies Post Gains",
-        category = "Politics",
+        category = stringResource(id = R.string.politics_Main),
         urlToImage = "https://www.marketscreener.com/images/twitter_MS_fdblanc.png",
     )
     articles.add(article1)
@@ -207,7 +209,7 @@ fun createSampleNewsArticles(): List<RecommendedNewsArticle> {
     // News article 2
     val article2 = RecommendedNewsArticle(
         title = "Tesla's Tactical Change May Deliver Fewer Vehicles But Could Raise Profitability: Analyst",
-        category = "Art",
+        category = stringResource(id = R.string.art_Main),
         urlToImage = "https://c.biztoc.com/p/575a8ed47d52d396/s.webp",
     )
     articles.add(article2)
@@ -215,7 +217,7 @@ fun createSampleNewsArticles(): List<RecommendedNewsArticle> {
     // News article 3
     val article3 = RecommendedNewsArticle(
         title = "Tesla offers a CyberHammer to people who help sell its cars",
-        category = "Life",
+        category = stringResource(id = R.string.life_Main),
         urlToImage = "https://c.biztoc.com/p/145525bf59633574/s.webp",
     )
     articles.add(article3)
@@ -223,7 +225,7 @@ fun createSampleNewsArticles(): List<RecommendedNewsArticle> {
     // News article 4
     val article4 = RecommendedNewsArticle(
         title = "US DOJ Gives Us Another Reason Automakers Might Be Ditching Apple CarPlay",
-        category = "Sports",
+        category = stringResource(id = R.string.sports_Main),
         urlToImage = "https://cleantechnica.com/wp-content/uploads/2024/03/Apple-Vision-Pro-Press-Photo.png",
     )
     articles.add(article4)
@@ -231,7 +233,7 @@ fun createSampleNewsArticles(): List<RecommendedNewsArticle> {
     // News article 5
     val article5 = RecommendedNewsArticle(
         title = "Solana Leads Way As Most Big Cryptocurrencies Post Gains",
-        category = "Politics",
+        category = stringResource(id = R.string.politics_Main),
         urlToImage = "https://www.marketscreener.com/images/twitter_MS_fdblanc.png",
     )
     articles.add(article5)

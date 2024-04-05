@@ -1,5 +1,6 @@
 package com.example.newstoday.views.topappbar
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,16 +23,15 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.newstoday.R
-import com.example.newstoday.ui.theme.NewsToDayTheme
 import com.example.newstoday.ui.theme.inter
 
 @Composable
 fun TopAppBarCust(
-	screen: String, backToProfile: () -> Unit
+	screen: String, navController: NavController, modifier: Modifier
 ) {
 	val navigationIcon: (@Composable () -> Unit)? =
 		if (screen.contains(stringResource(id = R.string.terms_conditions)) || screen.contains(
@@ -40,7 +40,7 @@ fun TopAppBarCust(
 		) {
 			{
 				IconButton(
-					onClick = { backToProfile() },
+					onClick = { navController.navigateUp() },
 					modifier = Modifier
 						.size(24.dp),
 				) {
@@ -92,7 +92,8 @@ fun TopAppBarCust(
 	
 	Box(
 		modifier = Modifier
-			.padding(top = 28.dp, start = 20.dp)
+			.background(Color.White)
+			.padding(top = 28.dp, start = 20.dp, end = 20.dp)
 	) {
 		Row(
 			verticalAlignment = Alignment.CenterVertically
@@ -134,10 +135,12 @@ fun TopAppBarCust(
 	}
 }
 
-@Preview(showBackground = true)
+
+/*@Preview(showBackground = true)
 @Composable
 fun TopAppBarPreview() {
 	NewsToDayTheme {
 		TopAppBarCust(screen = "Язык") {}
 	}
-}
+}*/
+

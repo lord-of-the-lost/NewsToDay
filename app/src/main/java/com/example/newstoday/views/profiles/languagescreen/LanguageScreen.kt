@@ -53,7 +53,7 @@ enum class Language {
 	ENGLISH, RUSSIAN
 }
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+/*@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun LanguageScreen(
 	modifier: Modifier,
@@ -77,10 +77,12 @@ fun LanguageScreen(
 			LanguageScreenContent()
 		}
 	}
-}
+}*/
 
 @Composable
-fun LanguageScreenContent() {
+fun LanguageScreenContent(modifier: Modifier,
+                          navController: NavController,
+                          viewModel: NewsViewModel) {
 	val context = LocalContext.current
 	var selectedLanguage by remember { mutableStateOf(loadSelectedLanguage(context)) }
 	
@@ -177,10 +179,11 @@ fun loadSelectedLanguage(context: Context): Language {
 	return Language.valueOf(languageName ?: Language.ENGLISH.name)
 }
 
+/*
 @Preview(showBackground = true)
 @Composable
 fun ProfileScreenTestPreview() {
 	NewsToDayTheme {
 		LanguageScreenContent()
 	}
-}
+}*/
