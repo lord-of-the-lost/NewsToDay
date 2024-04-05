@@ -65,7 +65,7 @@ fun MainScreen(
 ) {
 
     var recommendedNewsList by remember { mutableStateOf<List<RecommendedNewsArticle>>(emptyList()) }
-    recommendedNewsList = createSampleNewsArticles()
+    recommendedNewsList = createSampleNewsArticles
 
     LazyColumn(
         modifier = modifier
@@ -75,6 +75,7 @@ fun MainScreen(
                 mutableStateOf("")
             }
 
+            //region SearchBar
             SearchBar(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -115,12 +116,12 @@ fun MainScreen(
                 }
             ) {
             }
+            //endregion
 
-            val categoriesList =
-                listOf(stringResource(id = R.string.random_Main), stringResource(id = R.string.sports_Main), stringResource(id = R.string.life_Main), stringResource(id = R.string.gaming_Main), stringResource(id = R.string.politics_Main), stringResource(id = R.string.animals_Main))
+            val categoriesList = listOf(stringResource(id = R.string.random_Main), stringResource(id = R.string.sports_Main), stringResource(id = R.string.life_Main), stringResource(id = R.string.gaming_Main), stringResource(id = R.string.politics_Main), stringResource(id = R.string.animals_Main))
             val activeCategoryIndex = remember { mutableIntStateOf(0) }
 
-            LazyRow(    //category buttons
+            LazyRow(    //category tags-buttons
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 24.dp, start = 20.dp),     /*TODO*/
@@ -177,9 +178,25 @@ fun MainScreen(
         }
 
 //      Recommended items
-        items(recommendedNewsList) { it ->
-            CardNews(newsArticle = it, navController)
+        if (recommendedNewsList.isEmpty()) {
+            item {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 20.dp, end = 20.dp),
+                    text = "You haven't selected any categories yet. Go to the categories tab to select them",
+                    color = Color(0xFF333647),
+                    fontFamily = inter,
+                    lineHeight = 24.sp,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight(500),
+                )
+            }
         }
+        else {
+            items(recommendedNewsList) { it ->
+                CardNews(newsArticle = it, navController)
+        }}
     }
 
 }
@@ -192,6 +209,11 @@ fun CardItem(card: CardInfo) {
     )
     Card(
     ) {
+
+        var isBookmarkedArticle by remember {
+            mutableStateOf(card.bookmarked)
+        }
+
         Box(
             modifier = Modifier
                 .height(256.dp)
@@ -233,11 +255,19 @@ fun CardItem(card: CardInfo) {
                     IconButton(
                         modifier = Modifier
                             .size(24.dp),
-                        onClick = { }) {
+                        onClick = {
+                            isBookmarkedArticle = !isBookmarkedArticle
+                            card.bookmarked = isBookmarkedArticle
+                        }) {
                         Icon(
                             modifier = Modifier
                                 .size(14.dp, 20.dp),
-                            imageVector = ImageVector.vectorResource(R.drawable.bookmark),
+                            imageVector = ImageVector.vectorResource(
+                                if (isBookmarkedArticle)
+                                    R.drawable.selected_bookmark
+                                else
+                                    R.drawable.bookmark
+                            ),
                             tint = Color.White,
                             contentDescription = null
                         )
