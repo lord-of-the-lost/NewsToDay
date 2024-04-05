@@ -44,13 +44,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.newstoday.R
 import com.example.newstoday.core.NewsViewModel
-import com.example.newstoday.navigation.Screen
 import com.example.newstoday.ui.theme.inter
 import com.example.newstoday.views.mainScreen.recommended.CardNews
 import com.example.newstoday.views.mainScreen.recommended.RecommendedHeader
@@ -66,7 +64,7 @@ fun MainScreen(
 ) {
 
     var recommendedNewsList by remember { mutableStateOf<List<RecommendedNewsArticle>>(emptyList()) }
-    recommendedNewsList = createSampleNewsArticles()
+    recommendedNewsList = createSampleNewsArticles
 
     LazyColumn(
         modifier = modifier
@@ -76,6 +74,7 @@ fun MainScreen(
                 mutableStateOf("")
             }
 
+            //region SearchBar
             SearchBar(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -116,12 +115,25 @@ fun MainScreen(
                 }
             ) {
             }
+            //endregion
 
             val categoriesList =
-                listOf("Random", "Sportscghfdg", "Li", "Gaming", "Politics", "Animals")
+                listOf(
+                    "Random",
+                    "Sports",
+                    "Politics",
+                    "Life",
+                    "Gaming",
+                    "Animals",
+                    "Nature",
+                    "Food",
+                    "Art",
+                    "History",
+                    "Fashion"
+                )
             val activeCategoryIndex = remember { mutableIntStateOf(0) }
 
-            LazyRow(    //category buttons
+            LazyRow(    //category tags-buttons
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 24.dp, start = 20.dp),     /*TODO*/
@@ -178,9 +190,25 @@ fun MainScreen(
         }
 
 //      Recommended items
-        items(recommendedNewsList) { it ->
-            CardNews(newsArticle = it, navController)
+        if (recommendedNewsList.isEmpty()) {
+            item {
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 20.dp, end = 20.dp),
+                    text = "You haven't selected any categories yet. Go to the categories tab to select them",
+                    color = Color(0xFF333647),
+                    fontFamily = inter,
+                    lineHeight = 24.sp,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight(500),
+                )
+            }
         }
+        else {
+            items(recommendedNewsList) { it ->
+                CardNews(newsArticle = it, navController)
+        }}
     }
 
 }
@@ -193,6 +221,11 @@ fun CardItem(card: CardInfo) {
     )
     Card(
     ) {
+
+        var isBookmarkedArticle by remember {
+            mutableStateOf(card.bookmarked)
+        }
+
         Box(
             modifier = Modifier
                 .height(256.dp)
@@ -234,11 +267,19 @@ fun CardItem(card: CardInfo) {
                     IconButton(
                         modifier = Modifier
                             .size(24.dp),
-                        onClick = { }) {
+                        onClick = {
+                            isBookmarkedArticle = !isBookmarkedArticle
+                            card.bookmarked = isBookmarkedArticle
+                        }) {
                         Icon(
                             modifier = Modifier
                                 .size(14.dp, 20.dp),
-                            imageVector = ImageVector.vectorResource(R.drawable.bookmark),
+                            imageVector = ImageVector.vectorResource(
+                                if (isBookmarkedArticle)
+                                    R.drawable.selected_bookmark
+                                else
+                                    R.drawable.bookmark
+                            ),
                             tint = Color.White,
                             contentDescription = null
                         )
