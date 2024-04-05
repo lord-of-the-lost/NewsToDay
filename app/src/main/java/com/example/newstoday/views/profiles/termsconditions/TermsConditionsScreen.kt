@@ -26,7 +26,7 @@ import com.example.newstoday.ui.theme.inter
 import com.example.newstoday.views.topappbar.TopAppBarCust
 
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+/*@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun TermsConditionsScreen(
     modifier: Modifier,
@@ -48,10 +48,12 @@ fun TermsConditionsScreen(
             ScrollableText()
         }
     }
-}
+}*/
 
 @Composable
-fun ScrollableText() {
+fun ScrollableText(modifier: Modifier,
+                   navController: NavController,
+                   viewModel: NewsViewModel) {
     Text(
         modifier = Modifier
             .padding(20.dp)
@@ -68,10 +70,11 @@ fun ScrollableText() {
 }
 
 
+/*
 @Preview(showBackground = true)
 @Composable
 fun TermsConditionsScreenPreview() {
     NewsToDayTheme {
         ScrollableText()
     }
-}
+}*/

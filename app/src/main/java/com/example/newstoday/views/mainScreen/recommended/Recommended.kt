@@ -27,6 +27,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -60,7 +61,7 @@ fun RecommendedHeader() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Recommended for you",
+                text = stringResource(id = R.string.recommended_for_you),
                 fontFamily = inter,
                 fontWeight = FontWeight(600),
                 fontSize = 20.sp,
@@ -70,7 +71,7 @@ fun RecommendedHeader() {
             Text(
                 modifier = Modifier
                     .clickable { },
-                text = "See All",
+                text = stringResource(id = R.string.see_All),
                 fontFamily = inter,
                 fontWeight = FontWeight(500),
                 fontSize = 14.sp,

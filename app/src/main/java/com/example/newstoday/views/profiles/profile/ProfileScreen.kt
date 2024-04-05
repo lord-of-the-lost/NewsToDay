@@ -40,26 +40,14 @@ import com.example.newstoday.ui.theme.inter
 import com.example.newstoday.views.profiles.UserData
 import com.example.newstoday.views.topappbar.TopAppBarCust
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+
+
 @Composable
-fun ProfileScreen(
+fun ProfileScreenContent(
     modifier: Modifier,
     navController: NavController,
     viewModel: NewsViewModel
 ) {
-    Scaffold(
-        topBar = {
-            TopAppBarCust(
-                screen = stringResource(id = R.string.profile),
-                backToProfile = { })
-        }
-    ) {
-        ProfileScreenContent(navController)
-    }
-}
-
-@Composable
-fun ProfileScreenContent(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()

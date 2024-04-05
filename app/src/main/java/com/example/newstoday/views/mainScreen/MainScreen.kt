@@ -42,6 +42,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -101,7 +102,7 @@ fun MainScreen(
                     Row(
                     ) {
                         Text(
-                            text = "Search",
+                            text = stringResource(id = androidx.appcompat.R.string.search_menu_title),
                             color = Color(0xFF7C82A1),
                             fontFamily = inter,
                             lineHeight = 24.sp,
@@ -117,20 +118,7 @@ fun MainScreen(
             }
             //endregion
 
-            val categoriesList =
-                listOf(
-                    "Random",
-                    "Sports",
-                    "Politics",
-                    "Life",
-                    "Gaming",
-                    "Animals",
-                    "Nature",
-                    "Food",
-                    "Art",
-                    "History",
-                    "Fashion"
-                )
+            val categoriesList = listOf(stringResource(id = R.string.random_Main), stringResource(id = R.string.sports_Main), stringResource(id = R.string.life_Main), stringResource(id = R.string.gaming_Main), stringResource(id = R.string.politics_Main), stringResource(id = R.string.animals_Main))
             val activeCategoryIndex = remember { mutableIntStateOf(0) }
 
             LazyRow(    //category tags-buttons
