@@ -5,6 +5,12 @@ import com.example.newstoday.core.storage.ArticleEntity
 
 class ArticleUseCases {
     companion object {
+        fun filterRemovedArticles(articles: List<Article>): List<Article> {
+            return articles.filterNot { article ->
+                article.url == "https://removed.com"
+            }
+        }
+
         fun mapArticleToArticleModel(article: Article): ArticleModel {
             return ArticleModel(
                 id = article.url,

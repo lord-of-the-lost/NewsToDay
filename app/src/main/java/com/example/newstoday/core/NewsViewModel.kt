@@ -49,9 +49,8 @@ class NewsViewModel(application: Application) : AndroidViewModel(application) {
             try {
                 val response = repository.getTopHeadlines(country, apiKey)
                 response?.let {
-                    bigItemsResponse.value = it.map { article ->
-                        ArticleUseCases.mapArticleToArticleModel(article)
-                    }
+                    val filteredArticles = ArticleUseCases.filterRemovedArticles(it)
+                    bigItemsResponse.value = filteredArticles.map(ArticleUseCases::mapArticleToArticleModel)
                 }
             } catch (e: Exception) {
                 errorMessage.value = "Не удалось загрузить заголовки новостей: ${e.message}"
@@ -64,7 +63,8 @@ class NewsViewModel(application: Application) : AndroidViewModel(application) {
             try {
                 val response = repository.getEverything(query, apiKey)
                 response?.let {
-                    bigItemsResponse.value = it.map(ArticleUseCases::mapArticleToArticleModel)
+                    val filteredArticles = ArticleUseCases.filterRemovedArticles(it)
+                    bigItemsResponse.value = filteredArticles.map(ArticleUseCases::mapArticleToArticleModel)
                 }
             } catch (e: Exception) {
                 errorMessage.value = "Не удалось загрузить все новости: ${e.message}"
@@ -79,7 +79,8 @@ class NewsViewModel(application: Application) : AndroidViewModel(application) {
                 try {
                     val articles = repository.getEverything(category, apiKey)
                     articles?.let {
-                        results.addAll(it.map(ArticleUseCases::mapArticleToArticleModel))
+                        val filteredArticles = ArticleUseCases.filterRemovedArticles(it)
+                        results.addAll(filteredArticles.map(ArticleUseCases::mapArticleToArticleModel))
                     }
                 } catch (e: Exception) {
                     errorMessage.value = "Ошибка при загрузке статей по категориям: ${e.message}"

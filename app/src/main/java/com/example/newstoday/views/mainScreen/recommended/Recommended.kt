@@ -24,7 +24,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -39,6 +42,7 @@ import coil.annotation.ExperimentalCoilApi
 import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
 import com.example.newstoday.R
+import com.example.newstoday.core.ArticleModel
 import com.example.newstoday.navigation.Screen
 import com.example.newstoday.ui.theme.inter
 
@@ -80,13 +84,15 @@ fun RecommendedHeader() {
             )
         }
     }
-
     Spacer(modifier = Modifier.height(24.dp))
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CardNews(newsArticle: RecommendedNewsArticle, navController: NavController) {
+fun CardNews(article: ArticleModel, navController: NavController) {
+    val gradient = Brush.verticalGradient(
+        colors = listOf(Color(0x0022242F), Color(0x7A22242F))
+    )
     Card(
         colors = CardDefaults.cardColors(Color.White),
         onClick = { navController.navigate(Screen.NewsScreen.route) }
@@ -99,10 +105,14 @@ fun CardNews(newsArticle: RecommendedNewsArticle, navController: NavController) 
                 .height(96.dp)
 
         ) {
-
-            CoilImage(
-                url = newsArticle.urlToImage ?: "",
-                contentDescription = ""
+            Image(
+                painter = rememberImagePainter(article.urlToImage),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(96.dp)
+                    .background(gradient)
+                    .clip(shape = RoundedCornerShape(12.dp)),
+                contentScale = ContentScale.Crop,
             )
 
             Column(
@@ -113,7 +123,7 @@ fun CardNews(newsArticle: RecommendedNewsArticle, navController: NavController) 
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = newsArticle.category,
+                    text = article.tag,
                     style = TextStyle(
                         fontFamily = inter,
                         fontSize = 14.sp,
@@ -125,7 +135,7 @@ fun CardNews(newsArticle: RecommendedNewsArticle, navController: NavController) 
                         .padding(bottom = 8.dp)
                 )
                 Text(
-                    text = newsArticle.title,
+                    text = article.title,
                     style = TextStyle(
                         fontFamily = inter,
                         fontSize = 16.sp,
@@ -141,61 +151,60 @@ fun CardNews(newsArticle: RecommendedNewsArticle, navController: NavController) 
     }
 }
 
-@OptIn(ExperimentalCoilApi::class)
-@Composable
-fun CoilImage(
-    url: String,
-    contentDescription: String?,
-) {
-    val painter = rememberImagePainter(
-        data = url,
-        builder = {
-        }
-    )
-
-    Box(
-        modifier = Modifier
-            .size(96.dp)
-            .clip(RoundedCornerShape(12.dp)),
-        contentAlignment = Alignment.Center
-    ) {
-        when (painter.state) {
-            is ImagePainter.State.Loading -> {
-                CircularProgressIndicator()
-            }
-
-            is ImagePainter.State.Success -> {
-                Image(
-                    painter = painter,
-                    contentDescription = contentDescription,
-                    contentScale = ContentScale.None,
-
-                    )
-            }
-
-            is ImagePainter.State.Error -> {
-                Image(
-                    painter = painterResource(id = R.drawable.not_loaded),
-                    contentDescription = contentDescription,
-                    contentScale = ContentScale.None,
-                )
-            }
-
-            else -> {
-                Image(
-                    painter = painter,
-                    contentDescription = contentDescription,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.size(96.dp)
-                )
-            }
-        }
-    }
-}
+//@OptIn(ExperimentalCoilApi::class)
+//@Composable
+//fun CoilImage(
+//    url: String,
+//    contentDescription: String?,
+//) {
+//    val painter = rememberImagePainter(
+//        data = url,
+//        builder = {
+//        }
+//    )
+//
+//    Box(
+//        modifier = Modifier
+//            .size(96.dp)
+//            .clip(RoundedCornerShape(12.dp)),
+//        contentAlignment = Alignment.Center
+//    ) {
+//        when (painter.state) {
+//            is ImagePainter.State.Loading -> {
+//                CircularProgressIndicator()
+//            }
+//
+//            is ImagePainter.State.Success -> {
+//                Image(
+//                    painter = painter,
+//                    contentDescription = contentDescription,
+//                    contentScale = ContentScale.None,
+//
+//                    )
+//            }
+//
+//            is ImagePainter.State.Error -> {
+//                Image(
+//                    painter = painterResource(id = R.drawable.not_loaded),
+//                    contentDescription = contentDescription,
+//                    contentScale = ContentScale.None,
+//                )
+//            }
+//
+//            else -> {
+//                Image(
+//                    painter = painter,
+//                    contentDescription = contentDescription,
+//                    contentScale = ContentScale.Crop,
+//                    modifier = Modifier.size(96.dp)
+//                )
+//            }
+//        }
+//    }
+//}
 
 @Preview(showBackground = true)
 @Composable
 fun RecommendedPreview() {
     RecommendedHeader()
-
 }
