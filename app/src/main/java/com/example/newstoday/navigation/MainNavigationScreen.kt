@@ -1,9 +1,6 @@
 package com.example.newstoday.navigation
 
 
-//import com.example.newstoday.views.profiles.languagescreen.LanguageScreen
-//import com.example.newstoday.views.profiles.profile.ProfileScreen
-//import com.example.newstoday.views.profiles.termsconditions.TermsConditionsScreen
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -68,14 +65,16 @@ fun MainNavigationScreen(viewModel: NewsViewModel) {
 		},
 		
 		bottomBar = {
-			if (navController.currentBackStackEntryAsState().value?.destination?.route in listOf(
-					Screen.Home.route,
-					Screen.CategoriesScreen.route,
-					Screen.Bookmarks.route,
-					Screen.Profile.route
-				)
-			) {
-				BottomNavigationBar(navController)
+			if (viewModel.initialCategorySetupCompleted.value == true) {
+				if (navController.currentBackStackEntryAsState().value?.destination?.route in listOf(
+						Screen.Home.route,
+						Screen.CategoriesScreen.route,
+						Screen.Bookmarks.route,
+						Screen.Profile.route
+					)
+				) {
+					BottomNavigationBar(navController)
+				}
 			}
 		}
 	) { innerPadding ->
@@ -153,7 +152,6 @@ fun MainNavigationScreen(viewModel: NewsViewModel) {
 		}
 	}
 }
-        
         
 
 

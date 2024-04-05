@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.newstoday.R
 import com.example.newstoday.core.NewsViewModel
+import com.example.newstoday.navigation.Screen
 import com.example.newstoday.ui.theme.inter
 
 @Composable
@@ -39,6 +40,7 @@ fun CategoriesScreen(
     navController: NavController,
     viewModel: NewsViewModel
 ) {
+    val initialSetupCompleted = viewModel.initialCategorySetupCompleted.value
     val categoriesList = categoriesList()
     Column(
         modifier = modifier
@@ -93,24 +95,31 @@ fun CategoriesScreen(
             }
         }
 
-        Button(
-            onClick = { /*TODO*/ },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(72.dp)
-                .padding(start = 20.dp, end = 20.dp, top = 16.dp),
-            shape = RoundedCornerShape(12.dp),
-            colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF475AD7)),
-            elevation = ButtonDefaults.elevation(defaultElevation = 0.dp),
-        ) {
-            Text(
-                text = stringResource(id = R.string.buttonTexts_next),
-                color = Color.White,
-                fontFamily = inter,
-                lineHeight = 24.sp,
-                fontSize = 16.sp,
-                fontWeight = FontWeight(600),
-            )
+        if (!initialSetupCompleted) {
+            Button(
+                onClick = {
+                    viewModel.initialCategorySetupCompleted.value = true
+                    navController.navigate(Screen.Home.route) {
+                        popUpTo(Screen.Onboarding.route) { inclusive = true }
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(72.dp)
+                    .padding(start = 20.dp, end = 20.dp, top = 16.dp),
+                shape = RoundedCornerShape(12.dp),
+                colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF475AD7)),
+                elevation = ButtonDefaults.elevation(defaultElevation = 0.dp),
+            ) {
+                Text(
+                    text = stringResource(id = R.string.buttonTexts_next),
+                    color = Color.White,
+                    fontFamily = inter,
+                    lineHeight = 24.sp,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight(600),
+                )
+            }
         }
     }
 }
