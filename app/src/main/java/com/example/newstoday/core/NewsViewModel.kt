@@ -3,12 +3,14 @@ package com.example.newstoday.core
 import android.app.Application
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.room.Room
 import com.example.newstoday.core.network.RetrofitClient
 import com.example.newstoday.core.storage.ArticleDao
 import com.example.newstoday.core.storage.ArticleDatabase
+import com.example.newstoday.views.categories.Categories
 import kotlinx.coroutines.launch
 
 class NewsViewModel(application: Application) : AndroidViewModel(application) {
@@ -30,6 +32,18 @@ class NewsViewModel(application: Application) : AndroidViewModel(application) {
     var bigItemsResponse: MutableState<List<ArticleModel>?> = mutableStateOf(null)
     var savedArticles: MutableState<List<ArticleModel>?> = mutableStateOf(null)
     var errorMessage: MutableState<String?> = mutableStateOf(null)
+    var categories = mutableStateListOf<Categories>()
+
+    fun initializeCategories(categoriesList: List<Categories>) {
+        if (categories.isEmpty()) {
+            categories.addAll(categoriesList)
+        }
+    }
+
+    fun toggleCategorySelected(index: Int) {
+        val category = categories[index]
+        categories[index] = category.copy(selected = !category.selected)
+    }
 
     fun loadTopHeadlines(country: String = "us") {
         viewModelScope.launch {
@@ -71,28 +85,9 @@ class NewsViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun loadArticlesByCategories(categories: List<String>) {
-        viewModelScope.launch {
-            val results = mutableListOf<ArticleModel>()
-            val savedArticleIds = getSavedArticlesIds()
-            categories.forEach { category ->
-                try {
-                    val articles = repository.getEverything(category, apiKey)
-                    articles?.let {
-                        val filteredArticles = ArticleUseCases.filterRemovedArticles(it)
-                        val articleModels = filteredArticles.map { article ->
-                            ArticleUseCases.mapArticleToArticleModel(article).apply {
-                                isBookmarked = id in savedArticleIds
-                            }
-                        }
-                        results.addAll(articleModels)
-                    }
-                } catch (e: Exception) {
-                    errorMessage.value = "Ошибка при загрузке статей по категориям: ${e.message}"
-                }
-            }
-            recommendedNewsResponse.value = results.shuffled()
-        }
+    fun loadArticlesBySelectedCategories() {
+        val selectedCategoriesNames = categories.filter { it.selected }.map { it.name }
+        loadArticlesByCategories(selectedCategoriesNames)
     }
 
     fun deleteArticle(articleModel: ArticleModel) {
@@ -147,7 +142,6 @@ class NewsViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-
     private fun updateArticleBookmarkState(articleId: String, isBookmarked: Boolean) {
         bigItemsResponse.value = bigItemsResponse.value?.map { article ->
             if (article.id == articleId) article.copy(isBookmarked = isBookmarked) else article
@@ -172,5 +166,29 @@ class NewsViewModel(application: Application) : AndroidViewModel(application) {
     private suspend fun getSavedArticlesIds(): Set<String> {
         val savedArticles = repository.getSavedArticles()
         return savedArticles.map { it.id }.toSet()
+    }
+
+    private fun loadArticlesByCategories(categoriesNames: List<String>) {
+        viewModelScope.launch {
+            val results = mutableListOf<ArticleModel>()
+            val savedArticleIds = getSavedArticlesIds()
+            categoriesNames.forEach { categoryName ->
+                try {
+                    val articles = repository.getEverything(categoryName, apiKey)
+                    articles?.let {
+                        val filteredArticles = ArticleUseCases.filterRemovedArticles(it)
+                        val articleModels = filteredArticles.map { article ->
+                            ArticleUseCases.mapArticleToArticleModel(article).apply {
+                                isBookmarked = id in savedArticleIds
+                            }
+                        }
+                        results.addAll(articleModels)
+                    }
+                } catch (e: Exception) {
+                    errorMessage.value = "Ошибка при загрузке статей по категории '$categoryName': ${e.message}"
+                }
+            }
+            recommendedNewsResponse.value = results.shuffled()
+        }
     }
 }

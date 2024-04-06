@@ -65,11 +65,12 @@ fun MainScreen(
     navController: NavController,
     viewModel: NewsViewModel
 ) {
-
     var recommendedNewsList by remember { mutableStateOf<List<ArticleModel>>(emptyList()) }
     recommendedNewsList = viewModel.recommendedNewsResponse.value ?: emptyList()
-    LaunchedEffect(key1 = true) {
+
+    LaunchedEffect(key1 = viewModel.categories) {
         viewModel.loadTopHeadlines()
+        viewModel.loadArticlesBySelectedCategories()
     }
 
     LazyColumn(
