@@ -1,6 +1,6 @@
 package com.example.newstoday.views.profiles.profile
 
-import android.annotation.SuppressLint
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Scaffold
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -39,8 +38,6 @@ import com.example.newstoday.ui.theme.NewsToDayTheme
 import com.example.newstoday.ui.theme.inter
 import com.example.newstoday.views.profiles.UserData
 import com.example.newstoday.views.topappbar.TopAppBarCust
-
-
 
 @Composable
 fun ProfileScreenContent(
@@ -151,7 +148,10 @@ fun ProfileScreenContent(
         )
 
         Button(
-            onClick = { navController.navigate(Screen.Onboarding.route) },
+            onClick = {
+                navController.popBackStack(navController.graph.startDestinationId, true)
+                navController.navigate(Screen.Authorization.route)
+            },
             modifier = Modifier
                 .height(56.dp)
                 .padding(start = 20.dp, end = 20.dp)

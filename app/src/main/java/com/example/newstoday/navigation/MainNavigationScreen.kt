@@ -19,6 +19,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.newstoday.R
 import com.example.newstoday.core.NewsViewModel
 import com.example.newstoday.views.articlePage.ArticlePageScreen
+import com.example.newstoday.views.authorizationScreen.LoginScreen
+import com.example.newstoday.views.authorizationScreen.RegistrationScreen
 import com.example.newstoday.views.booksmark.Bookmarks
 import com.example.newstoday.views.categories.CategoriesScreen
 import com.example.newstoday.views.mainScreen.MainScreen
@@ -27,6 +29,7 @@ import com.example.newstoday.views.profiles.languagescreen.LanguageScreenContent
 import com.example.newstoday.views.profiles.profile.ProfileScreenContent
 import com.example.newstoday.views.profiles.termsconditions.ScrollableText
 import com.example.newstoday.views.topappbar.TopAppBarCust
+
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -143,6 +146,22 @@ fun MainNavigationScreen(viewModel: NewsViewModel) {
 				}
 				composable(Screen.NewsScreen.route) {
 					ArticlePageScreen(
+						Modifier
+							.fillMaxSize(),
+						navController,
+						viewModel
+					)
+				}
+				composable(Screen.Authorization.route) {
+					LoginScreen(
+						Modifier
+							.fillMaxSize(),
+						navController,
+						viewModel
+					)
+				}
+				composable(Screen.Registration.route) {
+					RegistrationScreen(
 						Modifier
 							.fillMaxSize(),
 						navController,

@@ -18,10 +18,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,7 +27,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -40,7 +35,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.example.newstoday.R
-import com.example.newstoday.core.ArticleModel
 import com.example.newstoday.core.NewsViewModel
 import com.example.newstoday.ui.theme.inter
 
@@ -54,8 +48,7 @@ fun ArticlePageScreen(
 	val gradient = Brush.verticalGradient(
 		colors = listOf(Color(0x0022242F), Color(0x7A22242F))
 	)
-	var isBookmarked by remember { mutableStateOf(false) }
-	isBookmarked = article?.isBookmarked == true
+
 	if (article != null) {
 		Column(
 			modifier = Modifier
@@ -113,21 +106,13 @@ fun ArticlePageScreen(
 							modifier = Modifier
 								.size(24.dp),
 							onClick = {
-								if (isBookmarked != true) {
-									isBookmarked = true
-									article.isBookmarked = isBookmarked
-									viewModel.saveArticle(article)
-								} else {
-									isBookmarked = false
-									article.isBookmarked = isBookmarked
-									viewModel.deleteArticle(article)
-								}
+								viewModel.toggleBookmark(article)
 							}) {
 							Icon(
 								modifier = Modifier
 									.size(14.dp, 20.dp),
 								imageVector = ImageVector.vectorResource(
-									if (isBookmarked)
+									if (article.isBookmarked)
 										R.drawable.selected_bookmark
 									else
 										R.drawable.bookmark
