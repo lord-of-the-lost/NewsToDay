@@ -18,6 +18,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -45,6 +49,9 @@ fun ArticlePageScreen(
 	viewModel: NewsViewModel
 ) {
 	val article = viewModel.selectedArticle.value
+	var isBookmarked by remember { mutableStateOf(false) }
+	isBookmarked = article?.isBookmarked == true
+
 	val gradient = Brush.verticalGradient(
 		colors = listOf(Color(0x0022242F), Color(0x7A22242F))
 	)
@@ -106,13 +113,21 @@ fun ArticlePageScreen(
 							modifier = Modifier
 								.size(24.dp),
 							onClick = {
-								viewModel.toggleBookmark(article)
+								if (isBookmarked != true) {
+									isBookmarked = true
+									article.isBookmarked = isBookmarked
+									viewModel.saveArticle(article)
+								} else {
+									isBookmarked = false
+									article.isBookmarked = isBookmarked
+									viewModel.deleteArticle(article)
+								}
 							}) {
 							Icon(
 								modifier = Modifier
 									.size(14.dp, 20.dp),
 								imageVector = ImageVector.vectorResource(
-									if (article.isBookmarked)
+									if (isBookmarked)
 										R.drawable.selected_bookmark
 									else
 										R.drawable.bookmark

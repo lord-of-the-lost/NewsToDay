@@ -142,27 +142,6 @@ class NewsViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    private fun updateArticleBookmarkState(articleId: String, isBookmarked: Boolean) {
-        bigItemsResponse.value = bigItemsResponse.value?.map { article ->
-            if (article.id == articleId) article.copy(isBookmarked = isBookmarked) else article
-        }
-        recommendedNewsResponse.value = recommendedNewsResponse.value?.map { article ->
-            if (article.id == articleId) article.copy(isBookmarked = isBookmarked) else article
-        }
-    }
-
-    private fun updateArticlesWithBookmarks() {
-        viewModelScope.launch {
-            val savedArticleIds = getSavedArticlesIds()
-            bigItemsResponse.value = bigItemsResponse.value?.map { article ->
-                article.copy(isBookmarked = savedArticleIds.contains(article.id))
-            }
-            recommendedNewsResponse.value = recommendedNewsResponse.value?.map { article ->
-                article.copy(isBookmarked = savedArticleIds.contains(article.id))
-            }
-        }
-    }
-
     private suspend fun getSavedArticlesIds(): Set<String> {
         val savedArticles = repository.getSavedArticles()
         return savedArticles.map { it.id }.toSet()
