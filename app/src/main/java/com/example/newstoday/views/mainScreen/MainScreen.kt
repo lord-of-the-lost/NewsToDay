@@ -67,7 +67,7 @@ fun MainScreen(
 ) {
 
     var recommendedNewsList by remember { mutableStateOf<List<ArticleModel>>(emptyList()) }
-    recommendedNewsList = viewModel.recomendedNewsResponse.value ?: emptyList()
+    recommendedNewsList = viewModel.recommendedNewsResponse.value ?: emptyList()
     LaunchedEffect(key1 = true) {
         viewModel.loadTopHeadlines()
     }
@@ -231,11 +231,6 @@ fun CardItem(viewModel: NewsViewModel, article: ArticleModel, navController: Nav
     )
     Card(
     ) {
-
-        var isBookmarkedArticle by remember {
-            mutableStateOf(article.isBookmarked)
-        }
-
         Box(
             modifier = Modifier
                 .height(256.dp)
@@ -281,21 +276,11 @@ fun CardItem(viewModel: NewsViewModel, article: ArticleModel, navController: Nav
                         modifier = Modifier
                             .size(24.dp),
                         onClick = {
-                            if (isBookmarkedArticle != true) {
-                                isBookmarkedArticle = !isBookmarkedArticle
-                                article.isBookmarked = isBookmarkedArticle
-                                viewModel.saveArticle(article)
-                            } else {
-                                isBookmarkedArticle = !isBookmarkedArticle
-                                article.isBookmarked = isBookmarkedArticle
-                                viewModel.deleteArticle(article)
-                            }
+                            viewModel.toggleBookmark(article)
                         }) {
                         Icon(
-                            modifier = Modifier
-                                .size(14.dp, 20.dp),
                             imageVector = ImageVector.vectorResource(
-                                if (isBookmarkedArticle)
+                                if (article.isBookmarked)
                                     R.drawable.selected_bookmark
                                 else
                                     R.drawable.bookmark

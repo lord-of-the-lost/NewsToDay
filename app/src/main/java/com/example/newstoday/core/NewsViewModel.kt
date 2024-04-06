@@ -1,28 +1,17 @@
 package com.example.newstoday.core
 
 import android.app.Application
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.MutableState
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.room.Room
-import coil.ImageLoader
-import coil.request.ImageRequest
-import coil.request.SuccessResult
-import com.example.newstoday.core.network.Article
 import com.example.newstoday.core.network.RetrofitClient
 import com.example.newstoday.core.storage.ArticleDao
 import com.example.newstoday.core.storage.ArticleDatabase
-import com.example.newstoday.core.storage.ArticleEntity
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.io.ByteArrayOutputStream
+
 class NewsViewModel(application: Application) : AndroidViewModel(application) {
-    private val imageLoader = ImageLoader(application)
     private val apiService = RetrofitClient.create()
     private val apiKey = "9eb135314d134f44b60d88e096de26f6"
     private val articleDao: ArticleDao by lazy {
@@ -37,7 +26,7 @@ class NewsViewModel(application: Application) : AndroidViewModel(application) {
     }
     var initialCategorySetupCompleted = mutableStateOf(false)
     var selectedArticle = mutableStateOf<ArticleModel?>(null)
-    var recomendedNewsResponse: MutableState<List<ArticleModel>?> = mutableStateOf(null)
+    var recommendedNewsResponse: MutableState<List<ArticleModel>?> = mutableStateOf(null)
     var bigItemsResponse: MutableState<List<ArticleModel>?> = mutableStateOf(null)
     var savedArticles: MutableState<List<ArticleModel>?> = mutableStateOf(null)
     var errorMessage: MutableState<String?> = mutableStateOf(null)
@@ -46,9 +35,15 @@ class NewsViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             try {
                 val response = repository.getTopHeadlines(country, apiKey)
+                val savedArticleIds = getSavedArticlesIds() // Получаем сохраненные идентификаторы
                 response?.let {
                     val filteredArticles = ArticleUseCases.filterRemovedArticles(it)
-                    bigItemsResponse.value = filteredArticles.map(ArticleUseCases::mapArticleToArticleModel)
+                    val articleModels = filteredArticles.map { article ->
+                        ArticleUseCases.mapArticleToArticleModel(article).apply {
+                            isBookmarked = id in savedArticleIds
+                        }
+                    }
+                    bigItemsResponse.value = articleModels
                 }
             } catch (e: Exception) {
                 errorMessage.value = "Не удалось загрузить заголовки новостей: ${e.message}"
@@ -60,9 +55,15 @@ class NewsViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             try {
                 val response = repository.getEverything(query, apiKey)
+                val savedArticleIds = getSavedArticlesIds()
                 response?.let {
                     val filteredArticles = ArticleUseCases.filterRemovedArticles(it)
-                    bigItemsResponse.value = filteredArticles.map(ArticleUseCases::mapArticleToArticleModel)
+                    val articleModels = filteredArticles.map { article ->
+                        ArticleUseCases.mapArticleToArticleModel(article).apply {
+                            isBookmarked = id in savedArticleIds
+                        }
+                    }
+                    bigItemsResponse.value = articleModels
                 }
             } catch (e: Exception) {
                 errorMessage.value = "Не удалось загрузить все новости: ${e.message}"
@@ -73,18 +74,24 @@ class NewsViewModel(application: Application) : AndroidViewModel(application) {
     fun loadArticlesByCategories(categories: List<String>) {
         viewModelScope.launch {
             val results = mutableListOf<ArticleModel>()
+            val savedArticleIds = getSavedArticlesIds()
             categories.forEach { category ->
                 try {
                     val articles = repository.getEverything(category, apiKey)
                     articles?.let {
                         val filteredArticles = ArticleUseCases.filterRemovedArticles(it)
-                        results.addAll(filteredArticles.map(ArticleUseCases::mapArticleToArticleModel))
+                        val articleModels = filteredArticles.map { article ->
+                            ArticleUseCases.mapArticleToArticleModel(article).apply {
+                                isBookmarked = id in savedArticleIds
+                            }
+                        }
+                        results.addAll(articleModels)
                     }
                 } catch (e: Exception) {
                     errorMessage.value = "Ошибка при загрузке статей по категориям: ${e.message}"
                 }
             }
-            recomendedNewsResponse.value = results.shuffled()
+            recommendedNewsResponse.value = results.shuffled()
         }
     }
 
@@ -98,24 +105,10 @@ class NewsViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
     }
-    fun getSavedArticles() {
-        viewModelScope.launch {
-            try {
-                val articleEntities = repository.getSavedArticles()
-                val articleModels = articleEntities.map { entity ->
-                    ArticleUseCases.mapArticleEntityToArticleModel(entity)
-                }
-                savedArticles.value = articleModels
-            } catch (e: Exception) {
-                errorMessage.value = "Не удалось получить сохраненные статьи: ${e.message}"
-            }
-        }
-    }
 
     fun saveArticle(articleModel: ArticleModel) {
         viewModelScope.launch {
             try {
-                val imageData = downloadImage(articleModel.urlToImage)
                 val articleEntity = ArticleUseCases.mapArticleModelToArticleEntity(articleModel)
                 repository.saveArticle(articleEntity)
             } catch (e: Exception) {
@@ -124,36 +117,45 @@ class NewsViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    private suspend fun downloadImage(urlToImage: String?): ByteArray? {
-        return withContext(Dispatchers.IO) { // withContext переключает выполнение в фоновый поток
+    fun getSavedArticles() {
+        viewModelScope.launch {
             try {
-                urlToImage?.let { imageUrl ->
-                    val imageRequest =
-                        ImageRequest.Builder(getApplication<Application>()) // Создаем запрос на изображение
-                            .data(imageUrl) // Устанавливаем URL как данные для запроса
-                            .allowHardware(false) // Отключаем аппаратные битмапы для совместимости с .toBitmap()
-                            .build() // Построение запроса
-                    val result =
-                        imageLoader.execute(imageRequest) // Выполнение запроса и сохранение результата
-                    if (result is SuccessResult) {
-                        val bitmap =
-                            (result.drawable as BitmapDrawable).bitmap  // Преобразование Drawable в Bitmap для получения массива байтов
-                        val stream =
-                            ByteArrayOutputStream() // Используем ByteArrayOutputStream для записи битов битмапа
-                        bitmap.compress(
-                            Bitmap.CompressFormat.PNG,
-                            100,
-                            stream
-                        )  // Сжимаем битмап в формат PNG с максимальным качеством
-                        stream.toByteArray()  // Преобразуем поток в массив байтов и возвращаем его
-                    } else {
-                        null
-                    }
+                val articleEntities = repository.getSavedArticles()
+                val articleModels = articleEntities.map { entity ->
+                    ArticleUseCases.mapArticleEntityToArticleModel(entity).copy(isBookmarked = true)
                 }
+                savedArticles.value = articleModels
             } catch (e: Exception) {
-                e.printStackTrace()
-                null
+                errorMessage.value = "Не удалось получить сохраненные статьи: ${e.message}"
             }
         }
+    }
+
+    fun toggleBookmark(articleModel: ArticleModel) {
+        viewModelScope.launch {
+            if (articleModel.isBookmarked) {
+                deleteArticle(articleModel.copy(isBookmarked = false))
+            } else {
+                saveArticle(articleModel.copy(isBookmarked = true))
+            }
+            updateArticlesWithBookmarks()
+        }
+    }
+
+    private fun updateArticlesWithBookmarks() {
+        viewModelScope.launch {
+            val savedArticleIds = getSavedArticlesIds()
+            bigItemsResponse.value = bigItemsResponse.value?.map { article ->
+                article.copy(isBookmarked = savedArticleIds.contains(article.id))
+            }
+            recommendedNewsResponse.value = recommendedNewsResponse.value?.map { article ->
+                article.copy(isBookmarked = savedArticleIds.contains(article.id))
+            }
+        }
+    }
+
+    private suspend fun getSavedArticlesIds(): Set<String> {
+        val savedArticles = repository.getSavedArticles()
+        return savedArticles.map { it.id }.toSet()
     }
 }
