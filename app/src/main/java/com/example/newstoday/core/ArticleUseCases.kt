@@ -15,7 +15,7 @@ class ArticleUseCases {
             return ArticleModel(
                 id = article.url,
                 title = article.title,
-                content = article.content ?: "No data",
+                content = article.description ?: "No data",
                 urlToImage = article.urlToImage
                     ?: "https://blamper.ru/steady/55/40/b8/original/5540b891fa1ad9e3148b45db/400x200.jpg",
                 author = article.author ?: "Unknown",

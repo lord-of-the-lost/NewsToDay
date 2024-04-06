@@ -38,7 +38,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.rememberImagePainter
 import com.example.newstoday.R
+import com.example.newstoday.core.ArticleModel
 import com.example.newstoday.core.NewsViewModel
 import com.example.newstoday.ui.theme.inter
 
@@ -48,163 +50,165 @@ fun ArticlePageScreen(
 	navController: NavController,
 	viewModel: NewsViewModel
 ) {
+	val article = viewModel.selectedArticle.value
 	val gradient = Brush.verticalGradient(
 		colors = listOf(Color(0x0022242F), Color(0x7A22242F))
 	)
 	var isBookmarked by remember { mutableStateOf(false) }
-	
-	Column(
-		modifier = Modifier
-			.fillMaxSize()
-	) {
-		Box(
+	if (article != null) {
+		Column(
 			modifier = Modifier
-				.fillMaxWidth()
-				.size(0.dp, 368.dp)
+				.fillMaxSize()
 		) {
-			Image(
-				modifier = Modifier
-					.fillMaxSize()
-					.background(gradient),
-				painter = painterResource(R.drawable._04),
-				contentDescription = null,
-				contentScale = ContentScale.Crop,
-				colorFilter = ColorFilter.tint(
-					Color(0x2922242F),
-					blendMode = BlendMode.Darken
-				)
-			)
 			Box(
 				modifier = Modifier
-					.matchParentSize()
-					.background(gradient)
-			)
-			Column(
-				modifier = Modifier
-					.fillMaxSize()
+					.fillMaxWidth()
+					.size(0.dp, 368.dp)
 			) {
-				Row(
+				Image(
 					modifier = Modifier
-						.fillMaxWidth()
-						.padding(
-							start = 20.dp,
-							top = 72.dp,
-							end = 20.dp
-						),
-					horizontalArrangement = Arrangement.SpaceBetween
+						.fillMaxSize()
+						.background(gradient),
+					painter = rememberImagePainter(article.urlToImage),
+					contentDescription = null,
+					contentScale = ContentScale.Crop,
+					colorFilter = ColorFilter.tint(
+						Color(0x2922242F),
+						blendMode = BlendMode.Darken
+					)
+				)
+				Box(
+					modifier = Modifier
+						.matchParentSize()
+						.background(gradient)
+				)
+				Column(
+					modifier = Modifier
+						.fillMaxSize()
 				) {
-					IconButton(
+					Row(
 						modifier = Modifier
-							.size(24.dp),
-						onClick = { navController.popBackStack() }) {
-						Icon(
-							modifier = Modifier
-								.size(12.dp),
-							imageVector = ImageVector.vectorResource(R.drawable.back),
-							tint = Color.White,
-							contentDescription = null
-						)
-					}
-					IconButton(
-						modifier = Modifier
-							.size(24.dp),
-						onClick = {
-							isBookmarked = !isBookmarked  /*TODO*/
-						}) {
-						Icon(
-							modifier = Modifier
-								.size(14.dp, 20.dp),
-							imageVector = ImageVector.vectorResource(
-								if (isBookmarked)
-									R.drawable.selected_bookmark
-								else
-									R.drawable.bookmark
+							.fillMaxWidth()
+							.padding(
+								start = 20.dp,
+								top = 72.dp,
+								end = 20.dp
 							),
-							tint = Color.White,
-							contentDescription = null
-						)
+						horizontalArrangement = Arrangement.SpaceBetween
+					) {
+						IconButton(
+							modifier = Modifier
+								.size(24.dp),
+							onClick = { navController.popBackStack() }) {
+							Icon(
+								modifier = Modifier
+									.size(12.dp),
+								imageVector = ImageVector.vectorResource(R.drawable.back),
+								tint = Color.White,
+								contentDescription = null
+							)
+						}
+						IconButton(
+							modifier = Modifier
+								.size(24.dp),
+							onClick = {
+								isBookmarked = !isBookmarked  /*TODO*/
+							}) {
+							Icon(
+								modifier = Modifier
+									.size(14.dp, 20.dp),
+								imageVector = ImageVector.vectorResource(
+									if (isBookmarked)
+										R.drawable.selected_bookmark
+									else
+										R.drawable.bookmark
+								),
+								tint = Color.White,
+								contentDescription = null
+							)
+						}
+					}
+					Row(
+						modifier = Modifier
+							.fillMaxWidth()
+							.padding(
+								start = 20.dp,
+								top = 24.dp,
+								end = 20.dp
+							),
+						horizontalArrangement = Arrangement.End
+					) {
+						IconButton(
+							modifier = Modifier
+								.size(24.dp),
+							onClick = { /*TODO*/ }) {
+							Icon(
+								modifier = Modifier
+									.size(20.dp, 18.dp),
+								imageVector = ImageVector.vectorResource(R.drawable.share),
+								tint = Color.White,
+								contentDescription = null
+							)
+						}
 					}
 				}
 				Row(
 					modifier = Modifier
-						.fillMaxWidth()
-						.padding(
-							start = 20.dp,
-							top = 24.dp,
-							end = 20.dp
-						),
-					horizontalArrangement = Arrangement.End
+						.offset(20.dp, 168.dp)
+						.clip(CircleShape)
+						.background(Color(0xFF475AD7))
+						.padding(16.dp, 8.dp),
+					verticalAlignment = Alignment.CenterVertically
 				) {
-					IconButton(
-						modifier = Modifier
-							.size(24.dp),
-						onClick = { /*TODO*/ }) {
-						Icon(
-							modifier = Modifier
-								.size(20.dp, 18.dp),
-							imageVector = ImageVector.vectorResource(R.drawable.share),
-							tint = Color.White,
-							contentDescription = null
-						)
-					}
+					Text(
+						text = article.tag,
+						fontFamily = inter,
+						fontWeight = FontWeight.Normal,
+						fontSize = 12.sp,
+						color = Color.White,
+					)
 				}
-			}
-			Row(
-				modifier = Modifier
-					.offset(20.dp, 168.dp)
-					.clip(CircleShape)
-					.background(Color(0xFF475AD7))
-					.padding(16.dp, 8.dp),
-				verticalAlignment = Alignment.CenterVertically
-			) {
 				Text(
-					text = "label",
+					text = article.title,
+					lineHeight = 28.sp,
+					fontFamily = inter,
+					fontWeight = FontWeight.Bold,
+					fontSize = 20.sp,
+					color = Color.White,
+					modifier = Modifier
+						.padding(start = 20.dp, top = 216.dp, end = 20.dp)
+				)
+				Text(
+					text = article.author,
+					fontFamily = inter,
+					fontWeight = FontWeight.W600,
+					fontSize = 16.sp,
+					color = Color.White,
+					modifier = Modifier
+						.padding(start = 26.dp, top = 296.dp)
+				)
+				Text(
+					text = stringResource(id = R.string.autor),
 					fontFamily = inter,
 					fontWeight = FontWeight.Normal,
-					fontSize = 12.sp,
-					color = Color.White,
+					fontSize = 14.sp,
+					color = Color(0xFFACAFC3),
+					modifier = Modifier
+						.padding(start = 26.dp, top = 320.dp)
 				)
 			}
 			Text(
-				text = "heading",
-				lineHeight = 28.sp,
-				fontFamily = inter,
-				fontWeight = FontWeight.Bold,
-				fontSize = 20.sp,
-				color = Color.White,
-				modifier = Modifier
-					.padding(start = 20.dp, top = 216.dp, end = 20.dp)
-			)
-			Text(
-				text = "writer",
-				fontFamily = inter,
-				fontWeight = FontWeight.W600,
-				fontSize = 16.sp,
-				color = Color.White,
-				modifier = Modifier
-					.padding(start = 26.dp, top = 296.dp)
-			)
-			Text(
-				text = stringResource(id = R.string.autor),
+				text = article.content,
+				lineHeight = 24.sp,
 				fontFamily = inter,
 				fontWeight = FontWeight.Normal,
-				fontSize = 14.sp,
-				color = Color(0xFFACAFC3),
+				fontSize = 16.sp,
+				color = Color(0xFF666C8E),
 				modifier = Modifier
-					.padding(start = 26.dp, top = 320.dp)
+					.padding(19.5.dp)
+					.verticalScroll(rememberScrollState())
 			)
 		}
-		Text(
-			text = "article",
-			lineHeight = 24.sp,
-			fontFamily = inter,
-			fontWeight = FontWeight.Normal,
-			fontSize = 16.sp,
-			color = Color(0xFF666C8E),
-			modifier = Modifier
-				.padding(19.5.dp)
-				.verticalScroll(rememberScrollState())
-		)
 	}
 }
 
