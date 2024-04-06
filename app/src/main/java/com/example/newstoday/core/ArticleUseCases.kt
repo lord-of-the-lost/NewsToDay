@@ -8,6 +8,10 @@ class ArticleUseCases {
         fun filterRemovedArticles(articles: List<Article>): List<Article> {
             return articles.filterNot { article ->
                 article.url == "https://removed.com"
+                        || article.description == null
+                        || article.author == null
+                        || article.urlToImage == null
+                        || article.author?.startsWith("http") == true
             }
         }
 
