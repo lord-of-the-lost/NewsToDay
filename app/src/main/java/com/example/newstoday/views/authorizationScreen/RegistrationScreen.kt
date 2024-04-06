@@ -1,6 +1,10 @@
 package com.example.newstoday.views.authorizationScreen
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -19,6 +23,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -37,6 +42,7 @@ import com.example.newstoday.ui.theme.inter
 
 @Composable
 fun RegistrationScreen() {
+
     var nickName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -46,29 +52,45 @@ fun RegistrationScreen() {
     var isPasswordError by remember { mutableStateOf(false) }
     var isPasswordRepeatError by remember { mutableStateOf(false) }
 
-    TopTextRegistrationScreen()
-    NickNameFieldRegistrationScreen(
-        nickName = nickName,
-        onNickNameChange = { nickName = it },
-        isError = isNickNameError
-    )
-    EmailFieldRegistrationScreen(
-        email = email,
-        onEmailChange = { email = it },
-        isError = isEmailError
-    )
-    PasswordFieldRegistrationScreen(
-        password = password,
-        onPasswordChange = { password = it },
-        isError = isPasswordError
-    )
-    PasswordFieldRegistrationScreenRepeat(
-        password = passwordRepeat,
-        onPasswordChange = { passwordRepeat = it },
-        isError = isPasswordRepeatError
-    )
-    SignInButtonRegistrationScreen({/* TODO написать логику регистрации */ })
-    LoginScreenReference({/* TODO написать переход на страницу входа */ })
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 20.dp),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Spacer(modifier = Modifier.height(60.dp))
+        TopTextRegistrationScreen()
+        Spacer(modifier = Modifier.height(32.dp))
+        NickNameFieldRegistrationScreen(
+            nickName = nickName,
+            onNickNameChange = { nickName = it },
+            isError = isNickNameError
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        EmailFieldRegistrationScreen(
+            email = email,
+            onEmailChange = { email = it },
+            isError = isEmailError
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        PasswordFieldRegistrationScreen(
+            password = password,
+            onPasswordChange = { password = it },
+            isError = isPasswordError
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        PasswordFieldRegistrationScreenRepeat(
+            password = passwordRepeat,
+            onPasswordChange = { passwordRepeat = it },
+            isError = isPasswordRepeatError
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        SignInButtonRegistrationScreen({/* TODO написать логику регистрации */ })
+        Spacer(modifier = Modifier.weight(1f))
+        LoginScreenReference({/* TODO написать переход на страницу входа */ })
+        Spacer(modifier = Modifier.height(30.dp))
+    }
 }
 
 
@@ -83,7 +105,6 @@ fun NickNameFieldRegistrationScreen(
     var iconTint by remember { mutableStateOf(Color.Gray) }
     Box(
         modifier = Modifier
-            .padding(top = 192.dp, start = 20.dp)
             .width(336.dp)
             .height(56.dp)
     ) {
@@ -132,7 +153,6 @@ fun EmailFieldRegistrationScreen(email: String, onEmailChange: (String) -> Unit,
     var iconTint by remember { mutableStateOf(Color.Gray) }
     Box(
         modifier = Modifier
-            .padding(top = 264.dp, start = 20.dp)
             .width(336.dp)
             .height(56.dp)
     ) {
@@ -187,7 +207,6 @@ fun PasswordFieldRegistrationScreen(
 
     Box(
         modifier = Modifier
-            .padding(top = 336.dp, start = 20.dp)
             .width(336.dp)
             .height(56.dp)
     ) {
@@ -257,7 +276,6 @@ fun PasswordFieldRegistrationScreenRepeat(
 
     Box(
         modifier = Modifier
-            .padding(top = 408.dp, start = 20.dp)
             .width(336.dp)
             .height(56.dp)
     ) {
@@ -318,7 +336,6 @@ fun PasswordFieldRegistrationScreenRepeat(
 fun TopTextRegistrationScreen() {
     Text(
         modifier = Modifier
-            .padding(top = 72.dp, start = 20.dp)
             .width(216.dp)
             .height(32.dp),
         text = stringResource(id = R.string.welcome_to_news),
@@ -333,7 +350,6 @@ fun TopTextRegistrationScreen() {
     )
     Text(
         modifier = Modifier
-            .padding(top = 112.dp, start = 20.dp)
             .width(336.dp)
             .height(48.dp),
         text = stringResource(id = R.string.welcome_to_news_description),
@@ -352,7 +368,6 @@ fun TopTextRegistrationScreen() {
 fun SignInButtonRegistrationScreen(toRegister: () -> Unit) {
     Box(
         modifier = Modifier
-            .padding(top = 480.dp, start = 20.dp)
             .width(336.dp)
             .height(56.dp)
 
@@ -380,7 +395,6 @@ fun LoginScreenReference(toLoginScreen: () -> Unit) {
             }
         },
         modifier = Modifier
-            .padding(top = 738.dp, start = 20.dp)
             .width(243.dp)
             .height(32.dp),
         style = TextStyle(
