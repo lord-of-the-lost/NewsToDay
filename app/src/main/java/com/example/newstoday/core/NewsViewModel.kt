@@ -133,12 +133,27 @@ class NewsViewModel(application: Application) : AndroidViewModel(application) {
 
     fun toggleBookmark(articleModel: ArticleModel) {
         viewModelScope.launch {
-            if (articleModel.isBookmarked) {
-                deleteArticle(articleModel.copy(isBookmarked = false))
+            val newBookmarkState = !articleModel.isBookmarked
+            val updatedArticle = articleModel.copy(isBookmarked = newBookmarkState)
+
+            if (newBookmarkState) {
+                saveArticle(updatedArticle)
             } else {
-                saveArticle(articleModel.copy(isBookmarked = true))
+                deleteArticle(updatedArticle)
             }
-            updateArticlesWithBookmarks()
+
+            bigItemsResponse.value = bigItemsResponse.value?.map { if (it.id == articleModel.id) updatedArticle else it }
+            recommendedNewsResponse.value = recommendedNewsResponse.value?.map { if (it.id == articleModel.id) updatedArticle else it }
+        }
+    }
+
+
+    private fun updateArticleBookmarkState(articleId: String, isBookmarked: Boolean) {
+        bigItemsResponse.value = bigItemsResponse.value?.map { article ->
+            if (article.id == articleId) article.copy(isBookmarked = isBookmarked) else article
+        }
+        recommendedNewsResponse.value = recommendedNewsResponse.value?.map { article ->
+            if (article.id == articleId) article.copy(isBookmarked = isBookmarked) else article
         }
     }
 
