@@ -2,6 +2,8 @@ package com.example.newstoday.navigation
 
 
 import android.annotation.SuppressLint
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,6 +20,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.newstoday.R
 import com.example.newstoday.core.NewsViewModel
+import com.example.newstoday.statusBarColor.SetStatusBarColor
 import com.example.newstoday.views.articlePage.ArticlePageScreen
 import com.example.newstoday.views.booksmark.Bookmarks
 import com.example.newstoday.views.categories.CategoriesScreen
@@ -28,10 +31,26 @@ import com.example.newstoday.views.profiles.profile.ProfileScreenContent
 import com.example.newstoday.views.profiles.termsconditions.ScrollableText
 import com.example.newstoday.views.topappbar.TopAppBarCust
 
+@RequiresApi(Build.VERSION_CODES.R)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MainNavigationScreen(viewModel: NewsViewModel) {
 	val navController = rememberNavController()
+	
+	if (navController.currentBackStackEntryAsState().value?.destination?.route in listOf(
+			Screen.Onboarding.route,
+			Screen.Home.route,
+			Screen.CategoriesScreen.route,
+			Screen.Bookmarks.route,
+			Screen.Profile.route,
+			Screen.TermsConditions.route,
+			Screen.Language.route
+		)
+	) {
+		SetStatusBarColor(Color.White)
+	} else {
+		SetStatusBarColor(Color.Transparent)
+	}
 	
 	Scaffold(Modifier
 		.background(Color.White),
@@ -152,6 +171,3 @@ fun MainNavigationScreen(viewModel: NewsViewModel) {
 		}
 	}
 }
-        
-
-
