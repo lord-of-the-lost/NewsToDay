@@ -57,6 +57,7 @@ fun Bookmarks(
     if (listNews.isEmpty()) {
         Column(
             modifier = modifier
+                .padding(top=322.dp, start=20.dp, end = 20.dp)
         ) {
             Box(
                 modifier = Modifier
