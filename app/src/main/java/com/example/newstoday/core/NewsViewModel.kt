@@ -39,6 +39,7 @@ class NewsViewModel(application: Application) : AndroidViewModel(application) {
     var selectedArticle = mutableStateOf<ArticleModel?>(null)
     var recomendedNewsResponse: MutableState<List<ArticleModel>?> = mutableStateOf(null)
     var bigItemsResponse: MutableState<List<ArticleModel>?> = mutableStateOf(null)
+    var savedArticles: MutableState<List<ArticleModel>?> = mutableStateOf(null)
     var errorMessage: MutableState<String?> = mutableStateOf(null)
 
     init {
@@ -91,11 +92,35 @@ class NewsViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun deleteArticle(articleModel: ArticleModel) {
+        viewModelScope.launch {
+            try {
+                val articleEntity = ArticleUseCases.mapArticleModelToArticleEntity(articleModel)
+                repository.deleteArticle(articleEntity)
+            } catch (e: Exception) {
+                errorMessage.value = "Не удалось удалить статью: ${e.message}"
+            }
+        }
+    }
+    fun getSavedArticles() {
+        viewModelScope.launch {
+            try {
+                val articleEntities = repository.getSavedArticles()
+                val articleModels = articleEntities.map { entity ->
+                    ArticleUseCases.mapArticleEntityToArticleModel(entity)
+                }
+                savedArticles.value = articleModels
+            } catch (e: Exception) {
+                errorMessage.value = "Не удалось получить сохраненные статьи: ${e.message}"
+            }
+        }
+    }
+
     fun saveArticle(articleModel: ArticleModel) {
         viewModelScope.launch {
             try {
                 val imageData = downloadImage(articleModel.urlToImage)
-                val articleEntity = ArticleUseCases.mapArticleModelToArticleEntity(articleModel).copy(imageData = imageData)
+                val articleEntity = ArticleUseCases.mapArticleModelToArticleEntity(articleModel)
                 repository.saveArticle(articleEntity)
             } catch (e: Exception) {
                 errorMessage.value = "Не удалось сохранить статью: ${e.message}"
