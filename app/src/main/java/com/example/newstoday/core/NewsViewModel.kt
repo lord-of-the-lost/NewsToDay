@@ -42,10 +42,6 @@ class NewsViewModel(application: Application) : AndroidViewModel(application) {
     var savedArticles: MutableState<List<ArticleModel>?> = mutableStateOf(null)
     var errorMessage: MutableState<String?> = mutableStateOf(null)
 
-    init {
-        loadTopHeadlines()
-    }
-
     fun loadTopHeadlines(country: String = "us") {
         viewModelScope.launch {
             try {

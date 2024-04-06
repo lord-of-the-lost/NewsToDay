@@ -68,6 +68,9 @@ fun MainScreen(
 
     var recommendedNewsList by remember { mutableStateOf<List<ArticleModel>>(emptyList()) }
     recommendedNewsList = viewModel.recomendedNewsResponse.value ?: emptyList()
+    LaunchedEffect(key1 = true) {
+        viewModel.loadTopHeadlines()
+    }
 
     LazyColumn(
         modifier = modifier
