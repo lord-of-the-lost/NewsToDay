@@ -186,7 +186,7 @@ fun OnboardingScreen(modifier: Modifier, navController: NavController) {
             onClick = {
                 pagerScope.launch { pagerState.scrollToPage(pagerState.currentPage + 1) }
                 if (buttonTexts[buttonTextIndex] == "Get Started" || buttonTexts[buttonTextIndex] == "Начать") {
-                    navController.navigate(Screen.CategoriesScreen.route)
+                    navController.navigate(Screen.Authorization.route)
                 }
             }) {
             Text(

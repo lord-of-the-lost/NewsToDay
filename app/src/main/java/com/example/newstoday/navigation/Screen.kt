@@ -10,6 +10,8 @@ sealed class Screen(
     val activeColor: Color? = null
 ) {
     object Onboarding : Screen("onboarding")
+    object Registration : Screen("registration")
+    object Authorization : Screen("authorization")
     object NewsScreen : Screen("news_screen")
     object TermsConditions : Screen("terms_conditions")
     object Language : Screen("language")

@@ -39,11 +39,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.newstoday.R
+import com.example.newstoday.core.NewsViewModel
+import com.example.newstoday.navigation.Screen
 import com.example.newstoday.ui.theme.inter
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(
+    modifier: Modifier,
+    navController: NavController,
+    viewModel: NewsViewModel
+){
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var isEmailError by remember { mutableStateOf(false) }
@@ -63,9 +70,17 @@ fun LoginScreen() {
         Spacer(modifier = Modifier.height(16.dp))
         PasswordField(password, onPasswordChange = { password = it }, isError = isPasswordError)
         Spacer(modifier = Modifier.height(64.dp))
-        SignInButton({/* TODO Написать логику авторизации */})
+        SignInButton { //TODO validation
+            navController.navigate(Screen.CategoriesScreen.route) {
+                popUpTo(Screen.Onboarding.route) { inclusive = true }
+            }
+        }
         Spacer(modifier = Modifier.weight(1f))
-        RegisterScreenReference({/* TODO Написать логику переноса на страницу регистрации */})
+        RegisterScreenReference {
+            navController.navigate(Screen.Registration.route) {
+                popUpTo(Screen.Authorization.route) { inclusive = true }
+            }
+        }
         Spacer(modifier = Modifier.height(30.dp))
     }
 }
