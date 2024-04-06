@@ -42,6 +42,7 @@ import com.example.newstoday.ui.theme.inter
 
 @Composable
 fun RegistrationScreen() {
+
     var nickName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
