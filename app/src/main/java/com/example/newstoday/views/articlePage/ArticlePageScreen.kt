@@ -31,7 +31,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -40,7 +39,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.example.newstoday.R
-import com.example.newstoday.core.ArticleModel
 import com.example.newstoday.core.NewsViewModel
 import com.example.newstoday.ui.theme.inter
 
@@ -154,7 +152,7 @@ fun ArticlePageScreen(
 				}
 				Row(
 					modifier = Modifier
-						.offset(20.dp, 168.dp)
+						.offset(20.dp, 144.dp)
 						.clip(CircleShape)
 						.background(Color(0xFF475AD7))
 						.padding(16.dp, 8.dp),
@@ -176,7 +174,7 @@ fun ArticlePageScreen(
 					fontSize = 20.sp,
 					color = Color.White,
 					modifier = Modifier
-						.padding(start = 20.dp, top = 216.dp, end = 20.dp)
+						.padding(start = 20.dp, top = 192.dp, end = 20.dp)
 				)
 				Text(
 					text = article.author,
