@@ -163,7 +163,7 @@ fun ArticlePageScreen(
 				}
 				Row(
 					modifier = Modifier
-						.offset(20.dp, 168.dp)
+						.offset(20.dp, 120.dp)
 						.clip(CircleShape)
 						.background(Color(0xFF475AD7))
 						.padding(16.dp, 8.dp),
@@ -185,7 +185,7 @@ fun ArticlePageScreen(
 					fontSize = 20.sp,
 					color = Color.White,
 					modifier = Modifier
-						.padding(start = 20.dp, top = 216.dp, end = 20.dp)
+						.padding(start = 20.dp, top = 168.dp, end = 20.dp)
 				)
 				Text(
 					text = article.author,

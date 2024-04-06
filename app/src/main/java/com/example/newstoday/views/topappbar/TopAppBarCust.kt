@@ -124,7 +124,7 @@ fun TopAppBarCust(
 							x = if (screen.contains(stringResource(id = R.string.terms_conditions)) || screen.contains(
 									stringResource(id = R.string.language_language)
 								)
-							) (-20).dp else 0.dp
+							) (-10).dp else 0.dp
 						)
 				)
 				if (titleAdd != null) {
