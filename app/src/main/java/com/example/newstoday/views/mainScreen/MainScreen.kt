@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -41,7 +42,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -137,8 +137,9 @@ fun MainScreen(
             LazyRow(    //category tags-buttons
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 24.dp, start = 20.dp),
-                horizontalArrangement = Arrangement.Absolute.spacedBy(16.dp)
+                    .padding(bottom = 24.dp),
+                contentPadding = PaddingValues(start = 20.dp, end = 20.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 itemsIndexed(
                     categoriesList
@@ -179,9 +180,9 @@ fun MainScreen(
 
             LazyRow(    //news cards
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 20.dp),
-                horizontalArrangement = Arrangement.Absolute.spacedBy(16.dp)
+                    .fillMaxWidth(),
+                contentPadding = PaddingValues(start = 20.dp, end = 20.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 items(viewModel.bigItemsResponse.value ?: emptyList()) { card ->
                     CardItem(card)
@@ -197,7 +198,7 @@ fun MainScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = 20.dp, end = 20.dp),
-                    text = "You haven't selected any categories yet. Go to the categories tab to select them",
+                    text = stringResource(id = R.string.have_not_categories),
                     color = Color(0xFF333647),
                     fontFamily = inter,
                     lineHeight = 24.sp,

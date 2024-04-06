@@ -109,7 +109,7 @@ fun CategoriesScreen(
                     .padding(start = 20.dp, end = 20.dp, top = 16.dp),
                 shape = RoundedCornerShape(12.dp),
                 colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF475AD7)),
-                elevation = ButtonDefaults.elevation(defaultElevation = 0.dp),
+                elevation = ButtonDefaults.elevation(defaultElevation = 0.dp, pressedElevation = 0.dp,),
             ) {
                 Text(
                     text = stringResource(id = R.string.buttonTexts_next),

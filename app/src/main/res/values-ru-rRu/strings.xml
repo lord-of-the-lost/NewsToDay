@@ -67,4 +67,5 @@
     <string name="fashion_Main">Мода</string>
     <string name="gaming_Main">Гейминг</string>
     <string name="politics_Main">Политика</string>
+    <string name="have_not_categories">Вы еще не выбрали ни одной категории. Перейдите на вкладку Категории, чтобы выбрать их</string>
 </resources>
