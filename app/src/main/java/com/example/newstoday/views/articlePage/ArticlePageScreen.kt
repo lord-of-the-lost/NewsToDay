@@ -53,6 +53,7 @@ fun ArticlePageScreen(
 		colors = listOf(Color(0x0022242F), Color(0x7A22242F))
 	)
 	var isBookmarked by remember { mutableStateOf(false) }
+	isBookmarked = article?.isBookmarked == true
 	if (article != null) {
 		Column(
 			modifier = Modifier
@@ -110,7 +111,15 @@ fun ArticlePageScreen(
 							modifier = Modifier
 								.size(24.dp),
 							onClick = {
-								isBookmarked = !isBookmarked  /*TODO*/
+								if (isBookmarked != true) {
+									isBookmarked = true
+									article.isBookmarked = isBookmarked
+									viewModel.saveArticle(article)
+								} else {
+									isBookmarked = false
+									article.isBookmarked = isBookmarked
+									viewModel.deleteArticle(article)
+								}
 							}) {
 							Icon(
 								modifier = Modifier
