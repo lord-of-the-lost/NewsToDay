@@ -36,6 +36,7 @@ class NewsViewModel(application: Application) : AndroidViewModel(application) {
         NewsRepository(apiService, articleDao)
     }
     var initialCategorySetupCompleted = mutableStateOf(false)
+    var selectedArticle = mutableStateOf<ArticleModel?>(null)
     var recomendedNewsResponse: MutableState<List<ArticleModel>?> = mutableStateOf(null)
     var bigItemsResponse: MutableState<List<ArticleModel>?> = mutableStateOf(null)
     var errorMessage: MutableState<String?> = mutableStateOf(null)

@@ -43,6 +43,7 @@ import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
 import com.example.newstoday.R
 import com.example.newstoday.core.ArticleModel
+import com.example.newstoday.core.NewsViewModel
 import com.example.newstoday.navigation.Screen
 import com.example.newstoday.ui.theme.inter
 
@@ -89,13 +90,16 @@ fun RecommendedHeader() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CardNews(article: ArticleModel, navController: NavController) {
+fun CardNews(viewModel: NewsViewModel, article: ArticleModel, navController: NavController) {
     val gradient = Brush.verticalGradient(
         colors = listOf(Color(0x0022242F), Color(0x7A22242F))
     )
     Card(
         colors = CardDefaults.cardColors(Color.White),
-        onClick = { navController.navigate(Screen.NewsScreen.route) }
+        onClick = {
+            viewModel.selectedArticle.value = article
+            navController.navigate(Screen.NewsScreen.route)
+        }
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,

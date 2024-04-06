@@ -52,6 +52,7 @@ import coil.compose.rememberImagePainter
 import com.example.newstoday.R
 import com.example.newstoday.core.ArticleModel
 import com.example.newstoday.core.NewsViewModel
+import com.example.newstoday.navigation.Screen
 import com.example.newstoday.ui.theme.inter
 import com.example.newstoday.views.mainScreen.recommended.CardNews
 import com.example.newstoday.views.mainScreen.recommended.RecommendedHeader
@@ -119,7 +120,7 @@ fun MainScreen(
             }
             //endregion
 
-            val  categoriesList = listOf(
+            val categoriesList = listOf(
                 stringResource(id = R.string.random_Main),
                 stringResource(id = R.string.sports_Main),
                 stringResource(id = R.string.politics_Main),
@@ -148,7 +149,14 @@ fun MainScreen(
                         modifier = Modifier
                             .clip(CircleShape)
                             .height(32.dp)
-                            .clickable { activeCategoryIndex.value = index }
+                            .clickable {
+                                activeCategoryIndex.value = index
+                                if (item == R.string.random_Main.toString()) {
+                                    viewModel.loadTopHeadlines()
+                                } else {
+                                    viewModel.loadEverything(item)
+                                }
+                            }
                             .background(
                                 Color(
                                     if (index == activeCategoryIndex.value)
@@ -174,7 +182,6 @@ fun MainScreen(
                             ),
                         )
                     }
-
                 }
             }
 
@@ -185,12 +192,11 @@ fun MainScreen(
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 items(viewModel.bigItemsResponse.value ?: emptyList()) { card ->
-                    CardItem(card)
+                    CardItem(viewModel, card, navController)
                 }
             }
             RecommendedHeader()
         }
-
 //      Recommended items
         if (recommendedNewsList.isEmpty()) {
             item {
@@ -208,14 +214,14 @@ fun MainScreen(
             }
         } else {
             items(recommendedNewsList) { it ->
-                CardNews(article = it, navController)
+                CardNews(viewModel, it, navController)
             }
         }
     }
 }
 
 @Composable
-fun CardItem(article: ArticleModel) {
+fun CardItem(viewModel: NewsViewModel, article: ArticleModel, navController: NavController) {
     val gradient = Brush.verticalGradient(
         colors = listOf(Color(0x0022242F), Color(0x7A22242F))
     )
@@ -231,7 +237,10 @@ fun CardItem(article: ArticleModel) {
                 .height(256.dp)
                 .width(256.dp)
                 .fillMaxWidth()
-                .clickable { }
+                .clickable {
+                    viewModel.selectedArticle.value = article
+                    navController.navigate(Screen.NewsScreen.route)
+                }
         ) {
             Image(
                 painter = rememberImagePainter(article.urlToImage),
