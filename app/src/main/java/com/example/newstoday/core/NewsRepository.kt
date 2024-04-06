@@ -12,10 +12,6 @@ class NewsRepository(private val apiService: NewsApiService, private val article
         return if (response.isSuccessful) response.body()?.articles else null
     }
 
-    suspend fun getArticlesForCategory(category: String, apiKey: String): List<Article>? {
-        return getEverything(category, apiKey)
-    }
-
     suspend fun getTopHeadlines(country: String, apiKey: String): List<Article>? {
         val response = apiService.getTopHeadlines(country = country, apiKey = apiKey)
         return if (response.isSuccessful) response.body()?.articles else null

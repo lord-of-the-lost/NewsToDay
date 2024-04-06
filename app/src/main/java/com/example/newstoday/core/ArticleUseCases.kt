@@ -30,7 +30,20 @@ class ArticleUseCases {
                 author = articleModel.author,
                 title = articleModel.title,
                 content = articleModel.content,
-                imageData = null
+                tag = articleModel.tag,
+                urlToImage = articleModel.urlToImage
+            )
+        }
+
+        fun mapArticleEntityToArticleModel(articleEntity: ArticleEntity): ArticleModel {
+            return ArticleModel(
+                id = articleEntity.id,
+                title = articleEntity.title,
+                content = articleEntity.content,
+                urlToImage = articleEntity.urlToImage,
+                author = articleEntity.author,
+                tag = articleEntity.tag,
+                isBookmarked = true
             )
         }
     }

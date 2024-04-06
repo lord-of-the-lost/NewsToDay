@@ -28,6 +28,7 @@ import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -277,8 +278,15 @@ fun CardItem(viewModel: NewsViewModel, article: ArticleModel, navController: Nav
                         modifier = Modifier
                             .size(24.dp),
                         onClick = {
-                            isBookmarkedArticle = !isBookmarkedArticle
-                            article.isBookmarked = isBookmarkedArticle
+                            if (isBookmarkedArticle != true) {
+                                isBookmarkedArticle = !isBookmarkedArticle
+                                article.isBookmarked = isBookmarkedArticle
+                                viewModel.saveArticle(article)
+                            } else {
+                                isBookmarkedArticle = !isBookmarkedArticle
+                                article.isBookmarked = isBookmarkedArticle
+                                viewModel.deleteArticle(article)
+                            }
                         }) {
                         Icon(
                             modifier = Modifier

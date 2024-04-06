@@ -7,9 +7,9 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "article_entity")
 data class ArticleEntity(
     @PrimaryKey val id: String,
-    val author: String?,
+    val author: String,
     val title: String,
-    val content: String?,
-    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
-    val imageData: ByteArray?
+    val content: String,
+    val tag: String,
+    val urlToImage: String,
 )
