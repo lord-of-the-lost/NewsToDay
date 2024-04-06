@@ -111,7 +111,8 @@ fun MainNavigationScreen(viewModel: NewsViewModel) {
 				composable(Screen.Bookmarks.route) {
 					Bookmarks(
 						Modifier
-							.fillMaxSize(),
+							.fillMaxSize()
+							.padding(horizontal = 20.dp),
 						navController,
 						viewModel
 					)
