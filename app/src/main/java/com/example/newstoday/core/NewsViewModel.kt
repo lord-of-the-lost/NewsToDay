@@ -10,6 +10,9 @@ import androidx.room.Room
 import com.example.newstoday.core.network.RetrofitClient
 import com.example.newstoday.core.storage.ArticleDao
 import com.example.newstoday.core.storage.ArticleDatabase
+import com.example.newstoday.core.storage.UserData
+import com.example.newstoday.core.storage.UsersDao
+import com.example.newstoday.core.storage.UsersDatabase
 import com.example.newstoday.views.categories.Categories
 import kotlinx.coroutines.launch
 
@@ -22,9 +25,18 @@ class NewsViewModel(application: Application) : AndroidViewModel(application) {
             ArticleDatabase::class.java, "database.db"
         ).build().articleDao()
     }
+    private val usersDao: UsersDao by lazy {
+        Room.databaseBuilder(
+            application,
+            UsersDatabase::class.java, "app_users.db"
+        ).build().usersDao()
+    }
 
     private val repository: NewsRepository by lazy {
         NewsRepository(apiService, articleDao)
+    }
+    private val userRepository: UsersRepository by lazy {
+        UsersRepository(usersDao)
     }
     var initialCategorySetupCompleted = mutableStateOf(false)
     var selectedArticle = mutableStateOf<ArticleModel?>(null)
@@ -33,6 +45,9 @@ class NewsViewModel(application: Application) : AndroidViewModel(application) {
     var savedArticles: MutableState<List<ArticleModel>?> = mutableStateOf(null)
     var errorMessage: MutableState<String?> = mutableStateOf(null)
     var categories = mutableStateListOf<Categories>()
+    var userData: MutableState<UserData?> = mutableStateOf(null)
+    var SavedUserData: MutableState<UserData?> = mutableStateOf(null)
+
 
     fun initializeCategories(newCategoriesList: List<Categories>) {
         if (categories.isEmpty()) {
@@ -96,6 +111,52 @@ class NewsViewModel(application: Application) : AndroidViewModel(application) {
         loadArticlesByCategories(selectedCategoriesNames)
     }
 
+    fun saveUser(user: UserData) {
+        viewModelScope.launch {
+            try {
+                userRepository.saveUsers(user)
+//                userData.value = userRepository.getEmail(user)
+            } catch (e: Exception) {
+                TODO("Not yet implemented")
+            }
+        }
+    }
+
+    fun getAllUsers() {
+        viewModelScope.launch {
+            try {
+                userRepository.getAllUsers()
+            } catch (e: Exception) {
+                TODO("Not yet implemented")
+            }
+        }
+    }
+
+    fun deleteUser(user: UserData) {
+        viewModelScope.launch {
+            try {
+                userRepository.deleteUser(user)
+            } catch (e: Exception) {
+                TODO("Not yet implemented")
+            }
+        }
+    }
+
+    fun getEmail(user: UserData) {
+        viewModelScope.launch {
+            userRepository.getEmail(user)
+        }
+    }
+
+    fun getUserByEmail(email: String):Boolean {
+        viewModelScope.launch {
+            userData.value = userRepository.getUserByEmail(email)
+        }
+        return userData.value != null
+
+    }
+
+
     fun deleteArticle(articleModel: ArticleModel) {
         viewModelScope.launch {
             try {
@@ -143,8 +204,10 @@ class NewsViewModel(application: Application) : AndroidViewModel(application) {
                 deleteArticle(updatedArticle)
             }
 
-            bigItemsResponse.value = bigItemsResponse.value?.map { if (it.id == articleModel.id) updatedArticle else it }
-            recommendedNewsResponse.value = recommendedNewsResponse.value?.map { if (it.id == articleModel.id) updatedArticle else it }
+            bigItemsResponse.value =
+                bigItemsResponse.value?.map { if (it.id == articleModel.id) updatedArticle else it }
+            recommendedNewsResponse.value =
+                recommendedNewsResponse.value?.map { if (it.id == articleModel.id) updatedArticle else it }
         }
     }
 
@@ -170,7 +233,8 @@ class NewsViewModel(application: Application) : AndroidViewModel(application) {
                         results.addAll(articleModels)
                     }
                 } catch (e: Exception) {
-                    errorMessage.value = "Ошибка при загрузке статей по категории '$categoryName': ${e.message}"
+                    errorMessage.value =
+                        "Ошибка при загрузке статей по категории '$categoryName': ${e.message}"
                 }
             }
             recommendedNewsResponse.value = results.shuffled()

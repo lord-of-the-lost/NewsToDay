@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.newstoday.R
 import com.example.newstoday.core.NewsViewModel
+import com.example.newstoday.core.storage.UserData
 import com.example.newstoday.navigation.Screen
 import com.example.newstoday.ui.theme.inter
 
@@ -91,6 +92,8 @@ fun RegistrationScreen(
         )
         Spacer(modifier = Modifier.height(16.dp))
         SignInButtonRegistrationScreen({ //TODO validation
+            var user: UserData = UserData(email = email, password = password, name = nickName)
+            viewModel.saveUser(user)
             navController.navigate(Screen.Authorization.route) {
                 popUpTo(Screen.Registration.route) { inclusive = true }
             }

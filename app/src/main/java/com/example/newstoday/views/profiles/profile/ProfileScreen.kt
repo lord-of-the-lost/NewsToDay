@@ -1,6 +1,7 @@
 package com.example.newstoday.views.profiles.profile
 
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -34,7 +35,8 @@ import com.example.newstoday.R
 import com.example.newstoday.core.NewsViewModel
 import com.example.newstoday.navigation.Screen
 import com.example.newstoday.ui.theme.inter
-import com.example.newstoday.views.profiles.UserData
+import com.example.newstoday.core.storage.UserData
+
 
 @Composable
 fun ProfileScreenContent(
@@ -52,8 +54,9 @@ fun ProfileScreenContent(
                 .fillMaxWidth()
         ) {
             ProfileImageTest()
-            val s = UserData("Test", "Test@email.ru")
-            ProfileInfoTest(userData = s)
+            val s = viewModel.userData
+            Log.d("loginTag", s.value?.email.toString())
+            s.value?.let { ProfileInfoTest(userData = it) }
         }
 
         Spacer(
@@ -174,11 +177,11 @@ fun ProfileScreenContent(
                     textAlign = TextAlign.Start,
                 )
                 Image(
-                    painter = painterResource(id = R.drawable.vector_button),
+                    painter = painterResource(id = R.drawable.exit_icon),
                     contentDescription = null,
                     modifier = Modifier
-                        .width(6.25.dp)
-                        .height(10.49.dp),
+                        .width(16.dp)
+                        .height(20.dp),
                     alignment = Alignment.Center
                 )
             }
@@ -195,11 +198,12 @@ fun ProfileImageTest() {
         contentAlignment = Alignment.BottomStart
     ) {
         Image(
-            painter = painterResource(id = R.drawable._01),
+            painter = painterResource(id = R.drawable.profile_icon),
             contentDescription = "profile picture",
             Modifier
                 .width(72.dp)
                 .height(72.dp)
+                .fillMaxSize()
         )
     }
 }
