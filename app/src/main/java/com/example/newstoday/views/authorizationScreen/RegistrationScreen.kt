@@ -304,7 +304,7 @@ fun PasswordFieldRegistrationScreenRepeat(
                 borderColor = if (it.isNotEmpty() && !isError) Color(0xFF475AD7) else Color.Gray
                 iconTint = if (it.isNotEmpty() && !isError) Color(0xFF475AD7) else Color.Gray
             },
-            label = { Text(text = "Repeat password") }, /* TODO сделать локализацию */
+            label = { Text(text = stringResource(id = R.string.repeat_password)) }, /* TODO */
             leadingIcon = {
                 Icon(
                     painter = painterResource(id = R.drawable.password_icon),
