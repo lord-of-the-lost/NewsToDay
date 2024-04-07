@@ -38,12 +38,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import coil.annotation.ExperimentalCoilApi
-import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
 import com.example.newstoday.R
 import com.example.newstoday.core.ArticleModel
@@ -92,7 +89,7 @@ fun Bookmarks(
                 text = stringResource(id = R.string.have_not_bookmarks),
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.labelMedium,
-                )
+            )
 
         }
 
@@ -169,9 +166,3 @@ fun CardNews(newsArticle: ArticleModel, onArticlePage: () -> Unit) {
         }
     }
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun BooksmarksPreview() {
-//    Booksmarks()
-//}

@@ -19,9 +19,11 @@ import com.example.newstoday.core.NewsViewModel
 import com.example.newstoday.ui.theme.inter
 
 @Composable
-fun ScrollableText(modifier: Modifier,
-                   navController: NavController,
-                   viewModel: NewsViewModel) {
+fun ScrollableText(
+    modifier: Modifier,
+    navController: NavController,
+    viewModel: NewsViewModel
+) {
     Text(
         modifier = Modifier
             .padding(20.dp)
@@ -36,13 +38,3 @@ fun ScrollableText(modifier: Modifier,
         ),
     )
 }
-
-
-/*
-@Preview(showBackground = true)
-@Composable
-fun TermsConditionsScreenPreview() {
-    NewsToDayTheme {
-        ScrollableText()
-    }
-}*/

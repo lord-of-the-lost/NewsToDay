@@ -321,9 +321,3 @@ fun CardItem(viewModel: NewsViewModel, article: ArticleModel, navController: Nav
         }
     }
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun MainScreenPreview() {
-//    MainScreen()
-//}

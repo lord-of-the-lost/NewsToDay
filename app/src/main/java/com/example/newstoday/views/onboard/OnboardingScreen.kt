@@ -200,12 +200,3 @@ fun OnboardingScreen(modifier: Modifier, navController: NavController) {
         }
     }
 }
-
-
-//@Preview(showBackground = true)
-//@Composable
-//fun OnboardingScreenPreview() {
-//    NewsToDayTheme {
-//        OnboardingScreen()
-//    }
-//}
