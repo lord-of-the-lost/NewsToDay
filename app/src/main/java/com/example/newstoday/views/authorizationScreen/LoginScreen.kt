@@ -144,7 +144,6 @@ fun EmailField(email: String, onEmailChange: (String) -> Unit, isError: Boolean)
             },
             label = { Text(text = stringResource(id = R.string.email_adress)) },
             isError = isError,
-            singleLine = true,
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color(0xFF475AD7),
                 cursorColor = Color(0xFF475AD7),
@@ -191,7 +190,6 @@ fun PasswordField(password: String, onPasswordChange: (String) -> Unit, isError:
                 )
             },
             isError = isError,
-            singleLine = true,
             trailingIcon = {
                 IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
                     Icon(
