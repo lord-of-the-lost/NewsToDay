@@ -81,8 +81,8 @@ fun MainNavigationScreen(viewModel: NewsViewModel) {
 						Screen.Profile.route -> stringResource(id = R.string.profile)
 						Screen.TermsConditions.route -> stringResource(id = R.string.terms_conditions)
 						Screen.Language.route -> stringResource(id = R.string.language_language)
-						Screen.Registration.route -> stringResource(id = R.string.welcome_back)
-						Screen.Authorization.route-> stringResource(id = R.string.welcome_to_news)
+						Screen.Registration.route -> stringResource(id = R.string.welcome_to_news)
+						Screen.Authorization.route-> stringResource(id = R.string.welcome_back)
 						else -> ""
 					},
 					navController,
