@@ -59,6 +59,10 @@ fun RegistrationScreen(
     var isPasswordError by remember { mutableStateOf(false) }
     var isPasswordRepeatError by remember { mutableStateOf(false) }
 
+    fun isValidEmail(target: CharSequence): Boolean {
+        return if (target.isEmpty()) false else android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches()
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -91,11 +95,18 @@ fun RegistrationScreen(
             isError = isPasswordRepeatError
         )
         Spacer(modifier = Modifier.height(16.dp))
-        SignInButtonRegistrationScreen({ //TODO validation
-            var user: UserData = UserData(email = email, password = password, name = nickName)
-            viewModel.saveUser(user)
-            navController.navigate(Screen.Authorization.route) {
-                popUpTo(Screen.Registration.route) { inclusive = true }
+        SignInButtonRegistrationScreen({
+            isNickNameError = nickName.isEmpty()
+            isEmailError = !isValidEmail(email)
+            isPasswordError = password.isEmpty() || password.length < 6
+            isPasswordRepeatError = password != passwordRepeat
+
+            if (!isNickNameError && !isEmailError && !isPasswordError && !isPasswordRepeatError) {
+                var user: UserData = UserData(email = email, password = password, name = nickName)
+                viewModel.saveUser(user)
+                navController.navigate(Screen.Authorization.route) {
+                    popUpTo(Screen.Registration.route) { inclusive = true }
+                }
             }
         })
         Spacer(modifier = Modifier.weight(1f))
@@ -145,7 +156,6 @@ fun NickNameFieldRegistrationScreen(
             },
             label = { Text(text = stringResource(id = R.string.username)) },
             isError = isError,
-            singleLine = true,
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color(0xFF475AD7),
                 cursorColor = Color(0xFF475AD7),
@@ -192,7 +202,6 @@ fun EmailFieldRegistrationScreen(email: String, onEmailChange: (String) -> Unit,
             },
             label = { Text(text = stringResource(id = R.string.email_adress)) },
             isError = isError,
-            singleLine = true,
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color(0xFF475AD7),
                 cursorColor = Color(0xFF475AD7),
@@ -202,6 +211,13 @@ fun EmailFieldRegistrationScreen(email: String, onEmailChange: (String) -> Unit,
                 unfocusedBorderColor = borderColor,
                 focusedLabelColor = Color(0xFF475AD7),
                 unfocusedLabelColor = if (email.isNotEmpty()) Color(0xFF475AD7) else Color.Gray
+            ),
+            textStyle = TextStyle(
+                fontSize = 14.sp,
+                fontWeight = FontWeight.W600,
+                lineHeight = 24.sp,
+                color = Color(0xFF666C8E),
+                fontFamily = inter
             )
         )
     }
@@ -245,7 +261,6 @@ fun PasswordFieldRegistrationScreen(
                 )
             },
             isError = isError,
-            singleLine = true,
             trailingIcon = {
                 IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
                     Icon(
@@ -270,6 +285,13 @@ fun PasswordFieldRegistrationScreen(
                 unfocusedBorderColor = borderColor,
                 focusedLabelColor = Color(0xFF475AD7),
                 unfocusedLabelColor = if (password.isNotEmpty()) Color(0xFF475AD7) else Color.Gray
+            ),
+            textStyle = TextStyle(
+                fontSize = 14.sp,
+                fontWeight = FontWeight.W600,
+                lineHeight = 24.sp,
+                color = Color(0xFF666C8E),
+                fontFamily = inter
             )
         )
     }
@@ -313,7 +335,6 @@ fun PasswordFieldRegistrationScreenRepeat(
                 )
             },
             isError = isError,
-            singleLine = true,
             trailingIcon = {
                 IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
                     Icon(
@@ -338,6 +359,13 @@ fun PasswordFieldRegistrationScreenRepeat(
                 unfocusedBorderColor = borderColor,
                 focusedLabelColor = Color(0xFF475AD7),
                 unfocusedLabelColor = if (password.isNotEmpty()) Color(0xFF475AD7) else Color.Gray
+            ),
+            textStyle = TextStyle(
+                fontSize = 14.sp,
+                fontWeight = FontWeight.W600,
+                lineHeight = 24.sp,
+                color = Color(0xFF666C8E),
+                fontFamily = inter
             )
         )
     }

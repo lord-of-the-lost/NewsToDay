@@ -1,7 +1,8 @@
 package com.example.newstoday.views.authorizationScreen
 
 
-import android.util.Log
+
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,12 +39,16 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.example.newstoday.R
 import com.example.newstoday.core.NewsViewModel
-import com.example.newstoday.core.storage.UserData
 import com.example.newstoday.navigation.Screen
 import com.example.newstoday.ui.theme.inter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import androidx.compose.ui.platform.LocalContext
 
 @Composable
 fun LoginScreen(
@@ -51,6 +56,7 @@ fun LoginScreen(
     navController: NavController,
     viewModel: NewsViewModel
 ) {
+    val context = LocalContext.current
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var isEmailError by remember { mutableStateOf(false) }
@@ -68,17 +74,19 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(16.dp))
         PasswordField(password, onPasswordChange = { password = it }, isError = isPasswordError)
         Spacer(modifier = Modifier.height(64.dp))
-        SignInButton { //TODO validation
-            if (viewModel.getUserByEmail(email)) {
-                isEmailError = false
-                isPasswordError = false
-                navController.navigate(Screen.CategoriesScreen.route) {
-                    popUpTo(Screen.Onboarding.route) { inclusive = true }
+        SignInButton {
+            viewModel.authenticateUser(email, password) { user ->
+                if (user != null) {
+                    navController.navigate(Screen.CategoriesScreen.route) {
+                        popUpTo(Screen.Onboarding.route) { inclusive = true }
+                    }
+                } else {
+                    viewModel.viewModelScope.launch {
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(context, "Неверный email или пароль", Toast.LENGTH_LONG).show()
+                        }
+                    }
                 }
-
-            }else{
-                isEmailError = true
-                isPasswordError = true
             }
         }
         Spacer(modifier = Modifier.weight(1f))
@@ -144,7 +152,6 @@ fun EmailField(email: String, onEmailChange: (String) -> Unit, isError: Boolean)
             },
             label = { Text(text = stringResource(id = R.string.email_adress)) },
             isError = isError,
-            singleLine = true,
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color(0xFF475AD7),
                 cursorColor = Color(0xFF475AD7),
@@ -152,6 +159,13 @@ fun EmailField(email: String, onEmailChange: (String) -> Unit, isError: Boolean)
                 unfocusedBorderColor = borderColor,
                 focusedLabelColor = Color(0xFF475AD7),
                 unfocusedLabelColor = if (email.isNotEmpty()) Color(0xFF475AD7) else Color.Gray
+            ),
+            textStyle = TextStyle(
+                fontSize = 14.sp,
+                fontWeight = FontWeight.W600,
+                lineHeight = 24.sp,
+                color = Color(0xFF666C8E),
+                fontFamily = inter
             )
         )
     }
@@ -191,7 +205,6 @@ fun PasswordField(password: String, onPasswordChange: (String) -> Unit, isError:
                 )
             },
             isError = isError,
-            singleLine = true,
             trailingIcon = {
                 IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
                     Icon(
@@ -214,6 +227,13 @@ fun PasswordField(password: String, onPasswordChange: (String) -> Unit, isError:
                 unfocusedBorderColor = borderColor,
                 focusedLabelColor = Color(0xFF475AD7),
                 unfocusedLabelColor = if (password.isNotEmpty()) Color(0xFF475AD7) else Color.Gray
+            ),
+            textStyle = TextStyle(
+                fontSize = 14.sp,
+                fontWeight = FontWeight.W600,
+                lineHeight = 24.sp,
+                color = Color(0xFF666C8E),
+                fontFamily = inter
             )
         )
     }

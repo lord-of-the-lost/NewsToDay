@@ -19,4 +19,6 @@ interface UsersDao {
 
     @Delete
     suspend fun deleteUser(users: UserData)
+    @Query("SELECT * FROM users_entity WHERE email = :email AND password = :password LIMIT 1")
+    suspend fun getUserByEmailAndPassword(email: String, password: String): UserData?
 }

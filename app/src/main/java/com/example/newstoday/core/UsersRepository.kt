@@ -8,18 +8,10 @@ class UsersRepository(private val usersDao: UsersDao) {
     suspend fun saveUsers(user: UserData) {
         usersDao.insertUser(user)
     }
-
-    suspend fun deleteUser(user: UserData) {
-        usersDao.deleteUser(user)
-    }
-
-    suspend fun getEmail(user: UserData): UserData? {
-        return usersDao.getEmail(user.id)
-    }
-    suspend fun getAllUsers(): List<UserData> {
-        return usersDao.getAllUsers()
-    }
     suspend fun getUserByEmail(email: String): UserData? {
         return usersDao.getUserByEmail(email)
+    }
+    suspend fun getUserByEmailAndPassword(email: String, password: String): UserData? {
+        return usersDao.getUserByEmailAndPassword(email, password)
     }
 }

@@ -54,7 +54,7 @@ fun ProfileScreenContent(
                 .fillMaxWidth()
         ) {
             ProfileImageTest()
-            val s = viewModel.userData
+            val s = viewModel.savedUserData
             Log.d("loginTag", s.value?.email.toString())
             s.value?.let { ProfileInfoTest(userData = it) }
         }

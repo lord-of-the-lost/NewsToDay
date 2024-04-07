@@ -45,8 +45,7 @@ class NewsViewModel(application: Application) : AndroidViewModel(application) {
     var savedArticles: MutableState<List<ArticleModel>?> = mutableStateOf(null)
     var errorMessage: MutableState<String?> = mutableStateOf(null)
     var categories = mutableStateListOf<Categories>()
-    var userData: MutableState<UserData?> = mutableStateOf(null)
-    var SavedUserData: MutableState<UserData?> = mutableStateOf(null)
+    var savedUserData: MutableState<UserData?> = mutableStateOf(null)
 
 
     fun initializeCategories(newCategoriesList: List<Categories>) {
@@ -115,47 +114,24 @@ class NewsViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             try {
                 userRepository.saveUsers(user)
-//                userData.value = userRepository.getEmail(user)
             } catch (e: Exception) {
                 TODO("Not yet implemented")
             }
         }
     }
 
-    fun getAllUsers() {
+    fun authenticateUser(email: String, password: String, onResult: (UserData?) -> Unit) {
         viewModelScope.launch {
-            try {
-                userRepository.getAllUsers()
-            } catch (e: Exception) {
-                TODO("Not yet implemented")
+            val user = userRepository.getUserByEmailAndPassword(email, password)
+            if (user != null) {
+                onResult(user)
+                savedUserData.value = user
+            } else {
+                onResult(null)
+                errorMessage.value = "Неверный email или пароль"
             }
         }
     }
-
-    fun deleteUser(user: UserData) {
-        viewModelScope.launch {
-            try {
-                userRepository.deleteUser(user)
-            } catch (e: Exception) {
-                TODO("Not yet implemented")
-            }
-        }
-    }
-
-    fun getEmail(user: UserData) {
-        viewModelScope.launch {
-            userRepository.getEmail(user)
-        }
-    }
-
-    fun getUserByEmail(email: String):Boolean {
-        viewModelScope.launch {
-            userData.value = userRepository.getUserByEmail(email)
-        }
-        return userData.value != null
-
-    }
-
 
     fun deleteArticle(articleModel: ArticleModel) {
         viewModelScope.launch {
