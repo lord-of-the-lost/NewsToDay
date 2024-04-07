@@ -80,6 +80,9 @@ fun MainScreen(
             val searchText = remember {
                 mutableStateOf("")
             }
+            val isActive = remember {
+                mutableStateOf(false)
+            }
 
             //region SearchBar
             SearchBar(
@@ -93,6 +96,7 @@ fun MainScreen(
                     searchText.value = text
                 },
                 onSearch = {
+                    isActive.value = false
                     viewModel.loadEverything(it)
                 },
                 leadingIcon = {
@@ -118,8 +122,10 @@ fun MainScreen(
                         )
                     }
                 },
-                active = false,
+//                active = false,
+                active = isActive.value,
                 onActiveChange = {
+//                    isActive.value = it
                 }
             ) {
             }

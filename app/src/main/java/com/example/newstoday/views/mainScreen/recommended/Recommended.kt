@@ -96,8 +96,8 @@ fun CardNews(viewModel: NewsViewModel, article: ArticleModel, navController: Nav
                 contentDescription = null,
                 modifier = Modifier
                     .size(96.dp)
-                    .background(gradient)
-                    .clip(shape = RoundedCornerShape(12.dp)),
+                    .clip(shape = RoundedCornerShape(12.dp))
+                    .background(gradient),
                 contentScale = ContentScale.Crop,
             )
 
@@ -117,6 +117,8 @@ fun CardNews(viewModel: NewsViewModel, article: ArticleModel, navController: Nav
                         lineHeight = 20.sp,
                         color = Color(0xFF7C82A1)
                     ),
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
                     modifier = Modifier
                         .padding(bottom = 8.dp)
                 )
