@@ -42,8 +42,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import coil.annotation.ExperimentalCoilApi
-import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
 import com.example.newstoday.R
 import com.example.newstoday.core.ArticleModel
@@ -137,7 +135,7 @@ fun CardNews(newsArticle: ArticleModel, onArticlePage: () -> Unit) {
                 modifier = Modifier
                     .size(96.dp)
                     .clip(shape = RoundedCornerShape(12.dp))
-                    .background(gradient),
+                    .background(gradient) ,
                 contentScale = ContentScale.Crop,
             )
 
