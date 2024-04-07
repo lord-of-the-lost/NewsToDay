@@ -117,8 +117,7 @@ fun EmailField(email: String, onEmailChange: (String) -> Unit, isError: Boolean)
         OutlinedTextField(
             modifier = Modifier
                 .width(336.dp)
-                .height(56.dp)
-                .clip(shape = RoundedCornerShape(12)),
+                .height(56.dp),
             value = email,
             onValueChange = {
                 onEmailChange(it)
@@ -165,8 +164,7 @@ fun PasswordField(password: String, onPasswordChange: (String) -> Unit, isError:
         OutlinedTextField(
             modifier = Modifier
                 .width(336.dp)
-                .height(56.dp)
-                .clip(shape = RoundedCornerShape(12)),
+                .height(56.dp),
             value = password,
             onValueChange = {
                 onPasswordChange(it)

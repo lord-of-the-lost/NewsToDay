@@ -123,8 +123,7 @@ fun NickNameFieldRegistrationScreen(
         OutlinedTextField(
             modifier = Modifier
                 .width(336.dp)
-                .height(56.dp)
-                .clip(shape = RoundedCornerShape(12)),
+                .height(56.dp),
             value = nickName,
             onValueChange = {
                 onNickNameChange(it)
@@ -171,8 +170,7 @@ fun EmailFieldRegistrationScreen(email: String, onEmailChange: (String) -> Unit,
         OutlinedTextField(
             modifier = Modifier
                 .width(336.dp)
-                .height(56.dp)
-                .clip(shape = RoundedCornerShape(12)),
+                .height(56.dp),
             value = email,
             onValueChange = {
                 onEmailChange(it)
@@ -225,8 +223,7 @@ fun PasswordFieldRegistrationScreen(
         OutlinedTextField(
             modifier = Modifier
                 .width(336.dp)
-                .height(56.dp)
-                .clip(shape = RoundedCornerShape(12)),
+                .height(56.dp),
             value = password,
             onValueChange = {
                 onPasswordChange(it)
@@ -294,8 +291,7 @@ fun PasswordFieldRegistrationScreenRepeat(
         OutlinedTextField(
             modifier = Modifier
                 .width(336.dp)
-                .height(56.dp)
-                .clip(shape = RoundedCornerShape(12)),
+                .height(56.dp),
             value = password,
             onValueChange = {
                 onPasswordChange(it)
