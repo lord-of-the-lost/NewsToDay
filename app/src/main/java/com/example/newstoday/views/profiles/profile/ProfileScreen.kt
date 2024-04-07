@@ -1,6 +1,7 @@
 package com.example.newstoday.views.profiles.profile
 
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -27,17 +28,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.newstoday.R
 import com.example.newstoday.core.NewsViewModel
 import com.example.newstoday.navigation.Screen
-import com.example.newstoday.ui.theme.NewsToDayTheme
 import com.example.newstoday.ui.theme.inter
-import com.example.newstoday.views.profiles.UserData
-import com.example.newstoday.views.topappbar.TopAppBarCust
+import com.example.newstoday.core.storage.UserData
 
 @Composable
 fun ProfileScreenContent(
@@ -55,8 +53,9 @@ fun ProfileScreenContent(
                 .fillMaxWidth()
         ) {
             ProfileImageTest()
-            val s = UserData("Test", "Test@email.ru")
-            ProfileInfoTest(userData = s)
+            val s = viewModel.userData
+            Log.d("loginTag", s.value?.email.toString())
+            s.value?.let { ProfileInfoTest(userData = it) }
         }
 
         Spacer(
@@ -198,11 +197,12 @@ fun ProfileImageTest() {
         contentAlignment = Alignment.BottomStart
     ) {
         Image(
-            painter = painterResource(id = R.drawable._01),
+            painter = painterResource(id = R.drawable.profile_icon),
             contentDescription = "profile picture",
             Modifier
                 .width(72.dp)
                 .height(72.dp)
+                .fillMaxSize()
         )
     }
 }

@@ -1,6 +1,7 @@
 package com.example.newstoday.views.authorizationScreen
 
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -42,6 +43,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.newstoday.R
 import com.example.newstoday.core.NewsViewModel
+import com.example.newstoday.core.storage.UserData
 import com.example.newstoday.navigation.Screen
 import com.example.newstoday.ui.theme.inter
 
@@ -71,6 +73,8 @@ fun LoginScreen(
         PasswordField(password, onPasswordChange = { password = it }, isError = isPasswordError)
         Spacer(modifier = Modifier.height(64.dp))
         SignInButton { //TODO validation
+            var user:UserData = UserData(email = email, password = password)
+            viewModel.saveUser(user)
             navController.navigate(Screen.CategoriesScreen.route) {
                 popUpTo(Screen.Onboarding.route) { inclusive = true }
             }
