@@ -35,6 +35,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.BlendMode
@@ -43,6 +44,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -58,7 +60,7 @@ import com.example.newstoday.ui.theme.inter
 import com.example.newstoday.views.mainScreen.recommended.CardNews
 import com.example.newstoday.views.mainScreen.recommended.RecommendedHeader
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun MainScreen(
     modifier: Modifier,
@@ -83,6 +85,7 @@ fun MainScreen(
             val isActive = remember {
                 mutableStateOf(false)
             }
+            val keyboardController = LocalSoftwareKeyboardController.current
 
             //region SearchBar
             SearchBar(
@@ -98,6 +101,7 @@ fun MainScreen(
                 onSearch = {
                     isActive.value = false
                     viewModel.loadEverything(it)
+                    keyboardController?.hide()
                 },
                 leadingIcon = {
                     Icon(
