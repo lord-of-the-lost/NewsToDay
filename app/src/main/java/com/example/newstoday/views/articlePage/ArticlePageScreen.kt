@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -44,200 +45,185 @@ import com.example.newstoday.ui.theme.inter
 
 @Composable
 fun ArticlePageScreen(
-	modifier: Modifier,
-	navController: NavController,
-	viewModel: NewsViewModel
+    modifier: Modifier,
+    navController: NavController,
+    viewModel: NewsViewModel
 ) {
-	val article = viewModel.selectedArticle.value
-	var isBookmarked by remember { mutableStateOf(false) }
-	isBookmarked = article?.isBookmarked == true
+    val article = viewModel.selectedArticle.value
+    var isBookmarked by remember { mutableStateOf(false) }
+    isBookmarked = article?.isBookmarked == true
 
-	val gradient = Brush.verticalGradient(
-		colors = listOf(Color(0x0022242F), Color(0x7A22242F))
-	)
+    val gradient = Brush.verticalGradient(
+        colors = listOf(Color(0x0022242F), Color(0x7A22242F))
+    )
 
-	if (article != null) {
-		Column(
-			modifier = Modifier
+    val uriHandler = LocalUriHandler.current
+
+    if (article != null) {
+        Column(
+            modifier = Modifier
 				.fillMaxSize()
-		) {
-			Box(
-				modifier = Modifier
+				.offset(y = (-38).dp)
+        ) {
+            Box(
+                modifier = Modifier
 					.fillMaxWidth()
 					.size(0.dp, 368.dp)
-			) {
-				Image(
-					modifier = Modifier
+            ) {
+                Image(
+                    modifier = Modifier
 						.fillMaxSize()
 						.background(gradient),
-					painter = rememberImagePainter(article.urlToImage),
-					contentDescription = null,
-					contentScale = ContentScale.Crop,
-					colorFilter = ColorFilter.tint(
-						Color(0x2922242F),
-						blendMode = BlendMode.Darken
-					)
-				)
-				Box(
-					modifier = Modifier
+                    painter = rememberImagePainter(article.urlToImage),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    colorFilter = ColorFilter.tint(
+                        Color(0x2922242F),
+                        blendMode = BlendMode.Darken
+                    )
+                )
+                Box(
+                    modifier = Modifier
 						.matchParentSize()
 						.background(gradient)
-				)
-				Column(
-					modifier = Modifier
-						.fillMaxSize()
-				) {
-					Row(
-						modifier = Modifier
+                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                ) {
+                    Row(
+                        modifier = Modifier
 							.fillMaxWidth()
 							.padding(
 								start = 20.dp,
 								top = 72.dp,
 								end = 20.dp
 							),
-						horizontalArrangement = Arrangement.SpaceBetween
-					) {
-						IconButton(
-							modifier = Modifier
-								.size(24.dp),
-							onClick = { navController.popBackStack() }) {
-							Icon(
-								modifier = Modifier
-									.size(12.dp),
-								imageVector = ImageVector.vectorResource(R.drawable.back),
-								tint = Color.White,
-								contentDescription = null
-							)
-						}
-						IconButton(
-							modifier = Modifier
-								.size(24.dp),
-							onClick = {
-								if (isBookmarked != true) {
-									isBookmarked = true
-									article.isBookmarked = isBookmarked
-									viewModel.saveArticle(article)
-								} else {
-									isBookmarked = false
-									article.isBookmarked = isBookmarked
-									viewModel.deleteArticle(article)
-								}
-							}) {
-							Icon(
-								modifier = Modifier
-									.size(14.dp, 20.dp),
-								imageVector = ImageVector.vectorResource(
-									if (isBookmarked)
-										R.drawable.selected_bookmark
-									else
-										R.drawable.bookmark
-								),
-								tint = Color.White,
-								contentDescription = null
-							)
-						}
-					}
-					Row(
-						modifier = Modifier
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        IconButton(
+                            modifier = Modifier
+                                .size(24.dp),
+                            onClick = { navController.popBackStack() }) {
+                            Icon(
+                                modifier = Modifier
+                                    .size(12.dp),
+                                imageVector = ImageVector.vectorResource(R.drawable.back),
+                                tint = Color.White,
+                                contentDescription = null
+                            )
+                        }
+                        IconButton(
+                            modifier = Modifier
+                                .size(24.dp),
+                            onClick = {
+                                if (isBookmarked != true) {
+                                    isBookmarked = true
+                                    article.isBookmarked = isBookmarked
+                                    viewModel.saveArticle(article)
+                                } else {
+                                    isBookmarked = false
+                                    article.isBookmarked = isBookmarked
+                                    viewModel.deleteArticle(article)
+                                }
+                            }) {
+                            Icon(
+                                modifier = Modifier
+                                    .size(14.dp, 20.dp),
+                                imageVector = ImageVector.vectorResource(
+                                    if (isBookmarked)
+                                        R.drawable.selected_bookmark
+                                    else
+                                        R.drawable.bookmark
+                                ),
+                                tint = Color.White,
+                                contentDescription = null
+                            )
+                        }
+                    }
+                    Row(
+                        modifier = Modifier
 							.fillMaxWidth()
 							.padding(
 								start = 20.dp,
 								top = 24.dp,
 								end = 20.dp
 							),
-						horizontalArrangement = Arrangement.End
-					) {
-						IconButton(
-							modifier = Modifier
-								.size(24.dp),
-							onClick = { /*TODO*/ }) {
-							Icon(
-								modifier = Modifier
-									.size(20.dp, 18.dp),
-								imageVector = ImageVector.vectorResource(R.drawable.share),
-								tint = Color.White,
-								contentDescription = null
-							)
-						}
-					}
-				}
-				Row(
-					modifier = Modifier
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        IconButton(
+                            modifier = Modifier
+                                .size(24.dp),
+                            onClick = {
+                                article.id.let { uriHandler.openUri(it) }
+                            }) {
+                            Icon(
+                                modifier = Modifier
+                                    .size(20.dp, 18.dp),
+                                imageVector = ImageVector.vectorResource(R.drawable.share),
+                                tint = Color.White,
+                                contentDescription = null
+                            )
+                        }
+                    }
+                }
+                Row(
+                    modifier = Modifier
 						.offset(20.dp, 120.dp)
 						.clip(CircleShape)
 						.background(Color(0xFF475AD7))
 						.padding(16.dp, 8.dp),
-					verticalAlignment = Alignment.CenterVertically
-				) {
-					Text(
-						text = article.tag,
-						fontFamily = inter,
-						fontWeight = FontWeight.Normal,
-						fontSize = 12.sp,
-						color = Color.White,
-					)
-				}
-				Text(
-					text = article.title,
-					lineHeight = 28.sp,
-					fontFamily = inter,
-					fontWeight = FontWeight.Bold,
-					fontSize = 20.sp,
-					color = Color.White,
-					modifier = Modifier
-						.padding(start = 20.dp, top = 168.dp, end = 20.dp)
-				)
-				Text(
-					text = article.author,
-					fontFamily = inter,
-					fontWeight = FontWeight.W600,
-					fontSize = 16.sp,
-					color = Color.White,
-					modifier = Modifier
-						.padding(start = 26.dp, top = 296.dp)
-				)
-				Text(
-					text = stringResource(id = R.string.autor),
-					fontFamily = inter,
-					fontWeight = FontWeight.Normal,
-					fontSize = 14.sp,
-					color = Color(0xFFACAFC3),
-					modifier = Modifier
-						.padding(start = 26.dp, top = 320.dp)
-				)
-			}
-			Text(
-				text = article.content,
-				lineHeight = 24.sp,
-				fontFamily = inter,
-				fontWeight = FontWeight.Normal,
-				fontSize = 16.sp,
-				color = Color(0xFF666C8E),
-				modifier = Modifier
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = article.tag,
+                        fontFamily = inter,
+                        fontWeight = FontWeight.Normal,
+                        fontSize = 12.sp,
+                        color = Color.White,
+                    )
+                }
+                Text(
+                    text = article.title,
+                    lineHeight = 28.sp,
+                    fontFamily = inter,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp,
+                    color = Color.White,
+                    modifier = Modifier
+                        .padding(start = 20.dp, top = 168.dp, end = 20.dp)
+                )
+                Text(
+                    text = article.author,
+                    fontFamily = inter,
+                    fontWeight = FontWeight.W600,
+                    fontSize = 16.sp,
+                    color = Color.White,
+                    modifier = Modifier
+                        .padding(start = 26.dp, top = 296.dp)
+                )
+                Text(
+                    text = stringResource(id = R.string.autor),
+                    fontFamily = inter,
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 14.sp,
+                    color = Color(0xFFACAFC3),
+                    modifier = Modifier
+                        .padding(start = 26.dp, top = 320.dp)
+                )
+            }
+            Text(
+                text = article.content,
+                lineHeight = 24.sp,
+                fontFamily = inter,
+                fontWeight = FontWeight.Normal,
+                fontSize = 16.sp,
+                color = Color(0xFF666C8E),
+                modifier = Modifier
 					.padding(19.5.dp)
 					.verticalScroll(rememberScrollState())
-			)
-		}
-	}
+            )
+        }
+    }
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun ArticlePageScreenPreview() {
-//    NewsToDayTheme {
-//        ArticlePageScreen(
-//            stringResource(id = R.string.politics),
-//            "The latest situation in the presidential election",
-//            "John Doe",
-//            "Leads in individual states may change from one party to another as all the votes are counted. Select a state for detailed results, and select the Senate, House or Governor tabs to view those races.\n" +
-//                    "\n" +
-//                    "For more detailed state results click on the States A-Z links at the bottom of this page. Results source: NEP/Edison via Reuters.\n" +
-//                    "\n" +
-//                    "Leads in individual states may change from one party to another as all the votes are counted. Select a state for detailed results, and select the Senate, House or Governor tabs to view those races.\n" +
-//                    "\n" +
-//                    "For more detailed state results click on the States A-Z links at the bottom of this page. Results source: NEP/Edison via Reuters." +
-//                    ""
-//        )
-//    }
-//}
 

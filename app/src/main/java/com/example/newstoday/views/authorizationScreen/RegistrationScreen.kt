@@ -66,8 +66,6 @@ fun RegistrationScreen(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.height(60.dp))
-        TopTextRegistrationScreen()
         Spacer(modifier = Modifier.height(32.dp))
         NickNameFieldRegistrationScreen(
             nickName = nickName,
@@ -128,8 +126,7 @@ fun NickNameFieldRegistrationScreen(
         OutlinedTextField(
             modifier = Modifier
                 .width(336.dp)
-                .height(56.dp)
-                .clip(shape = RoundedCornerShape(12)),
+                .height(56.dp),
             value = nickName,
             onValueChange = {
                 onNickNameChange(it)
@@ -176,8 +173,7 @@ fun EmailFieldRegistrationScreen(email: String, onEmailChange: (String) -> Unit,
         OutlinedTextField(
             modifier = Modifier
                 .width(336.dp)
-                .height(56.dp)
-                .clip(shape = RoundedCornerShape(12)),
+                .height(56.dp),
             value = email,
             onValueChange = {
                 onEmailChange(it)
@@ -230,8 +226,7 @@ fun PasswordFieldRegistrationScreen(
         OutlinedTextField(
             modifier = Modifier
                 .width(336.dp)
-                .height(56.dp)
-                .clip(shape = RoundedCornerShape(12)),
+                .height(56.dp),
             value = password,
             onValueChange = {
                 onPasswordChange(it)
@@ -299,15 +294,14 @@ fun PasswordFieldRegistrationScreenRepeat(
         OutlinedTextField(
             modifier = Modifier
                 .width(336.dp)
-                .height(56.dp)
-                .clip(shape = RoundedCornerShape(12)),
+                .height(56.dp),
             value = password,
             onValueChange = {
                 onPasswordChange(it)
                 borderColor = if (it.isNotEmpty() && !isError) Color(0xFF475AD7) else Color.Gray
                 iconTint = if (it.isNotEmpty() && !isError) Color(0xFF475AD7) else Color.Gray
             },
-            label = { Text(text = "Repeat password") }, /* TODO сделать локализацию */
+            label = { Text(text = stringResource(id = R.string.repeat_password)) }, /* TODO */
             leadingIcon = {
                 Icon(
                     painter = painterResource(id = R.drawable.password_icon),
@@ -347,38 +341,6 @@ fun PasswordFieldRegistrationScreenRepeat(
             )
         )
     }
-}
-
-@Composable
-fun TopTextRegistrationScreen() {
-    Text(
-        modifier = Modifier
-            .width(216.dp)
-            .height(32.dp),
-        text = stringResource(id = R.string.welcome_to_news),
-        style = TextStyle(
-            fontSize = 24.sp,
-            fontWeight = FontWeight.W600,
-            lineHeight = 32.sp,
-            color = Color(0xFF333647),
-            fontFamily = inter
-        ),
-        textAlign = TextAlign.Start,
-    )
-    Text(
-        modifier = Modifier
-            .width(336.dp)
-            .height(48.dp),
-        text = stringResource(id = R.string.welcome_to_news_description),
-        style = TextStyle(
-            fontSize = 16.sp,
-            fontWeight = FontWeight.W400,
-            lineHeight = 24.sp,
-            color = Color(0xFF7C82A1),
-            fontFamily = inter
-        ),
-        textAlign = TextAlign.Start,
-    )
 }
 
 @Composable

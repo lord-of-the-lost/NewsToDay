@@ -31,24 +31,23 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import coil.annotation.ExperimentalCoilApi
-import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
 import com.example.newstoday.R
 import com.example.newstoday.core.ArticleModel
 import com.example.newstoday.core.NewsViewModel
 import com.example.newstoday.navigation.Screen
+import com.example.newstoday.ui.theme.inter
 
 
 @SuppressLint("SuspiciousIndentation")
@@ -89,16 +88,17 @@ fun Bookmarks(
             }
             Spacer(modifier = Modifier.height(20.dp))
             Text(
-                text = "You haven't saved any articles yet.  Start reading and bookmarking them now",
+                text = stringResource(id = R.string.have_not_bookmarks),
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.labelMedium,
-                )
+            )
 
         }
 
     } else {
         LazyColumn(
-            modifier = modifier
+            modifier = Modifier
+                .padding(top = 32.dp)
         ) {
             items(listNews) { it ->
                 CardNews(newsArticle = it, onArticlePage = {
@@ -114,18 +114,16 @@ fun Bookmarks(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CardNews(newsArticle: ArticleModel, onArticlePage: () -> Unit) {
-    val gradient = Brush.verticalGradient(
-        colors = listOf(Color(0x0022242F), Color(0x7A22242F))
-    )
     Card(
         colors = CardDefaults.cardColors(Color.White),
         onClick = { onArticlePage() }
     ) {
         Row(
+            verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .padding(vertical = 16.dp)
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+                .background(color = Color.White)
+                .padding(start = 20.dp, end = 20.dp, bottom = 16.dp)
+                .height(96.dp)
         ) {
 
             Image(
@@ -133,8 +131,7 @@ fun CardNews(newsArticle: ArticleModel, onArticlePage: () -> Unit) {
                 contentDescription = null,
                 modifier = Modifier
                     .size(96.dp)
-                    .background(gradient)
-                    .fillMaxSize()
+                    .background(Color.White)
                     .clip(shape = RoundedCornerShape(12.dp)),
                 contentScale = ContentScale.Crop,
             )
@@ -142,37 +139,37 @@ fun CardNews(newsArticle: ArticleModel, onArticlePage: () -> Unit) {
             Column(
                 modifier = Modifier
                     .padding(start = 16.dp)
-                    .width(336.dp)
-                    .height(96.dp)
-                    .clip(RoundedCornerShape(12.dp, 0.dp, 0.dp, 0.dp))
-                    .align(Alignment.Top)
-
+                    .fillMaxWidth()
+                    .height(96.dp),
+                verticalArrangement = Arrangement.Center
             ) {
                 Text(
                     text = newsArticle.author,
                     style = TextStyle(
+                        fontFamily = inter,
                         fontSize = 14.sp,
-                        fontWeight = FontWeight.Normal,
+                        fontWeight = FontWeight(400),
                         lineHeight = 20.sp,
-                        color = Color.LightGray
-                    )
+                        color = Color(0xFF7C82A1)
+                    ),
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier
+                        .padding(bottom = 8.dp)
                 )
                 Text(
                     text = newsArticle.title,
                     style = TextStyle(
+                        fontFamily = inter,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.W600,
                         lineHeight = 24.sp,
-                        color = Color.Black
-                    )
+                        color = Color(0xFF333647),
+                    ),
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
         }
     }
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun BooksmarksPreview() {
-//    Booksmarks()
-//}

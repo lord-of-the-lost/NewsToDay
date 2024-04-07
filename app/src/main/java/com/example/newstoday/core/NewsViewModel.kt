@@ -49,9 +49,15 @@ class NewsViewModel(application: Application) : AndroidViewModel(application) {
     var SavedUserData: MutableState<UserData?> = mutableStateOf(null)
 
 
-    fun initializeCategories(categoriesList: List<Categories>) {
+    fun initializeCategories(newCategoriesList: List<Categories>) {
         if (categories.isEmpty()) {
-            categories.addAll(categoriesList)
+            categories.addAll(newCategoriesList)
+        } else {
+            val selectedStates = categories.associate { it.id to it.selected }
+            categories.clear()
+            categories.addAll(newCategoriesList.map { newCategory ->
+                newCategory.copy(selected = selectedStates[newCategory.id] ?: false)
+            })
         }
     }
 

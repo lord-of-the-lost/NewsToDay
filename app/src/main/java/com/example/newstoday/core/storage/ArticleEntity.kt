@@ -1,6 +1,5 @@
 package com.example.newstoday.core.storage
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 

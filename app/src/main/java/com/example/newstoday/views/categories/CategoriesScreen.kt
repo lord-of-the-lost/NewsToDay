@@ -23,6 +23,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -40,7 +41,7 @@ fun CategoriesScreen(
     val initialSetupCompleted = viewModel.initialCategorySetupCompleted.value
     val categoriesList = categoriesList()
 
-    LaunchedEffect(key1 = true) {
+    LaunchedEffect(key1 = Locale.current) {
         viewModel.initializeCategories(categoriesList)
     }
 
@@ -94,7 +95,10 @@ fun CategoriesScreen(
                     .padding(start = 20.dp, end = 20.dp, top = 16.dp),
                 shape = RoundedCornerShape(12.dp),
                 colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF475AD7)),
-                elevation = ButtonDefaults.elevation(defaultElevation = 0.dp, pressedElevation = 0.dp,),
+                elevation = ButtonDefaults.elevation(
+                    defaultElevation = 0.dp,
+                    pressedElevation = 0.dp,
+                ),
             ) {
                 Text(
                     text = stringResource(id = R.string.buttonTexts_next),

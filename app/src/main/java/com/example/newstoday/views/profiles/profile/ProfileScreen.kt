@@ -37,6 +37,7 @@ import com.example.newstoday.navigation.Screen
 import com.example.newstoday.ui.theme.inter
 import com.example.newstoday.core.storage.UserData
 
+
 @Composable
 fun ProfileScreenContent(
     modifier: Modifier,
@@ -238,11 +239,3 @@ fun ProfileInfoTest(userData: UserData) {
         )
     }
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun ProfileScreenTestPreview() {
-//	NewsToDayTheme {
-//		ProfileScreen({}, {}, {})
-//	}
-//}

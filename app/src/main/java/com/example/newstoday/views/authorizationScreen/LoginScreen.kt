@@ -27,7 +27,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -37,7 +36,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -65,8 +63,6 @@ fun LoginScreen(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.height(60.dp))
-        TopScreenText()
         Spacer(modifier = Modifier.height(32.dp))
         EmailField(email, onEmailChange = { email = it }, isError = isEmailError)
         Spacer(modifier = Modifier.height(16.dp))
@@ -129,8 +125,7 @@ fun EmailField(email: String, onEmailChange: (String) -> Unit, isError: Boolean)
         OutlinedTextField(
             modifier = Modifier
                 .width(336.dp)
-                .height(56.dp)
-                .clip(shape = RoundedCornerShape(12)),
+                .height(56.dp),
             value = email,
             onValueChange = {
                 onEmailChange(it)
@@ -177,8 +172,7 @@ fun PasswordField(password: String, onPasswordChange: (String) -> Unit, isError:
         OutlinedTextField(
             modifier = Modifier
                 .width(336.dp)
-                .height(56.dp)
-                .clip(shape = RoundedCornerShape(12)),
+                .height(56.dp),
             value = password,
             onValueChange = {
                 onPasswordChange(it)
@@ -225,39 +219,6 @@ fun PasswordField(password: String, onPasswordChange: (String) -> Unit, isError:
     }
 }
 
-
-@Composable
-fun TopScreenText() {
-    Text(
-        modifier = Modifier
-            .width(216.dp)
-            .height(32.dp),
-        text = stringResource(id = R.string.welcome_back),
-        style = TextStyle(
-            fontSize = 24.sp,
-            fontWeight = FontWeight.W600,
-            lineHeight = 32.sp,
-            color = Color(0xFF333647),
-            fontFamily = inter
-        ),
-        textAlign = TextAlign.Start,
-    )
-    Text(
-        modifier = Modifier
-            .width(336.dp)
-            .height(48.dp),
-        text = stringResource(id = R.string.welcome_back_description),
-        style = TextStyle(
-            fontSize = 16.sp,
-            fontWeight = FontWeight.W400,
-            lineHeight = 24.sp,
-            color = Color(0xFF7C82A1),
-            fontFamily = inter
-        ),
-        textAlign = TextAlign.Start,
-    )
-}
-
 @Composable
 fun RegisterScreenReference(toRegisterScreen: () -> Unit) {
     ClickableText(
@@ -280,10 +241,3 @@ fun RegisterScreenReference(toRegisterScreen: () -> Unit) {
         ),
     )
 }
-
-
-//@Composable
-//@Preview(showBackground = true)
-//fun LoginScreenPreview() {
-//    LoginScreen()
-//}
