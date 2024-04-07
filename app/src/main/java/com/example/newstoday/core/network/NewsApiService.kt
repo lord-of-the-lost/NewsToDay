@@ -6,7 +6,7 @@ import retrofit2.http.Query
 import retrofit2.Response
 
 interface NewsApiService {
-    @Headers("x-api-key: 9eb135314d134f44b60d88e096de26f6")
+    @Headers("x-api-key: a759fb123ce0472ca2fc9d207bc1c2e7")
 
     @GET("v2/everything")
     suspend fun getEverything(

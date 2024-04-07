@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 
 class NewsViewModel(application: Application) : AndroidViewModel(application) {
     private val apiService = RetrofitClient.create()
-    private val apiKey = "9eb135314d134f44b60d88e096de26f6"
+    private val apiKey = "a759fb123ce0472ca2fc9d207bc1c2e7"
     private val articleDao: ArticleDao by lazy {
         Room.databaseBuilder(
             application,
