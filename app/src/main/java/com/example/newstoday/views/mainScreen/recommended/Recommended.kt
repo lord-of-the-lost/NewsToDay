@@ -21,7 +21,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
@@ -73,9 +72,6 @@ fun RecommendedHeader() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CardNews(viewModel: NewsViewModel, article: ArticleModel, navController: NavController) {
-    val gradient = Brush.verticalGradient(
-        colors = listOf(Color(0x0022242F), Color(0x7A22242F))
-    )
     Card(
         colors = CardDefaults.cardColors(Color.White),
         onClick = {
@@ -96,8 +92,8 @@ fun CardNews(viewModel: NewsViewModel, article: ArticleModel, navController: Nav
                 contentDescription = null,
                 modifier = Modifier
                     .size(96.dp)
-                    .clip(shape = RoundedCornerShape(12.dp))
-                    .background(gradient),
+                    .background(Color.White)
+                    .clip(shape = RoundedCornerShape(12.dp)),
                 contentScale = ContentScale.Crop,
             )
 
