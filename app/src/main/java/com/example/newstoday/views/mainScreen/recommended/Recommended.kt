@@ -3,7 +3,6 @@ package com.example.newstoday.views.mainScreen.recommended
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -64,16 +63,6 @@ fun RecommendedHeader() {
                 fontWeight = FontWeight(600),
                 fontSize = 20.sp,
                 color = Color(0xFF333647),
-                lineHeight = 24.sp,
-            )
-            Text(
-                modifier = Modifier
-                    .clickable { },
-                text = stringResource(id = R.string.see_All),
-                fontFamily = inter,
-                fontWeight = FontWeight(500),
-                fontSize = 14.sp,
-                color = Color(0xFF7C82A1),
                 lineHeight = 24.sp,
             )
         }
@@ -149,58 +138,6 @@ fun CardNews(viewModel: NewsViewModel, article: ArticleModel, navController: Nav
         }
     }
 }
-
-//@OptIn(ExperimentalCoilApi::class)
-//@Composable
-//fun CoilImage(
-//    url: String,
-//    contentDescription: String?,
-//) {
-//    val painter = rememberImagePainter(
-//        data = url,
-//        builder = {
-//        }
-//    )
-//
-//    Box(
-//        modifier = Modifier
-//            .size(96.dp)
-//            .clip(RoundedCornerShape(12.dp)),
-//        contentAlignment = Alignment.Center
-//    ) {
-//        when (painter.state) {
-//            is ImagePainter.State.Loading -> {
-//                CircularProgressIndicator()
-//            }
-//
-//            is ImagePainter.State.Success -> {
-//                Image(
-//                    painter = painter,
-//                    contentDescription = contentDescription,
-//                    contentScale = ContentScale.None,
-//
-//                    )
-//            }
-//
-//            is ImagePainter.State.Error -> {
-//                Image(
-//                    painter = painterResource(id = R.drawable.not_loaded),
-//                    contentDescription = contentDescription,
-//                    contentScale = ContentScale.None,
-//                )
-//            }
-//
-//            else -> {
-//                Image(
-//                    painter = painter,
-//                    contentDescription = contentDescription,
-//                    contentScale = ContentScale.Crop,
-//                    modifier = Modifier.size(96.dp)
-//                )
-//            }
-//        }
-//    }
-//}
 
 @Preview(showBackground = true)
 @Composable
