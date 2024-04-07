@@ -1,6 +1,5 @@
 package com.example.newstoday.views.profiles.languagescreen
 
-import android.annotation.SuppressLint
 import android.app.LocaleManager
 import android.content.Context
 import android.os.Build
@@ -20,7 +19,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -33,51 +31,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.os.LocaleListCompat
 import androidx.navigation.NavController
 import com.example.newstoday.R
 import com.example.newstoday.core.NewsViewModel
-import com.example.newstoday.navigation.Screen
-import com.example.newstoday.ui.theme.NewsToDayTheme
 import com.example.newstoday.ui.theme.inter
-import com.example.newstoday.views.topappbar.TopAppBarCust
 
 enum class Language {
 	ENGLISH, RUSSIAN
 }
-
-/*@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@Composable
-fun LanguageScreen(
-	modifier: Modifier,
-	navController: NavController,
-	viewModel: NewsViewModel
-) {
-	
-	Scaffold(
-		topBar = {
-			TopAppBarCust(
-				screen = stringResource(id = R.string.language_language),
-				backToProfile = { navController.popBackStack() }
-			)
-		}
-	) { innerPadding ->
-		Column(
-			modifier = Modifier
-				.padding(innerPadding)
-				.fillMaxSize()
-		) {
-			LanguageScreenContent()
-		}
-	}
-}*/
 
 @Composable
 fun LanguageScreenContent(modifier: Modifier,

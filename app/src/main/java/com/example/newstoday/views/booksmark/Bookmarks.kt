@@ -34,6 +34,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -88,7 +89,7 @@ fun Bookmarks(
             }
             Spacer(modifier = Modifier.height(20.dp))
             Text(
-                text = "You haven't saved any articles yet.  Start reading and bookmarking them now",
+                text = stringResource(id = R.string.have_not_bookmarks),
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.labelMedium,
                 )

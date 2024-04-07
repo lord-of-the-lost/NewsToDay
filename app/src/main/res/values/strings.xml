@@ -69,4 +69,6 @@
     <string name="fashion_Main">Fashion</string>
     <string name="middle_east_Main">Middle East</string>
     <string name="have_not_categories">You haven\'t selected any categories yet. Go to the categories tab to select them</string>
+    <string name="have_not_bookmarks">You haven\'t saved any articles yet.  Start reading and bookmarking them now</string>
+    <string name="repeat_password">Repeat password</string>
 </resources>

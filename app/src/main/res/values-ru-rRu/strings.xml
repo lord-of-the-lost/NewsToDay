@@ -68,4 +68,6 @@
     <string name="gaming_Main">Гейминг</string>
     <string name="politics_Main">Политика</string>
     <string name="have_not_categories">Вы еще не выбрали ни одной категории. Перейдите на вкладку Категории, чтобы выбрать их</string>
+    <string name="have_not_bookmarks">Вы еще не сохранили ни одной статьи. Начните читать и добавлять их в закладки прямо сейчас</string>
+    <string name="repeat_password">Повторите пароль</string>
 </resources>
