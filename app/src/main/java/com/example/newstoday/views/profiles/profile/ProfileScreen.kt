@@ -176,11 +176,11 @@ fun ProfileScreenContent(
                     textAlign = TextAlign.Start,
                 )
                 Image(
-                    painter = painterResource(id = R.drawable.vector_button),
+                    painter = painterResource(id = R.drawable.exit_icon),
                     contentDescription = null,
                     modifier = Modifier
-                        .width(6.25.dp)
-                        .height(10.49.dp),
+                        .width(16.dp)
+                        .height(20.dp),
                     alignment = Alignment.Center
                 )
             }
