@@ -1,3 +1,74 @@
 <resources>
     <string name="app_name">NewsToDay</string>
+    <string name="first_to_know">First to know</string>
+    <string name="descriptionApp_1">All news in one place, be\nthe first to know last news</string>
+    <string name="description_App_2">Our sources are the most reliable</string>
+    <string name="description_App_3">We wish you good news every day! Let\'s get started!</string>
+    <string name="buttonTexts_next">Next</string>
+    <string name="buttonTexts_GetStarted">Get Started</string>
+    <string name="browse_description">Discover things of this world</string>
+    <string name="recommended_for_you">Recommended for you</string>
+    <string name="see_All">See All</string>
+    <string name="bookmarks">Bookmarks</string>
+    <string name="bookmarks_description">"Saved articles to the library     "</string>
+    <string name="have_not_saved">You haven\'t saved any articles yet. Start reading and bookmarking them now</string>
+    <string name="autor">Аutor</string>
+    <string name="profile">Profile</string>
+    <string name="language_language">Language</string>
+    <string name="terms_conditions">Terms &amp; Conditions</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="terms_conditions_text">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n
+        \nSed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.\n
+        \nNemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.\n
+        \nNeque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.\n
+        \nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n
+        \nSed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.\n
+        \nNemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.\n
+        \nNeque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</string>
+    <string name="select_favorite">Select your favorite topics</string>
+    <string name="select_favorite_description">Select some of your favorite topics to let us suggest better news for you.</string>
+    <string name="categories">Categories</string>
+    <string name="categories_description">Thousands of articles in each category</string>
+    <string name="sports">🏈&#160;&#160;&#160;Sports</string>
+    <string name="life">🌞&#160;&#160;&#160;Life</string>
+    <string name="animals">🐻&#160;&#160;&#160;Animals</string>
+    <string name="food">🍔&#160;&#160;&#160;Food</string>
+    <string name="history">📜&#160;&#160;&#160;History</string>
+    <string name="politics">⚖️&#160;&#160;&#160;Politics</string>
+    <string name="gaming">🎮&#160;&#160;&#160;Gaming</string>
+    <string name="nature">🌴&#160;&#160;&#160;Nature</string>
+    <string name="art">🎨&#160;&#160;&#160;Art</string>
+    <string name="fashion">👗&#160;&#160;&#160;Fashion</string>
+    <string name="middle_east">⚔&#160;&#160;&#160;Middle East</string>
+    <string name="welcome_back">Welcome Back&#160;👋</string>
+    <string name="welcome_back_description">I am happy to see you again. You can continue where you left off by logging in</string>
+    <string name="email_adress">Email Adress</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="dont_account">Don\'t have an account?</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="welcome_to_news">Welcome to NewsToDay</string>
+    <string name="welcome_to_news_description">Hello, I guess you are new around here. You can start using the application after sign up.</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="en" translatable="false">English</string>
+    <string name="ru" translatable="false">Русский</string>
+    <string name="language">English</string>
+    <string name="browse">Browse</string>
+    <string name="username">Username</string>
+    <string name="random_Main">Random</string>
+    <string name="sports_Main">Sports</string>
+    <string name="gaming_Main">Gaming</string>
+    <string name="politics_Main">Politics</string>
+    <string name="life_Main">Life</string>
+    <string name="animals_Main">Animals</string>
+    <string name="nature_Main">Nature</string>
+    <string name="food_Main">Food</string>
+    <string name="art_Main">Art</string>
+    <string name="history_Main">History</string>
+    <string name="fashion_Main">Fashion</string>
+    <string name="middle_east_Main">Middle East</string>
+    <string name="have_not_categories">You haven\'t selected any categories yet. Go to the categories tab to select them</string>
+    <string name="have_not_bookmarks">You haven\'t saved any articles yet.  Start reading and bookmarking them now</string>
+    <string name="repeat_password">Repeat password</string>
 </resources>
