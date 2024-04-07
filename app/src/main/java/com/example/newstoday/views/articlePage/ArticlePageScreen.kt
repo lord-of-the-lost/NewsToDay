@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -55,6 +56,8 @@ fun ArticlePageScreen(
 	val gradient = Brush.verticalGradient(
 		colors = listOf(Color(0x0022242F), Color(0x7A22242F))
 	)
+	
+	val uriHandler = LocalUriHandler.current
 	
 	if (article != null) {
 		Column(
@@ -151,7 +154,9 @@ fun ArticlePageScreen(
 						IconButton(
 							modifier = Modifier
 								.size(24.dp),
-							onClick = { /*TODO*/ }) {
+							onClick = {
+								article.id.let { uriHandler.openUri(it) }
+							}) {
 							Icon(
 								modifier = Modifier
 									.size(20.dp, 18.dp),
