@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -86,14 +87,14 @@ fun TopAppBarCust(
 				)
 			}
 		}
-		
 		else -> null
 	}
 	
 	Box(
 		modifier = Modifier
 			.background(Color.White)
-			.padding(top = 28.dp, start = 20.dp, end = 20.dp)
+			.padding(top = 24.dp, start = 20.dp, end = 20.dp)
+			.statusBarsPadding()
 	) {
 		Row(
 			verticalAlignment = Alignment.CenterVertically

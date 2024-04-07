@@ -63,8 +63,6 @@ fun LoginScreen(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.height(60.dp))
-        TopScreenText()
         Spacer(modifier = Modifier.height(32.dp))
         EmailField(email, onEmailChange = { email = it }, isError = isEmailError)
         Spacer(modifier = Modifier.height(16.dp))
@@ -213,39 +211,6 @@ fun PasswordField(password: String, onPasswordChange: (String) -> Unit, isError:
             )
         )
     }
-}
-
-
-@Composable
-fun TopScreenText() {
-    Text(
-        modifier = Modifier
-            .width(216.dp)
-            .height(32.dp),
-        text = stringResource(id = R.string.welcome_back),
-        style = TextStyle(
-            fontSize = 24.sp,
-            fontWeight = FontWeight.W600,
-            lineHeight = 32.sp,
-            color = Color(0xFF333647),
-            fontFamily = inter
-        ),
-        textAlign = TextAlign.Start,
-    )
-    Text(
-        modifier = Modifier
-            .width(336.dp)
-            .height(48.dp),
-        text = stringResource(id = R.string.welcome_back_description),
-        style = TextStyle(
-            fontSize = 16.sp,
-            fontWeight = FontWeight.W400,
-            lineHeight = 24.sp,
-            color = Color(0xFF7C82A1),
-            fontFamily = inter
-        ),
-        textAlign = TextAlign.Start,
-    )
 }
 
 @Composable

@@ -65,8 +65,6 @@ fun RegistrationScreen(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.height(60.dp))
-        TopTextRegistrationScreen()
         Spacer(modifier = Modifier.height(32.dp))
         NickNameFieldRegistrationScreen(
             nickName = nickName,
@@ -344,38 +342,6 @@ fun PasswordFieldRegistrationScreenRepeat(
             )
         )
     }
-}
-
-@Composable
-fun TopTextRegistrationScreen() {
-    Text(
-        modifier = Modifier
-            .width(216.dp)
-            .height(32.dp),
-        text = stringResource(id = R.string.welcome_to_news),
-        style = TextStyle(
-            fontSize = 24.sp,
-            fontWeight = FontWeight.W600,
-            lineHeight = 32.sp,
-            color = Color(0xFF333647),
-            fontFamily = inter
-        ),
-        textAlign = TextAlign.Start,
-    )
-    Text(
-        modifier = Modifier
-            .width(336.dp)
-            .height(48.dp),
-        text = stringResource(id = R.string.welcome_to_news_description),
-        style = TextStyle(
-            fontSize = 16.sp,
-            fontWeight = FontWeight.W400,
-            lineHeight = 24.sp,
-            color = Color(0xFF7C82A1),
-            fontFamily = inter
-        ),
-        textAlign = TextAlign.Start,
-    )
 }
 
 @Composable
