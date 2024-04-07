@@ -10,16 +10,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,6 +39,11 @@ fun CategoriesScreen(
 ) {
     val initialSetupCompleted = viewModel.initialCategorySetupCompleted.value
     val categoriesList = categoriesList()
+
+    LaunchedEffect(key1 = true) {
+        viewModel.initializeCategories(categoriesList)
+    }
+
     Column(
         modifier = modifier
     ) {
@@ -53,29 +55,17 @@ fun CategoriesScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            items(categoriesList) { item ->
-
-                var isSelectedCategory by remember {
-                    mutableStateOf(false)
-                }
-
+            itemsIndexed(viewModel.categories) { index, item ->
                 Box(
                     modifier = Modifier
                         .height(72.dp)
                         .clip(shape = RoundedCornerShape(12.dp))
                         .clickable {
-                            isSelectedCategory = !isSelectedCategory
-                            item.selected = isSelectedCategory
+                            viewModel.toggleCategorySelected(index)
                         }
                         .background(
-                            Color(
-                                if (isSelectedCategory)
-                                    0xFF475AD7
-                                else
-                                    0xFFF3F4F6
-                            )
+                            if (item.selected) Color(0xFF475AD7) else Color(0xFFF3F4F6)
                         ),
-
                     contentAlignment = Alignment.Center,
                 ) {
                     Text(
@@ -84,12 +74,7 @@ fun CategoriesScreen(
                         fontWeight = FontWeight(600),
                         fontSize = 16.sp,
                         lineHeight = 24.sp,
-                        color = Color(
-                            if (isSelectedCategory)
-                                0xFFFFFFFF
-                            else
-                                0xFF666C8E
-                        )
+                        color = if (item.selected) Color.White else Color(0xFF666C8E)
                     )
                 }
             }

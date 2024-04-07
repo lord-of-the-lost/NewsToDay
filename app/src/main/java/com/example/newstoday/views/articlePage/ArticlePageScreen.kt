@@ -49,11 +49,13 @@ fun ArticlePageScreen(
 	viewModel: NewsViewModel
 ) {
 	val article = viewModel.selectedArticle.value
+	var isBookmarked by remember { mutableStateOf(false) }
+	isBookmarked = article?.isBookmarked == true
+
 	val gradient = Brush.verticalGradient(
 		colors = listOf(Color(0x0022242F), Color(0x7A22242F))
 	)
-	var isBookmarked by remember { mutableStateOf(false) }
-	isBookmarked = article?.isBookmarked == true
+
 	if (article != null) {
 		Column(
 			modifier = Modifier

@@ -1,7 +1,11 @@
 package com.example.newstoday.views.authorizationScreen
 
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -20,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -34,29 +39,56 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.newstoday.R
+import com.example.newstoday.core.NewsViewModel
+import com.example.newstoday.navigation.Screen
 import com.example.newstoday.ui.theme.inter
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(
+    modifier: Modifier,
+    navController: NavController,
+    viewModel: NewsViewModel
+){
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var isEmailError by remember { mutableStateOf(false) }
     var isPasswordError by remember { mutableStateOf(false) }
 
-
-    TopScreenText()
-    EmailField(email, onEmailChange = { email = it }, isError = isEmailError)
-    PasswordField(password, onPasswordChange = { password = it }, isError = isPasswordError)
-    SignInButton({/* TODO Написать логику авторизации */})
-    RegisterScreenReference({/* TODO Написать логику переноса на страницу регистрации */})
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 20.dp),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Spacer(modifier = Modifier.height(60.dp))
+        TopScreenText()
+        Spacer(modifier = Modifier.height(32.dp))
+        EmailField(email, onEmailChange = { email = it }, isError = isEmailError)
+        Spacer(modifier = Modifier.height(16.dp))
+        PasswordField(password, onPasswordChange = { password = it }, isError = isPasswordError)
+        Spacer(modifier = Modifier.height(64.dp))
+        SignInButton { //TODO validation
+            navController.navigate(Screen.CategoriesScreen.route) {
+                popUpTo(Screen.Onboarding.route) { inclusive = true }
+            }
+        }
+        Spacer(modifier = Modifier.weight(1f))
+        RegisterScreenReference {
+            navController.navigate(Screen.Registration.route) {
+                popUpTo(Screen.Authorization.route) { inclusive = true }
+            }
+        }
+        Spacer(modifier = Modifier.height(30.dp))
+    }
 }
 
 @Composable
 fun SignInButton(toLogin: () -> Unit) {
     Box(
         modifier = Modifier
-            .padding(top = 386.dp, start = 20.dp)
             .width(336.dp)
             .height(56.dp)
 
@@ -69,7 +101,7 @@ fun SignInButton(toLogin: () -> Unit) {
             colors = ButtonDefaults.buttonColors(Color(0xFF475AD7)),
             shape = RoundedCornerShape(12)
         ) {
-            Text(text = stringResource(id = R.string.sign_up))
+            Text(text = stringResource(id = R.string.sign_in))
         }
     }
 }
@@ -81,7 +113,6 @@ fun EmailField(email: String, onEmailChange: (String) -> Unit, isError: Boolean)
     var iconTint by remember { mutableStateOf(Color.Gray) }
     Box(
         modifier = Modifier
-            .padding(top = 192.dp, start = 20.dp)
             .width(336.dp)
             .height(56.dp)
     ) {
@@ -130,7 +161,6 @@ fun PasswordField(password: String, onPasswordChange: (String) -> Unit, isError:
 
     Box(
         modifier = Modifier
-            .padding(top = 264.dp, start = 20.dp)
             .width(336.dp)
             .height(56.dp)
     ) {
@@ -190,7 +220,6 @@ fun PasswordField(password: String, onPasswordChange: (String) -> Unit, isError:
 fun TopScreenText() {
     Text(
         modifier = Modifier
-            .padding(top = 72.dp, start = 20.dp)
             .width(216.dp)
             .height(32.dp),
         text = stringResource(id = R.string.welcome_back),
@@ -205,7 +234,6 @@ fun TopScreenText() {
     )
     Text(
         modifier = Modifier
-            .padding(top = 112.dp, start = 20.dp)
             .width(336.dp)
             .height(48.dp),
         text = stringResource(id = R.string.welcome_back_description),
@@ -230,7 +258,6 @@ fun RegisterScreenReference(toRegisterScreen: () -> Unit) {
             }
         },
         modifier = Modifier
-            .padding(top = 738.dp, start = 20.dp)
             .width(243.dp)
             .height(32.dp),
         style = TextStyle(
@@ -245,8 +272,8 @@ fun RegisterScreenReference(toRegisterScreen: () -> Unit) {
 }
 
 
-@Composable
-@Preview(showBackground = true)
-fun LoginScreenPreview() {
-    LoginScreen()
-}
+//@Composable
+//@Preview(showBackground = true)
+//fun LoginScreenPreview() {
+//    LoginScreen()
+//}
