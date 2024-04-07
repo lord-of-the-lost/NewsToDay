@@ -19,4 +19,7 @@ class UsersRepository(private val usersDao: UsersDao) {
     suspend fun getAllUsers(): List<UserData> {
         return usersDao.getAllUsers()
     }
+    suspend fun getUserByEmail(email: String): UserData? {
+        return usersDao.getUserByEmail(email)
+    }
 }

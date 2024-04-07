@@ -8,7 +8,7 @@ data class UserData(
     @PrimaryKey(true)
     val id: Int=1,
     val email: String,
-    val name:String = "User",
+    val name:String ,
     val password: String
 ) {
 

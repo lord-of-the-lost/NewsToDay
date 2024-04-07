@@ -10,6 +10,8 @@ import androidx.room.Query
 interface UsersDao {
     @Query("SELECT * FROM users_entity u ")
     suspend fun getAllUsers(): List<UserData>
+    @Query("SELECT * FROM users_entity u WHERE u.email = :email")
+    suspend fun getUserByEmail(email: String): UserData?
     @Query("SELECT * FROM users_entity WHERE id = :userId")
     suspend fun getEmail(userId: Int): UserData?
     @Insert(onConflict = OnConflictStrategy.REPLACE)

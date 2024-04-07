@@ -52,7 +52,7 @@ fun LoginScreen(
     modifier: Modifier,
     navController: NavController,
     viewModel: NewsViewModel
-){
+) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var isEmailError by remember { mutableStateOf(false) }
@@ -73,10 +73,16 @@ fun LoginScreen(
         PasswordField(password, onPasswordChange = { password = it }, isError = isPasswordError)
         Spacer(modifier = Modifier.height(64.dp))
         SignInButton { //TODO validation
-            var user:UserData = UserData(email = email, password = password)
-            viewModel.saveUser(user)
-            navController.navigate(Screen.CategoriesScreen.route) {
-                popUpTo(Screen.Onboarding.route) { inclusive = true }
+            if (viewModel.getUserByEmail(email)) {
+                isEmailError = false
+                isPasswordError = false
+                navController.navigate(Screen.CategoriesScreen.route) {
+                    popUpTo(Screen.Onboarding.route) { inclusive = true }
+                }
+
+            }else{
+                isEmailError = true
+                isPasswordError = true
             }
         }
         Spacer(modifier = Modifier.weight(1f))

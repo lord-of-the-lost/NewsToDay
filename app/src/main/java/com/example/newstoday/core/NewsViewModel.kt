@@ -109,7 +109,7 @@ class NewsViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             try {
                 userRepository.saveUsers(user)
-                userData.value = userRepository.getEmail(user)
+//                userData.value = userRepository.getEmail(user)
             } catch (e: Exception) {
                 TODO("Not yet implemented")
             }
@@ -140,6 +140,14 @@ class NewsViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             userRepository.getEmail(user)
         }
+    }
+
+    fun getUserByEmail(email: String):Boolean {
+        viewModelScope.launch {
+            userData.value = userRepository.getUserByEmail(email)
+        }
+        return userData.value != null
+
     }
 
 
