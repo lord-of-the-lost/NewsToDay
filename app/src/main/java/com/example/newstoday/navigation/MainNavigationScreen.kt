@@ -130,7 +130,6 @@ fun MainNavigationScreen(viewModel: NewsViewModel) {
 					MainScreen(
 						Modifier
 							.fillMaxSize()
-							.padding(top = 32.dp)
 							.background(Color.White),
 						navController,
 						viewModel
