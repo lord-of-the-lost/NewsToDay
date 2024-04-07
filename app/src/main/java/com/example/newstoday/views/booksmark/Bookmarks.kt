@@ -38,17 +38,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import coil.annotation.ExperimentalCoilApi
-import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
 import com.example.newstoday.R
 import com.example.newstoday.core.ArticleModel
 import com.example.newstoday.core.NewsViewModel
 import com.example.newstoday.navigation.Screen
+import com.example.newstoday.ui.theme.inter
 
 
 @SuppressLint("SuspiciousIndentation")
@@ -98,7 +97,8 @@ fun Bookmarks(
 
     } else {
         LazyColumn(
-            modifier = modifier
+            modifier = Modifier
+                .padding(top = 32.dp)
         ) {
             items(listNews) { it ->
                 CardNews(newsArticle = it, onArticlePage = {
@@ -122,10 +122,11 @@ fun CardNews(newsArticle: ArticleModel, onArticlePage: () -> Unit) {
         onClick = { onArticlePage() }
     ) {
         Row(
+            verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .padding(vertical = 16.dp)
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+                .background(color = Color.White)
+                .padding(start = 20.dp, end = 20.dp, bottom = 16.dp)
+                .height(96.dp)
         ) {
 
             Image(
@@ -133,37 +134,43 @@ fun CardNews(newsArticle: ArticleModel, onArticlePage: () -> Unit) {
                 contentDescription = null,
                 modifier = Modifier
                     .size(96.dp)
-                    .background(gradient)
-                    .clip(shape = RoundedCornerShape(12.dp)),
+                    .clip(shape = RoundedCornerShape(12.dp))
+                    .background(gradient),
                 contentScale = ContentScale.Crop,
             )
 
             Column(
                 modifier = Modifier
                     .padding(start = 16.dp)
-                    .width(336.dp)
-                    .height(96.dp)
-                    .clip(RoundedCornerShape(12.dp, 0.dp, 0.dp, 0.dp))
-                    .align(Alignment.Top)
-
+                    .fillMaxWidth()
+                    .height(96.dp),
+                verticalArrangement = Arrangement.Center
             ) {
                 Text(
                     text = newsArticle.author,
                     style = TextStyle(
+                        fontFamily = inter,
                         fontSize = 14.sp,
-                        fontWeight = FontWeight.Normal,
+                        fontWeight = FontWeight(400),
                         lineHeight = 20.sp,
-                        color = Color.LightGray
-                    )
+                        color = Color(0xFF7C82A1)
+                    ),
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier
+                        .padding(bottom = 8.dp)
                 )
                 Text(
                     text = newsArticle.title,
                     style = TextStyle(
+                        fontFamily = inter,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.W600,
                         lineHeight = 24.sp,
-                        color = Color.Black
-                    )
+                        color = Color(0xFF333647),
+                    ),
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
         }
